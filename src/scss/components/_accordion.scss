@@ -1,0 +1,46 @@
+@use '../abstracts' as *;
+
+// Accordion styles
+.accordion-item {
+  @include drag-styles;
+
+  &[data-drag-over="true"] {
+    border-top: 3px solid $primary-color;
+  }
+
+  &.drop-target {
+    border: 2px dashed $primary-color;
+    background-color: #e3f2fd;
+  }
+
+  &.future-position {
+    box-shadow: 0 0 0 2px $success-color;
+    background-color: #d4edda;
+  }
+}
+
+.accordion-body {
+  padding: 0;
+  padding-bottom: 1rem;
+
+  .build-wrap {
+    position: relative;
+    overflow: visible;
+
+    .form-wrap.form-builder .cb-wrap.sticky-controls {
+      @include position-sticky(5px, $z-index-modal);
+    }
+  }
+}
+
+.accordion-collapse {
+  overflow: hidden;
+
+  &.show {
+    overflow: visible;
+  }
+
+  &.collapse:not(.show) {
+    overflow: hidden;
+  }
+}

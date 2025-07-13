@@ -1,0 +1,29 @@
+@use '../abstracts' as *;
+
+// Generic buttons
+.generic-buttons {
+  margin-top: $spacing-md;
+  display: flex;
+  gap: $spacing-md;
+}
+
+// Remove button styles
+.remove-btn {
+  text-decoration: unset !important;
+  color: $danger-color;
+
+  img {
+    width: $icon-sm;
+    margin-right: $spacing-xs;
+    margin-top: -$spacing-xs;
+  }
+}
+
+.removeBtnHolder {
+  @include flex-end;
+}
+
+// Submit button wrapper
+.submit-button-wrapper {
+  position: relative;
+}

@@ -1,0 +1,17 @@
+// Main SCSS file for the Dynamic Form Builder
+// Use all partials in the correct order
+
+// 1. Abstracts (variables, mixins, functions)
+@use 'abstracts';
+
+// 2. Base styles (reset, animations, typography)
+@use 'base';
+
+// 3. Layout (grid, header, footer, navigation)
+@use 'layout';
+
+// 4. Components (buttons, forms, cards, etc.)
+@use 'components';
+
+// 5. Pages (page-specific styles)
+@use 'pages';

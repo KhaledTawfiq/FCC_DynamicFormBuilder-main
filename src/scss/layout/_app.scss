@@ -1,0 +1,11 @@
+@use '../abstracts' as *;
+
+// App layout styles
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  padding: 0 $spacing-md;
+}

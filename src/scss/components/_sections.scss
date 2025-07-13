@@ -1,0 +1,22 @@
+@use '../abstracts' as *;
+
+// Section styles
+.section-info {
+  background-color: $medium-gray;
+  padding: $section-padding;
+}
+
+// JSON container
+.json-container {
+  white-space: pre-wrap;
+  background-color: $light-gray;
+  padding: $spacing-md;
+  border-radius: $border-radius;
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+}
+
+// Form builder dialog
+.form-builder-dialog {
+  overflow: hidden;
+}

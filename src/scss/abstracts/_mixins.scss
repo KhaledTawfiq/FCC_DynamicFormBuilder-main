@@ -1,0 +1,68 @@
+// Mixins
+@use 'variables' as *;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@mixin position-sticky($top: 5px, $z-index: $z-index-sticky) {
+  position: sticky !important;
+  top: $top;
+  z-index: $z-index;
+  align-self: flex-start;
+}
+
+@mixin button-reset {
+  border: 0 none;
+  background: transparent;
+  padding: 0;
+}
+
+@mixin animation-fade($duration: 0.5s) {
+  -webkit-animation: fadein $duration, fadeout $duration 2.5s;
+  animation: fadein $duration, fadeout $duration 2.5s;
+}
+
+@mixin loader-animation {
+  animation: rotation 1s linear infinite;
+}
+
+@mixin text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin hover-shadow {
+  &:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@mixin drag-styles {
+  cursor: move;
+  transition: $transition-base;
+  
+  &.dragging {
+    border: 2px solid $danger-color !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  &:hover {
+    @include hover-shadow;
+  }
+}
+
+@mixin mobile-responsive {
+  @media (max-width: $mobile-max) {
+    @content;
+  }
+}

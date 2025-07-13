@@ -1,0 +1,28 @@
+@use '../abstracts' as *;
+
+// Drag and Drop styles
+.dragging {
+  background-color: $danger-color;
+  padding: 1px;
+}
+
+.sortable-placeholder {
+  background-color: #f0f0f0;
+  border: 1px dashed $border-gray;
+  height: 50px;
+}
+
+.drag-handle {
+  cursor: grab;
+  padding: $spacing-xs;
+  margin-right: $spacing-sm;
+  color: #6c757d;
+
+  &:hover {
+    color: $dark-gray;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}

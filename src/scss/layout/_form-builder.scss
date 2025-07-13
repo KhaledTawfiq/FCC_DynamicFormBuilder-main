@@ -1,0 +1,53 @@
+@use '../abstracts' as *;
+
+// Form Builder Layout
+.form-wrap.form-builder {
+  display: flex;
+  flex-direction: row;
+
+  .cb-wrap {
+    width: 26%;
+    max-width: fit-content;
+    transition: transform $transition-fast;
+
+    &.sticky-controls {
+      @include position-sticky(5px, $z-index-sticky);
+    }
+
+    h4 {
+      margin-top: 0;
+      color: $text-gray;
+
+      @include mobile-responsive {
+        display: none;
+      }
+    }
+
+    .form-actions {
+      float: right;
+      margin-top: 5px;
+
+      button {
+        @include button-reset;
+      }
+    }
+
+    @include mobile-responsive {
+      width: 64px;
+    }
+  }
+}
+
+// Alternative CSS for different formBuilder versions
+.form-wrap .cb-wrap.sticky-controls,
+.form-wrap .cb-wrap,
+.fb-main .cb-wrap.sticky-controls,
+.fb-main .cb-wrap,
+.build-wrap .cb-wrap {
+  @include position-sticky(5px, $z-index-sticky);
+}
+
+.build-wrap {
+  margin-top: $spacing-md;
+  padding: 0 $section-padding;
+}
