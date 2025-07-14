@@ -51,3 +51,148 @@
   margin-top: $spacing-md;
   padding: 0 $section-padding;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CSS Styles for Readonly FormBuilder Fields */
+
+/* Readonly indicator styles */
+.readonly-indicator {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.readonly-indicator.condition {
+  color: #856404;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+}
+
+.readonly-indicator.always {
+  color: #495057;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+/* Style for fields with readonly conditions */
+.form-elements.has-readonly-condition {
+  border-left: 3px solid #ffc107;
+  padding-left: 12px;
+  background-color: #fffbf0;
+}
+
+.form-elements.always-readonly {
+  border-left: 3px solid #6c757d;
+  padding-left: 12px;
+  background-color: #f8f9fa;
+}
+
+/* Style for readonly condition fields */
+.readonly-condition {
+  background-color: #f8f9fa !important;
+  border-color: #dee2e6 !important;
+  cursor: not-allowed !important;
+  opacity: 0.8 !important;
+}
+
+.readonly-condition:focus {
+  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25) !important;
+}
+
+/* Style for always readonly fields */
+input[readonly], textarea[readonly], select[readonly] {
+  background-color: #e9ecef !important;
+  opacity: 1 !important;
+  cursor: default !important;
+}
+
+/* Style the readonly configuration fields in FormBuilder */
+.fld-readOnly, 
+.fld-readOnlyConditionField, 
+.fld-readOnlyConditionType, 
+.fld-readOnlyConditionValue {
+  background-color: #f0f8ff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 5px 0;
+}
+
+.fld-readOnly label,
+.fld-readOnlyConditionField label,
+.fld-readOnlyConditionType label,
+.fld-readOnlyConditionValue label {
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* Enhanced field preview styling */
+.prev-holder .readonly-condition {
+  background: repeating-linear-gradient(
+    45deg,
+    #f8f9fa,
+    #f8f9fa 10px,
+    #e9ecef 10px,
+    #e9ecef 20px
+  ) !important;
+}
+
+.prev-holder input[readonly], 
+.prev-holder textarea[readonly], 
+.prev-holder select[readonly] {
+  background-color: #e9ecef !important;
+  color: #6c757d !important;
+}
+
+/* Animation for state changes */
+.form-elements {
+  transition: all 0.3s ease;
+}
+
+.readonly-indicator {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .readonly-indicator {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
+  .form-elements.has-readonly-condition,
+  .form-elements.always-readonly {
+    padding-left: 8px;
+  }
+}

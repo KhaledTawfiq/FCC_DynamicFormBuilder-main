@@ -75,16 +75,39 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
     controlOrder: FORM_BUILDER_CONFIG.CONTROL_ORDER,
     stickyControls: FORM_BUILDER_CONFIG.STICKY_CONTROLS,
     // Add event handlers to manage readonly behavior in the UI
-    onAddField: function (field: any) {
-      console.log('Field added:', field);
-      updateReadonlyState(field);
-      // setTimeout(() => {
-      // }, 100);
+    onAddField: function (fieldId: string, fieldData: any) {
+      console.log('Field added:', fieldId, fieldData);
+
+      // Use setTimeout to ensure the DOM is fully rendered
+      setTimeout(() => {
+        // updateReadonlyState(fieldId);
+      }, 100);
     },
-    onUpdateField: function (field: any) {
-      updateReadonlyState(field);
-      // setTimeout(() => {
-      // }, 100);
+    onUpdateField: function (fieldId: string, fieldData: any) {
+      console.log('Field updated:', fieldId, fieldData);
+
+      // Use setTimeout to ensure the DOM is fully updated
+      setTimeout(() => {
+        // updateReadonlyState(fieldId);
+      }, 100);
+    },
+
+    // Alternative: Listen for FormBuilder events after initialization
+    onRender: function () {
+      console.log('FormBuilder rendered');
+
+      // Set up event listeners for readonly field changes
+      setTimeout(() => {
+        $(document).on('change', 'input[name*="readOnly"], select[name*="readOnly"], input[name*="readOnlyCondition"], select[name*="readOnlyCondition"]', function () {
+          const $this = $(this);
+          const fieldContainer = $this.closest('.form-elements');
+
+          if (fieldContainer.length > 0) {
+            console.log('Readonly-related field changed, updating state');
+            // updateReadonlyState(fieldContainer[0]);
+          }
+        });
+      }, 200);
     },
     typeUserAttrs: {
       date: {
@@ -243,62 +266,172 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
     });
   }, []);
 
-  // Function to update readonly state in the FormBuilder UI
-  const updateReadonlyState = useCallback((field: any) => {
-    try {
-      console.log('updateReadonlyState field:', field);
-      const $field = $(field);
-      console.log('$field:', $field);
+// Function to update readonly state in the FormBuilder UI
+// const updateReadonlyState = useCallback((field: any) => {
+//   try {
+//     console.log('updateReadonlyState field:', field);
+    
+//     // Handle different field parameter types
+//     let $field;
+//     let fieldId;
+    
+//     if (typeof field === 'string') {
+//       // If field is a string ID, find the element by ID
+//       fieldId = field;
+//       $field = $(`#${fieldId}`);
+      
+//       // If not found by ID, try finding by data-field-id or class
+//       if ($field.length === 0) {
+//         $field = $(`[data-field-id="${fieldId}"]`);
+//       }
+      
+//       // If still not found, try finding within all .form-elements
+//       if ($field.length === 0) {
+//         $field = $(`.form-elements`).find(`[id*="${fieldId}"], [name*="${fieldId}"], [data-name*="${fieldId}"]`).first();
+//       }
+//     } else {
+//       // If field is already a DOM element or jQuery object
+//       $field = $(field);
+//       fieldId = $field.attr('id') || $field.data('field-id') || 'unknown';
+//     }
+    
+//     console.log('$field after processing:', $field);
+//     console.log('fieldId:', fieldId);
+    
+//     if ($field.length === 0) {
+//       console.warn('Could not find field element for:', field);
+      
+//       // Try alternative approach - find the field within the build-wrap
+//       const $buildWrap = $('.build-wrap');
+//       if ($buildWrap.length > 0) {
+//         // Look for the field in form elements that were just added
+//         const $allFormElements = $buildWrap.find('.form-elements');
+//         const $lastFormElement = $allFormElements.last();
+        
+//         if ($lastFormElement.length > 0) {
+//           console.log('Using last form element as fallback');
+//           $field = $lastFormElement;
+//         }
+//       }
+      
+//       if ($field.length === 0) {
+//         return;
+//       }
+//     }
 
-      const fieldContainer = $field.closest('.form-elements');
-      console.log('fieldContainer:', fieldContainer);
+//     // Find the container - could be the field itself or a parent
+//     let fieldContainer = $field.closest('.form-elements');
+    
+//     // If $field is already .form-elements, use it directly
+//     if ($field.hasClass('form-elements')) {
+//       fieldContainer = $field;
+//     }
+    
+//     // If still no container, try finding within .frmb containers
+//     if (fieldContainer.length === 0) {
+//       fieldContainer = $field.closest('.frmb').find('.form-elements').last();
+//     }
+    
+//     console.log('fieldContainer:', fieldContainer);
 
-      if (fieldContainer.length === 0) {
-        console.warn('No .form-elements container found for field:', field);
-        return;
-      }
+//     if (fieldContainer.length === 0) {
+//       console.warn('No .form-elements container found for field:', field);
+//       return;
+//     }
 
-      // Get current values
-      const readOnlyValue = fieldContainer.find('[name*="readOnly"]').val();
-      const conditionField = fieldContainer.find('[name*="readOnlyConditionField"]').val();
-      const conditionType = fieldContainer.find('[name*="readOnlyConditionType"]').val();
+//     // Get current values - be more specific with selectors
+//     const $readOnlyField = fieldContainer.find('input[name*="readOnly"], select[name*="readOnly"]');
+//     const $conditionField = fieldContainer.find('input[name*="readOnlyConditionField"], select[name*="readOnlyConditionField"]');
+//     const $conditionType = fieldContainer.find('input[name*="readOnlyConditionType"], select[name*="readOnlyConditionType"]');
+//     const $conditionValue = fieldContainer.find('input[name*="readOnlyConditionValue"], select[name*="readOnlyConditionValue"]');
 
-console.log('readOnly input:', fieldContainer.find('[name*="readOnly"]'));
-console.log('conditionField input:', fieldContainer.find('[name*="readOnlyConditionField"]'));
-console.log('conditionType input:', fieldContainer.find('[name*="readOnlyConditionType"]'));
+//     const readOnlyValue = $readOnlyField.val();
+//     const conditionField = $conditionField.val();
+//     const conditionType = $conditionType.val();
+//     const conditionValue = $conditionValue.val();
 
+//     console.log('readOnlyValue:', readOnlyValue);
+//     console.log('conditionField:', conditionField);
+//     console.log('conditionType:', conditionType);
+//     console.log('conditionValue:', conditionValue);
 
-      const hasCondition = conditionField && conditionType;
+//     // Check if all condition fields have values
+//     const hasAllConditionValues = conditionField && 
+//                                  conditionField.toString().trim() !== '' && 
+//                                  conditionType && 
+//                                  conditionType.toString().trim() !== '' && 
+//                                  conditionValue && 
+//                                  conditionValue.toString().trim() !== '';
 
-      // Update the actual form field based on readonly state
-      const formField = fieldContainer.find('input, textarea, select').not('[type="hidden"]').first();
-      console.log('formField:', formField);
+//     console.log('hasAllConditionValues:', hasAllConditionValues);
 
-      if (hasCondition) {
-        fieldContainer.find('[name*="readOnly"]').val('false');
-        formField.prop('disabled', true);
-        formField.addClass('readonly-condition');
-      } else if (readOnlyValue === 'true') {
-        formField.prop('readonly', true);
-        formField.prop('disabled', false);
-        formField.removeClass('readonly-condition');
-      } else {
-        formField.prop('readonly', false);
-        formField.prop('disabled', false);
-        formField.removeClass('readonly-condition');
-      }
+//     // Find the actual form field (input, textarea, select) within this container
+//     const $formField = fieldContainer.find('input:not([type="hidden"]):not([name*="readOnly"]):not([name*="Condition"]), textarea, select')
+//                                    .not('[name*="readOnly"]')
+//                                    .not('[name*="Condition"]')
+//                                    .first();
 
-      // Add visual indicators
-      if (hasCondition) {
-        fieldContainer.addClass('has-readonly-condition');
-      } else {
-        fieldContainer.removeClass('has-readonly-condition');
-      }
+//     console.log('formField found:', $formField);
 
-    } catch (error) {
-      console.warn('Error updating readonly state:', error);
-    }
-  }, []);
+//     if ($formField.length === 0) {
+//       console.warn('No form field found in container');
+//       return;
+//     }
+
+//     // Apply the readonly condition logic
+//     if (hasAllConditionValues) {
+//       console.log('All condition values present - applying condition logic');
+      
+//       // 1. Set readOnly field to false
+//       $readOnlyField.val('false');
+      
+//       // 2. Disable the readOnly field so user can't change it
+//       $readOnlyField.prop('disabled', true);
+      
+//       // 3. Enable the actual form field (it should be interactive)
+//       $formField.prop('disabled', false);
+//       $formField.prop('readonly', false);
+      
+//       // 4. Add visual indicators
+//       $formField.addClass('readonly-condition');
+//       fieldContainer.addClass('has-readonly-condition');
+      
+//       // 5. Add visual indicator to readOnly field that it's controlled by condition
+//       $readOnlyField.addClass('controlled-by-condition');
+      
+//       console.log('Applied condition logic: readOnly=false and disabled, form field enabled');
+      
+//     } else {
+//       console.log('Not all condition values present - normal readonly logic');
+      
+//       // Enable the readOnly field so user can change it
+//       $readOnlyField.prop('disabled', false);
+//       $readOnlyField.removeClass('controlled-by-condition');
+      
+//       // Apply normal readonly logic based on readOnly field value
+//       if (readOnlyValue === 'true') {
+//         // Standard readonly behavior
+//         $formField.prop('readonly', true);
+//         $formField.prop('disabled', false);
+//         $formField.removeClass('readonly-condition');
+//         fieldContainer.removeClass('has-readonly-condition');
+        
+//         console.log('Applied standard readonly');
+//       } else {
+//         // Field is fully editable
+//         $formField.prop('readonly', false);
+//         $formField.prop('disabled', false);
+//         $formField.removeClass('readonly-condition');
+//         fieldContainer.removeClass('has-readonly-condition');
+        
+//         console.log('Field set to fully editable');
+//       }
+//     }
+
+//   } catch (error) {
+//     console.warn('Error updating readonly state:', error);
+//   }
+// }, []);
 
   // Process individual form element to handle readonly properties
   const processFormElement = useCallback((element: any) => {
@@ -308,21 +441,22 @@ console.log('conditionType input:', fieldContainer.find('[name*="readOnlyConditi
     const hasReadOnlyCondition = element.readOnlyConditionField && element.readOnlyConditionType;
 
     if (hasReadOnlyCondition) {
-      // If there's a condition, readOnly should be false and make the input disabled
+      // If there's a condition, readOnly should be false initially
+      // The actual readonly behavior will be determined dynamically based on the condition
       processedElement.readOnly = false;
-      // processedElement.disabled = true;
+
+      // Add the readonly condition object for dynamic evaluation
       processedElement.readOnlyCondition = {
         field: element.readOnlyConditionField || "",
         type: parseInt(element.readOnlyConditionType) || 10,
         value: element.readOnlyConditionValue || ""
       };
+
+      // Don't disable the field - it should be interactive
+      // The condition will determine when it becomes readonly
     } else {
       // If no condition, check if readOnly is explicitly set, otherwise default to false
       processedElement.readOnly = (element.readOnly === 'true' || element.readOnly === true) ? true : false;
-      // Don't set disabled if there's no condition (unless already set)
-      // if (!element.disabled) {
-      //   processedElement.disabled = false;
-      // }
     }
 
     // Always clean up individual readonly condition properties from output

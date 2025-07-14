@@ -1,5 +1,3 @@
-// src/config/constants.ts - Updated with readonly properties
-
 import type { FormConfig } from '../types';
 
 // API Configuration
@@ -38,8 +36,7 @@ export const FORM_BUILDER_CONFIG = {
     "week",
     "number",
     "range",
-    "color"
-    // Removed address as it may not be supported by default FormBuilder
+    "color",
   ] as const,
 
   // Sticky Controls Configuration
@@ -102,6 +99,7 @@ export const FORM_BUILDER_CONFIG = {
     READONLY_CONDITION_TYPE: {
       label: "readOnlyConditionType",
       options: {
+        "": "",
         "10": "Has Value"
       }
     },
