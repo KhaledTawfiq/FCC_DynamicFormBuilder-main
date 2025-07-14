@@ -74,6 +74,18 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
   const formBuilderOptions = {
     controlOrder: FORM_BUILDER_CONFIG.CONTROL_ORDER,
     stickyControls: FORM_BUILDER_CONFIG.STICKY_CONTROLS,
+    // Add event handlers to manage readonly behavior in the UI
+    onAddField: function (field: any) {
+      console.log('Field added:', field);
+      updateReadonlyState(field);
+      // setTimeout(() => {
+      // }, 100);
+    },
+    onUpdateField: function (field: any) {
+      updateReadonlyState(field);
+      // setTimeout(() => {
+      // }, 100);
+    },
     typeUserAttrs: {
       date: {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -83,6 +95,10 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
       text: {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -92,6 +108,10 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
       email: {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -101,6 +121,10 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
       password: {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -108,6 +132,10 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
       select: {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -116,12 +144,20 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
       "radio-group": {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
         subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
         groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       },
       "checkbox-group": {
@@ -130,6 +166,10 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
         listPropertyKey: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.LIST_PROPERTY_KEY,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       },
       textarea: {
@@ -140,6 +180,10 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
       address: {
         defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -147,26 +191,12 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
         groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
         validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
         condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
+        readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY,
+        readOnlyConditionField: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_FIELD,
+        readOnlyConditionType: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_TYPE,
+        readOnlyConditionValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READONLY_CONDITION_VALUE,
       },
     },
-    fields: [{
-      icon: '🏠',
-      i18n: {
-        default: 'Address'
-      },
-      defaultAttrs: {
-        includeAddressCountry: {
-          label: 'Include Country',
-          type: 'checkbox',
-          value: true
-        },
-        includeAddressApartment: {
-          label: 'Include Apartment',
-          type: 'checkbox',
-          value: true
-        }
-      }
-    }],
   };
 
   // Add a new section
@@ -213,6 +243,96 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
     });
   }, []);
 
+  // Function to update readonly state in the FormBuilder UI
+  const updateReadonlyState = useCallback((field: any) => {
+    try {
+      console.log('updateReadonlyState field:', field);
+      const $field = $(field);
+      console.log('$field:', $field);
+
+      const fieldContainer = $field.closest('.form-elements');
+      console.log('fieldContainer:', fieldContainer);
+
+      if (fieldContainer.length === 0) {
+        console.warn('No .form-elements container found for field:', field);
+        return;
+      }
+
+      // Get current values
+      const readOnlyValue = fieldContainer.find('[name*="readOnly"]').val();
+      const conditionField = fieldContainer.find('[name*="readOnlyConditionField"]').val();
+      const conditionType = fieldContainer.find('[name*="readOnlyConditionType"]').val();
+
+console.log('readOnly input:', fieldContainer.find('[name*="readOnly"]'));
+console.log('conditionField input:', fieldContainer.find('[name*="readOnlyConditionField"]'));
+console.log('conditionType input:', fieldContainer.find('[name*="readOnlyConditionType"]'));
+
+
+      const hasCondition = conditionField && conditionType;
+
+      // Update the actual form field based on readonly state
+      const formField = fieldContainer.find('input, textarea, select').not('[type="hidden"]').first();
+      console.log('formField:', formField);
+
+      if (hasCondition) {
+        fieldContainer.find('[name*="readOnly"]').val('false');
+        formField.prop('disabled', true);
+        formField.addClass('readonly-condition');
+      } else if (readOnlyValue === 'true') {
+        formField.prop('readonly', true);
+        formField.prop('disabled', false);
+        formField.removeClass('readonly-condition');
+      } else {
+        formField.prop('readonly', false);
+        formField.prop('disabled', false);
+        formField.removeClass('readonly-condition');
+      }
+
+      // Add visual indicators
+      if (hasCondition) {
+        fieldContainer.addClass('has-readonly-condition');
+      } else {
+        fieldContainer.removeClass('has-readonly-condition');
+      }
+
+    } catch (error) {
+      console.warn('Error updating readonly state:', error);
+    }
+  }, []);
+
+  // Process individual form element to handle readonly properties
+  const processFormElement = useCallback((element: any) => {
+    const processedElement = { ...element };
+
+    // ALWAYS add readonly properties to every element
+    const hasReadOnlyCondition = element.readOnlyConditionField && element.readOnlyConditionType;
+
+    if (hasReadOnlyCondition) {
+      // If there's a condition, readOnly should be false and make the input disabled
+      processedElement.readOnly = false;
+      // processedElement.disabled = true;
+      processedElement.readOnlyCondition = {
+        field: element.readOnlyConditionField || "",
+        type: parseInt(element.readOnlyConditionType) || 10,
+        value: element.readOnlyConditionValue || ""
+      };
+    } else {
+      // If no condition, check if readOnly is explicitly set, otherwise default to false
+      processedElement.readOnly = (element.readOnly === 'true' || element.readOnly === true) ? true : false;
+      // Don't set disabled if there's no condition (unless already set)
+      // if (!element.disabled) {
+      //   processedElement.disabled = false;
+      // }
+    }
+
+    // Always clean up individual readonly condition properties from output
+    delete processedElement.readOnlyConditionField;
+    delete processedElement.readOnlyConditionType;
+    delete processedElement.readOnlyConditionValue;
+
+    return processedElement;
+  }, []);
+
   // Generate form data
   const generateFormData = useCallback((): GenerateFormDataResult => {
     const generatedObject = {
@@ -243,10 +363,14 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
     sections.forEach((section) => {
       if (section.ref?.current?.getFormData) {
         const elements = section.ref.current.getFormData();
+
+        // Process each element to handle readonly properties
+        const processedElements = elements.map(processFormElement);
+
         generatedObject.template.sections.push({
           title: section.title,
           icon: section.icon || '',
-          elements: elements,
+          elements: processedElements,
         });
       }
     });

@@ -1,3 +1,5 @@
+// src/config/constants.ts - Updated with readonly properties
+
 import type { FormConfig } from '../types';
 
 // API Configuration
@@ -36,8 +38,8 @@ export const FORM_BUILDER_CONFIG = {
     "week",
     "number",
     "range",
-    "color",
-    "address", // Custom control for address
+    "color"
+    // Removed address as it may not be supported by default FormBuilder
   ] as const,
 
   // Sticky Controls Configuration
@@ -86,19 +88,26 @@ export const FORM_BUILDER_CONFIG = {
       label: "condition",
       value: ""
     },
-    INCLUDE_ADDRESS_COUNTRY: {
-      label: "includeAddressCountry",
+    READONLY: {
+      label: "readOnly",
       options: {
         true: "true",
         false: "false"
       }
     },
-    INCLUDE_ADDRESS_APARTMENT: {
-      label: "includeAddressApartment",
+    READONLY_CONDITION_FIELD: {
+      label: "readOnlyConditionField",
+      value: ""
+    },
+    READONLY_CONDITION_TYPE: {
+      label: "readOnlyConditionType",
       options: {
-        true: "true",
-        false: "false"
+        "10": "Has Value"
       }
+    },
+    READONLY_CONDITION_VALUE: {
+      label: "readOnlyConditionValue",
+      value: ""
     }
   }
 } as const;
