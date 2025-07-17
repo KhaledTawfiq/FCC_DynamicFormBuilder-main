@@ -42,6 +42,9 @@ export interface FieldConfig {
   style?: string;
   access?: boolean;
   userData?: string[];
+  // Address-specific properties
+  includeAddressCountry?: boolean;
+  includeAddressApartment?: boolean;
 }
 
 export interface OptionValue {

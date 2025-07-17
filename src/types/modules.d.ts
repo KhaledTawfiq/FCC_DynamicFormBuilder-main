@@ -9,6 +9,16 @@ declare module 'formBuilder' {
   export default formBuilder;
 }
 
+// Address control type declaration
+interface AddressControlOptions {
+  label?: string;
+  type?: string;
+  className?: string;
+  name?: string;
+  includeAddressCountry?: boolean;
+  includeAddressApartment?: boolean;
+}
+
 // Vite environment variables
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string;
