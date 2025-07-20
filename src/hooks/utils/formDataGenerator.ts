@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { toPascalCase, formatJSON } from '../../utils/helpers';
 import { ensureFieldNames } from './fieldNameUpdater';
 import type { FormConfig, SectionWithRef } from '../types/formBuilderTypes';
+import { processReadOnlyAttribute } from '@/config/ReadOnlyAttributeProcessor';
 
 export interface GenerateFormDataResult {
   generatedObject: any;
@@ -65,6 +66,30 @@ export const useFormDataGenerator = () => {
               }
             }
           }
+
+          // Process Events attribute
+          if (element.events) {
+            try {
+              // If events is a string, parse it
+              if (typeof element.events === 'string') {
+                element.Events = JSON.parse(element.events);
+              } else if (Array.isArray(element.events)) {
+                element.Events = element.events;
+              }
+              // Remove the lowercase events property
+              delete element.events;
+            } catch (error) {
+              // If parsing fails, create an empty events array
+              element.Events = [];
+              delete element.events;
+            }
+          } else {
+            // Ensure Events property exists as empty array if not set
+            element.Events = [];
+          }
+
+          // Process ReadOnly attribute
+          processReadOnlyAttribute(element);
           
           return element;
         });
