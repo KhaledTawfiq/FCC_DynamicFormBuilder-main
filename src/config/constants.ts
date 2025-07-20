@@ -80,11 +80,6 @@ export const FORM_BUILDER_CONFIG = {
       type: "text",
       value: '[{"Type": "getOptions", "On": "render", "Url": "v1/EducationProgram", "Parameters": ""}]'
     },
-    READ_ONLY: {
-      label: "readOnly",
-      type: "text",
-      value: '{"readOnly": false, "readOnlyCondition": {"field": "", "type": 10, "value": ""}}'
-    },
   }
 } as const;
 

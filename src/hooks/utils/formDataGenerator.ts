@@ -3,7 +3,6 @@ import $ from 'jquery';
 import { toPascalCase, formatJSON } from '../../utils/helpers';
 import { ensureFieldNames } from './fieldNameUpdater';
 import type { FormConfig, SectionWithRef } from '../types/formBuilderTypes';
-import { processReadOnlyAttribute } from '@/config/ReadOnlyAttributeProcessor';
 
 export interface GenerateFormDataResult {
   generatedObject: any;
@@ -87,9 +86,6 @@ export const useFormDataGenerator = () => {
             // Ensure Events property exists as empty array if not set
             element.Events = [];
           }
-
-          // Process ReadOnly attribute
-          processReadOnlyAttribute(element);
           
           return element;
         });

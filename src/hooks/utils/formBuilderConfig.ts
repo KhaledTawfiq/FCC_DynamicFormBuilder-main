@@ -21,7 +21,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     text: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -32,7 +31,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     email: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -43,7 +41,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     password: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -52,7 +49,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     select: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -62,7 +58,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     "radio-group": {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -71,7 +66,6 @@ export const getFormBuilderOptions = () => ({
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     "checkbox-group": {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -81,7 +75,6 @@ export const getFormBuilderOptions = () => ({
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     textarea: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -92,7 +85,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
     },
     address: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
@@ -101,7 +93,6 @@ export const getFormBuilderOptions = () => ({
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
-      readOnly: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.READ_ONLY,
       includeAddressCountry: {
         label: 'Include Address Country',
         type: 'checkbox',
@@ -136,10 +127,6 @@ export const initializeLibraries = async (): Promise<void> => {
     // Import and register events attribute
     const { registerEventsAttribute } = await import('../controls/eventsAttribute');
     registerEventsAttribute();
-
-    // Import and register readOnly attribute
-    const { registerReadOnlyAttribute } = await import('../controls/readOnlyAttribute');
-    registerReadOnlyAttribute();
   } catch (error) {
     // Error loading libraries - fail silently
   }
