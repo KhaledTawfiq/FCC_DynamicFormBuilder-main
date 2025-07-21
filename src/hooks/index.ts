@@ -18,6 +18,7 @@ export {
 
 // Custom controls
 export { registerAddressControl } from './controls/addressControl';
+export { registerGroupAttribute } from './controls/groupAttribute';
 
 // Types
 export type {

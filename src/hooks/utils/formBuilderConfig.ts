@@ -1,9 +1,11 @@
 import $ from 'jquery';
 import { FORM_BUILDER_CONFIG } from '../../config/constants';
 import { registerEventsAttribute } from '../controls/eventsAttribute';
+import { registerGroupAttribute } from '../controls/groupAttribute';
 
 // Register custom attributes
 registerEventsAttribute();
+registerGroupAttribute();
 
 /**
  * FormBuilder configuration and options
@@ -16,7 +18,7 @@ export const getFormBuilderOptions = () => ({
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       other: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.OTHER,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
@@ -26,7 +28,7 @@ export const getFormBuilderOptions = () => ({
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       other: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.OTHER,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
@@ -36,7 +38,7 @@ export const getFormBuilderOptions = () => ({
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       other: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.OTHER,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
@@ -45,7 +47,7 @@ export const getFormBuilderOptions = () => ({
     password: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
@@ -54,7 +56,7 @@ export const getFormBuilderOptions = () => ({
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       other: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.OTHER,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
@@ -62,7 +64,7 @@ export const getFormBuilderOptions = () => ({
     "radio-group": {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
@@ -70,7 +72,7 @@ export const getFormBuilderOptions = () => ({
     "checkbox-group": {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       listPropertyKey: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.LIST_PROPERTY_KEY,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
@@ -80,7 +82,7 @@ export const getFormBuilderOptions = () => ({
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       other: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.OTHER,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       values: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALUES,
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
@@ -89,7 +91,7 @@ export const getFormBuilderOptions = () => ({
     address: {
       defaultValue: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.DEFAULT_VALUE,
       subtype: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.SUBTYPE,
-      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP_ID,
+      groupId: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.GROUP, // Changed from GROUP_ID to GROUP
       validations: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.VALIDATIONS,
       condition: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.CONDITION,
       events: FORM_BUILDER_CONFIG.FIELD_ATTRIBUTES.EVENTS,
@@ -127,6 +129,10 @@ export const initializeLibraries = async (): Promise<void> => {
     // Import and register events attribute
     const { registerEventsAttribute } = await import('../controls/eventsAttribute');
     registerEventsAttribute();
+
+    // Import and register group attribute
+    const { registerGroupAttribute } = await import('../controls/groupAttribute');
+    registerGroupAttribute();
   } catch (error) {
     // Error loading libraries - fail silently
   }

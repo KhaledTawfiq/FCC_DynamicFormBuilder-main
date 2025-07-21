@@ -8,6 +8,7 @@ import axios, { AxiosInstance } from 'axios';
 // API Configuration
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 const authToken = import.meta.env.VITE_AUTH_TOKEN;
+
 interface SubmitData {
   key: string;
   version: string;
@@ -36,11 +37,6 @@ class ApiService {
       }
     });
   }
-  /**
-   * Submits form data to the API.
-   * @param data - The form data to submit.
-   * @returns A promise that resolves to the API response.
-   */
 
   setHeaders(headers: Record<string, string>) {
     this.axiosInstance.defaults.headers = {
@@ -49,6 +45,11 @@ class ApiService {
     };
   }
 
+  /**
+   * Submits form data to the API.
+   * @param data - The form data to submit.
+   * @returns A promise that resolves to the API response.
+   */
   async submitForm(data: SubmitData): Promise<ApiResponse> {
     try {
       this.setHeaders({
@@ -65,6 +66,7 @@ class ApiService {
       };
     }
   }
+
   async loadForm(formConfig: FormConfig): Promise<ApiResponse> {
     try {
        this.setHeaders({
@@ -72,6 +74,27 @@ class ApiService {
         'companyId': formConfig.companyId,
       });
       const response = await this.axiosInstance.get<any>(`DynamicForms?key=${formConfig.formKey}&FormVersionId=${formConfig.version}&ClientId=${formConfig.companyId}`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      };
+    }
+  }
+
+  /**
+   * Fetches enum groups from the API
+   * @returns A promise that resolves to the API response with group options
+   */
+  async getEnumGroups(): Promise<ApiResponse> {
+    try {
+      this.setHeaders({
+        'companyId': '78',
+        'language': 'en',
+      });
+      
+      const response = await this.axiosInstance.get<any>('DynamicFormBuilder/EnumGroups');
       return { success: true, data: response.data };
     } catch (error) {
       return { 

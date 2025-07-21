@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import FormConfiguration from './FormConfiguration/FormConfiguration';
 import Section from './Section/Section';
 import ActionButtons from './ActionButtons/ActionButtons';
@@ -174,7 +174,7 @@ const FormBuilder: React.FC = () => {
   const handleCloseSnackbar = useCallback(() => {
     setSnackbar({ message: null, type: 'info' });
   }, []);
-
+  
   return (
     <div className="container-fluid">
       <div className="row">
