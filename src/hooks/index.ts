@@ -5,6 +5,7 @@ export { useFormBuilder } from './useFormBuilder';
 export { useFormDataGenerator } from './utils/formDataGenerator';
 export { useSectionManagement } from './utils/sectionManagement';
 export { useApiOperations } from './utils/apiOperations';
+export { useEnumGroups } from './useEnumGroups';
 
 // Configuration utilities
 export { getFormBuilderOptions, initializeLibraries } from './utils/formBuilderConfig';
@@ -18,6 +19,7 @@ export {
 
 // Custom controls
 export { registerAddressControl } from './controls/addressControl';
+export { registerGroupIdControl } from './controls/groupIdControl';
 
 // Types
 export type {
@@ -30,3 +32,4 @@ export type {
 } from './types/formBuilderTypes';
 
 export type { GenerateFormDataResult } from './utils/formDataGenerator';
+export type { EnumGroup, EnumItem } from '../services/apiService';

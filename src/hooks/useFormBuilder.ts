@@ -5,6 +5,7 @@ import { initializeLibraries, getFormBuilderOptions } from './utils/formBuilderC
 import { useFormDataGenerator } from './utils/formDataGenerator';
 import { useSectionManagement } from './utils/sectionManagement';
 import { useApiOperations } from './utils/apiOperations';
+import { useEnumGroups } from './useEnumGroups';
 import type { FormConfig } from '../types';
 import type { UseFormBuilderReturn, SectionWithRef } from './types/formBuilderTypes';
 
@@ -18,7 +19,7 @@ declare global {
 }
 
 /**
- * Custom hook for managing FormBuilder functionality
+ * Enhanced custom hook for managing FormBuilder functionality with enum groups support
  */
 export const useFormBuilder = (): UseFormBuilderReturn => {
   const [formConfig, setFormConfig] = useState<FormConfig>(DEFAULT_FORM_CONFIG);
@@ -30,6 +31,23 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
   useEffect(() => {
     initializeLibraries();
   }, []);
+
+  // Fetch enum groups for dropdown population
+  const { 
+    enumGroups, 
+    isLoading: isLoadingEnums, 
+    error: enumsError,
+    refetch: refetchEnums 
+  } = useEnumGroups(formConfig.companyId || '78');
+
+  // Log enum groups status for debugging
+  useEffect(() => {
+    if (enumsError) {
+      console.warn('Error loading enum groups:', enumsError);
+    } else if (enumGroups.length > 0) {
+      console.log('Enum groups loaded:', enumGroups.length, 'groups');
+    }
+  }, [enumGroups, enumsError]);
 
   // Get form data generation utilities
   const { generateFormData: generateFormDataFn } = useFormDataGenerator();
@@ -60,12 +78,23 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
     return loadJsonFn(setIsLoadingForm);
   }, [loadJsonFn]);
 
+  // Enhanced formConfig setter that refreshes enums when companyId changes
+  const setFormConfigEnhanced = useCallback((config: FormConfig) => {
+    const previousCompanyId = formConfig.companyId;
+    setFormConfig(config);
+    
+    // If companyId changed, refetch enum groups
+    if (config.companyId && config.companyId !== previousCompanyId) {
+      refetchEnums();
+    }
+  }, [formConfig.companyId, refetchEnums]);
+
   return {
     formConfig,
     sections: sections as any[], // Cast to match the expected return type
     formBuilderOptions,
     isSubmitting,
-    isLoadingForm,
+    isLoadingForm: isLoadingForm || isLoadingEnums, // Include enum loading state
     addSection,
     removeSection,
     updateSection,
@@ -73,6 +102,14 @@ export const useFormBuilder = (): UseFormBuilderReturn => {
     generateFormData,
     submitForm,
     loadJson,
-    setFormConfig
+    setFormConfig: setFormConfigEnhanced,
+    // Additional properties for enum groups (extend the interface if needed)
+    enumGroups,
+    enumsError,
+    refetchEnums
+  } as UseFormBuilderReturn & {
+    enumGroups: Array<{label: string, value: string}>;
+    enumsError: string | null;
+    refetchEnums: () => Promise<void>;
   };
 };
