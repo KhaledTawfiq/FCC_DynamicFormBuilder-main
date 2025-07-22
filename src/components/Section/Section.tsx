@@ -1,3 +1,5 @@
+// Updated Section.tsx with group registration on FormBuilder initialization
+
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
 import type { SectionProps } from '../../types';
@@ -39,6 +41,8 @@ const Section: React.FC<SectionProps> = ({
     }
     
     try {
+      console.log(`🚀 Initializing FormBuilder for section ${index}...`);
+      
       // Clear any existing content first
       const $buildWrap = $(buildWrapElement);
       $buildWrap.empty();
@@ -47,8 +51,6 @@ const Section: React.FC<SectionProps> = ({
         ($buildWrap as any).formBuilder('destroy');
         $buildWrap.empty();
       }
-      
-      // Initialize FormBuilder for this section
       
       // Check if section has existing elements data to load
       const sectionWithElements = section as any;
@@ -59,8 +61,23 @@ const Section: React.FC<SectionProps> = ({
         initOptions.formData = JSON.stringify(existingElements);
       }
       
+      // Initialize FormBuilder for this section
       formBuilderInstance.current = ($buildWrap as any).formBuilder(initOptions);
       isInitialized.current = true;
+      
+      console.log(`✅ FormBuilder initialized for section ${index}`);
+      
+      // REGISTER GROUP ATTRIBUTE AFTER FORMBUILDER IS READY
+      setTimeout(async () => {
+        try {
+          console.log(`🔧 Registering group attribute for section ${index}...`);
+          const { registerGroupAttribute } = await import('../../hooks/controls/groupAttribute');
+          registerGroupAttribute();
+          console.log(`✅ Group attribute registered for section ${index}`);
+        } catch (error) {
+          console.error(`❌ Failed to register group attribute for section ${index}:`, error);
+        }
+      }, 500); // Small delay to ensure FormBuilder is fully ready
       
       // Set up debounced event listeners to save data when fields are added/modified
       let updateTimeout: NodeJS.Timeout;
@@ -72,15 +89,27 @@ const Section: React.FC<SectionProps> = ({
         
         updateTimeout = setTimeout(() => {
           try {
-            saveFormData(); // Use a separate function for saving to avoid conflicts
+            saveFormData();
+            
+            // Re-register group attribute when new fields are added
+            setTimeout(async () => {
+              try {
+                console.log(`🔄 Re-registering group attribute after field change in section ${index}...`);
+                const { registerGroupAttribute } = await import('../../hooks/controls/groupAttribute');
+                registerGroupAttribute();
+              } catch (error) {
+                console.error(`❌ Failed to re-register group attribute:`, error);
+              }
+            }, 300);
+            
           } catch (error) {
             // Ignore errors during auto-save
           }
-        }, 300); // Longer delay to ensure FormBuilder has fully updated
+        }, 300);
       });
       
     } catch (error) {
-      // Error initializing FormBuilder - fail silently
+      console.error(`❌ Error initializing FormBuilder for section ${index}:`, error);
     }
 
     return () => {
@@ -106,7 +135,6 @@ const Section: React.FC<SectionProps> = ({
   }, []); // Empty dependency array - only run once on mount 
 
   // Load existing form data when FormBuilder is initialized and section has elements
-  // Only reload when section ID changes (indicating a different section) or when we explicitly need to reload
   const prevSectionIdRef = useRef<string | undefined>(undefined);
   useEffect(() => {
     if (isInitialized.current && section && (section as any).elements) {
@@ -125,7 +153,7 @@ const Section: React.FC<SectionProps> = ({
         }, 100);
       }
     }
-  }, [section.id]); // Only react to section ID changes, not elements changes
+  }, [section.id]);
 
   // Add local state for form fields to prevent clearing during updates
   const [localTitle, setLocalTitle] = useState<string>(section.title || '');
@@ -135,7 +163,7 @@ const Section: React.FC<SectionProps> = ({
   useEffect(() => {
     setLocalTitle(section.title || '');
     setLocalIcon((section as any).icon || '');
-  }, [section.id]); // Only update when section ID changes (new section)
+  }, [section.id]);
 
   // Add debouncing for input changes
   const inputChangeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -159,50 +187,47 @@ const Section: React.FC<SectionProps> = ({
         ...section,
         [field]: value
       } as any);
-    }, 500); // Increased delay to 500ms to reduce update frequency
+    }, 500);
   };
+  
   const handleRemove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     onRemove(index);
-  };  const handleAccordionToggle = () => {
+  };  
+
+  const handleAccordionToggle = () => {
     const collapseElement = collapseRef.current;
     if (!collapseElement) return;
 
     if (isExpanded) {
-      // Collapsing: Temporarily set overflow hidden for animation
+      // Collapsing
       collapseElement.style.overflow = 'hidden';
       collapseElement.style.height = collapseElement.scrollHeight + 'px';
-      collapseElement.style.transition = 'none'; // Disable transition temporarily
+      collapseElement.style.transition = 'none';
       
-      // Force reflow
       collapseElement.offsetHeight;
       
-      // Re-enable transition and collapse
       collapseElement.style.transition = 'height 0.3s ease-in-out';
       collapseElement.style.height = '0px';
       
-      // Update state after animation starts
       setTimeout(() => {
         setIsExpanded(false);
       }, 50);
     } else {
-      // Expanding: Start with overflow hidden for animation
+      // Expanding
       collapseElement.style.overflow = 'hidden';
       setIsExpanded(true);
       collapseElement.style.height = '0px';
       collapseElement.style.transition = 'height 0.3s ease-in-out';
       
-      // Force reflow
       collapseElement.offsetHeight;
       
-      // Expand to full height
       collapseElement.style.height = collapseElement.scrollHeight + 'px';
       
-      // After animation completes, set overflow to visible for sticky positioning
       setTimeout(() => {
         if (collapseElement.style.height !== '0px') {
           collapseElement.style.height = 'auto';
-          collapseElement.style.overflow = 'visible'; // Enable sticky positioning
+          collapseElement.style.overflow = 'visible';
         }
       }, 300);
     }
@@ -265,7 +290,7 @@ const Section: React.FC<SectionProps> = ({
         collapseElement.style.overflow = 'hidden';
       } else {
         collapseElement.style.height = 'auto';
-        collapseElement.style.overflow = 'visible'; // Allow sticky positioning when expanded
+        collapseElement.style.overflow = 'visible';
       }
     }
   }, []);
@@ -283,7 +308,6 @@ const Section: React.FC<SectionProps> = ({
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     
-    // Call onDragOver to update draggedIndex to the current hover position
     if (onDragOver) {
       onDragOver(index);
     }
@@ -293,7 +317,6 @@ const Section: React.FC<SectionProps> = ({
     e.preventDefault();
     const draggedFromIndex = parseInt(e.dataTransfer.getData('text/plain'));
     
-    // Call onDrop to reset draggedIndex to null
     if (onDrop) {
       onDrop(index);
     }
@@ -312,21 +335,19 @@ const Section: React.FC<SectionProps> = ({
         if (formBuilderData && formBuilderData.actions) {
           const data = formBuilderData.actions.getData();
           
-          // Only update if data has actually changed to prevent infinite loops
+          // Only update if data has actually changed
           const sectionWithElements = section as any;
           const currentElements = sectionWithElements.elements || [];
           
-          // Deep comparison to check if data actually changed
           const hasChanged = JSON.stringify(data) !== JSON.stringify(currentElements);
           
           if (hasChanged) {
-            // Use a more gentle update that doesn't cause re-initialization
             setTimeout(() => {
               onUpdate(index, {
                 ...section,
                 elements: data
               } as any);
-            }, 100); // Small delay to prevent blocking
+            }, 100);
           }
         }
       } catch (error) {
@@ -345,7 +366,8 @@ const Section: React.FC<SectionProps> = ({
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
-    >      <h2 className="accordion-header" id={`heading${index}`}>
+    >      
+      <h2 className="accordion-header" id={`heading${index}`}>
         <button 
           className={`accordion-button ${isExpanded ? '' : 'collapsed'}`}
           type="button" 
@@ -356,7 +378,8 @@ const Section: React.FC<SectionProps> = ({
           Section #{index + 1}
         </button>
       </h2>
-        <div 
+        
+      <div 
         ref={collapseRef}
         id={`collapse${index}`} 
         className={`accordion-collapse collapse ${isExpanded ? 'show' : ''}`}

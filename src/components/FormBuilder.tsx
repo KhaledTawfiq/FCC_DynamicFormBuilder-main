@@ -1,3 +1,5 @@
+// Updated FormBuilder.tsx with group registration on add section
+
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import FormConfiguration from './FormConfiguration/FormConfiguration';
 import Section from './Section/Section';
@@ -68,10 +70,26 @@ const FormBuilder: React.FC = () => {
     showSnackbar('Section removed successfully', 'success');
   }, [removeSection, showSnackbar]);
 
-  // Add new section
-  const handleAddSection = useCallback(() => {
+  // Add new section WITH group registration
+  const handleAddSection = useCallback(async () => {
+    console.log('🚀 Adding new section...');
+    
+    // Add the section first
     addSection();
     showSnackbar('Section added successfully', 'success');
+    
+    // Register group attributes after a short delay to ensure the section is rendered
+    setTimeout(async () => {
+      try {
+        console.log('🔧 Registering group attribute after adding section...');
+        const { registerGroupAttribute } = await import('../hooks/controls/groupAttribute');
+        registerGroupAttribute();
+        console.log('✅ Group attribute registration completed');
+      } catch (error) {
+        console.error('❌ Failed to register group attribute:', error);
+      }
+    }, 1000); // 1 second delay to ensure section is fully rendered
+    
   }, [addSection, showSnackbar]);
 
   // Handle section reordering
@@ -120,8 +138,6 @@ const FormBuilder: React.FC = () => {
     setDraggedIndex(null);
   }, []);
 
-
-
   // View JSON data
   const handleViewJson = useCallback(() => {
     if (sections.length === 0) {
@@ -135,6 +151,7 @@ const FormBuilder: React.FC = () => {
       data: formattedTemplateJson
     });
   }, [sections.length, generateFormData, showSnackbar]);
+  
   // Submit form
   const handleSubmit = useCallback(async () => {
     if (sections.length === 0) {
@@ -153,17 +170,28 @@ const FormBuilder: React.FC = () => {
   }, [sections.length, submitForm, showSnackbar]);
 
   // Load JSON file
-  const handleLoadJson =  useCallback(async () => {
-   
-
+  const handleLoadJson = useCallback(async () => {
     try {
       await loadJson();
       showSnackbar('Form loaded successfully', 'success');
+      
+      // Register group attributes after loading
+      setTimeout(async () => {
+        try {
+          console.log('🔧 Registering group attribute after loading form...');
+          const { registerGroupAttribute } = await import('../hooks/controls/groupAttribute');
+          registerGroupAttribute();
+          console.log('✅ Group attribute registration completed after load');
+        } catch (error) {
+          console.error('❌ Failed to register group attribute after load:', error);
+        }
+      }, 1500); // Longer delay after loading to ensure all sections are rendered
+      
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
       showSnackbar(`Error load form: ${errorMessage}`, 'error');
     }
-  }, [ loadJson, showSnackbar]);
+  }, [loadJson, showSnackbar]);
 
   // Close JSON modal
   const handleCloseJsonModal = useCallback(() => {
@@ -174,6 +202,53 @@ const FormBuilder: React.FC = () => {
   const handleCloseSnackbar = useCallback(() => {
     setSnackbar({ message: null, type: 'info' });
   }, []);
+
+  // Test group registration manually (for debugging)
+  const testGroupRegistration = useCallback(async () => {
+    try {
+      console.log('🧪 Manual group registration test...');
+      const { registerGroupAttribute } = await import('../hooks/controls/groupAttribute');
+      registerGroupAttribute();
+      
+      // Test the API as well
+      const apiService = (await import('../services/apiService')).default;
+      const response = await apiService.getEnumGroups();
+      console.log('🧪 API test result:', response);
+      
+      showSnackbar('Group registration test completed - check console', 'info');
+    } catch (error) {
+      console.error('❌ Group registration test failed:', error);
+      showSnackbar('Group registration test failed', 'error');
+    }
+  }, [showSnackbar]);
+
+  // Add test button (remove in production)
+  useEffect(() => {
+    // Add a test button to the page for debugging
+    if (process.env.NODE_ENV === 'development') {
+      const testButton = document.createElement('button');
+      testButton.textContent = '🧪 Test Group Registration';
+      testButton.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        padding: 8px 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      `;
+      testButton.onclick = testGroupRegistration;
+      document.body.appendChild(testButton);
+
+      return () => {
+        document.body.removeChild(testButton);
+      };
+    }
+  }, [testGroupRegistration]);
   
   return (
     <div className="container-fluid">
