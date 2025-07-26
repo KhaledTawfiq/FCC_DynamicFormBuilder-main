@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 import { generateUniqueId } from '../../utils/helpers';
 import apiService from '../../services/apiService';
 import type { FormConfig, SectionWithRef } from '../types/formBuilderTypes';
-import type { GenerateFormDataResult } from './formDataGenerator';
+import type { GenerateFormDataResult } from './formDataGeneratorReact';
 
 /**
- * Custom hook for API operations
+ * Custom hook for API operations - React Native Implementation
  */
-export const useApiOperations = (
+export const useApiOperationsReact = (
   formConfig: FormConfig,
   setFormConfig: React.Dispatch<React.SetStateAction<FormConfig>>,
   setSections: React.Dispatch<React.SetStateAction<SectionWithRef[]>>,
@@ -26,8 +26,8 @@ export const useApiOperations = (
       // Prepare data for API submission
       const submitData = {
         key: generatedObject.key || formConfig.formKey || 'tw',
-        version: generatedObject.version || formConfig.version || 0,
-        companyId: generatedObject.companyId || formConfig.companyId || 0,
+        version: generatedObject.version || formConfig.version || '1.0',
+        companyId: generatedObject.companyId || formConfig.companyId || '0',
         template: JSON.stringify(generatedObject.template)
       };
 
@@ -53,7 +53,7 @@ export const useApiOperations = (
     try {
       const result = await apiService.loadForm(formConfig);
       if (!result.success) {
-        throw new Error(result.error || 'Submit failed');
+        throw new Error(result.error || 'Load failed');
       }
       if (result.success && result.data) {
         setFormConfig({
@@ -62,7 +62,8 @@ export const useApiOperations = (
           companyId: result.data.companyId || formConfig.companyId,
           formTitle: result.data.template?.title || formConfig.formTitle,
         });
-        let sections = result.data?.template?.sections;
+        
+        const sections = result.data?.template?.sections || [];
         if (sections.length > 0) {
           const newSections = sections.map((section: any) => ({
             id: generateUniqueId(),

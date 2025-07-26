@@ -48,7 +48,7 @@
 
 @mixin drag-styles {
   cursor: move;
-  transition: $transition-base;
+  transition: $transition-legacy-base;
   
   &.dragging {
     border: 2px solid $danger-color !important;

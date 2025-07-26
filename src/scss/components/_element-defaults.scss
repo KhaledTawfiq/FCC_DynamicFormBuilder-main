@@ -1,0 +1,161 @@
+/* Element Defaults Styles */
+@use '../abstracts' as *;
+
+/* Read-only name field styling */
+.form-builder input[name="name"][readonly],
+.frmb input[name="name"][readonly],
+.edit-form input[name="name"][readonly] {
+  background-color: $bg-tertiary !important;
+  border: 1px solid $border-light !important;
+  color: $text-secondary !important;
+  cursor: not-allowed !important;
+  opacity: 0.8;
+}
+
+.form-builder input[name="name"][readonly]:focus,
+.frmb input[name="name"][readonly]:focus,
+.edit-form input[name="name"][readonly]:focus {
+  box-shadow: none !important;
+  border-color: $border-light !important;
+  outline: none !important;
+}
+
+/* Read-only indicator styling */
+.readonly-indicator {
+  font-size: $text-xs;
+  color: $text-secondary;
+  font-style: italic;
+  margin-top: $space-1;
+  display: block;
+}
+
+/* Form element name field container */
+.form-group:has(input[name="name"]) {
+  position: relative;
+}
+
+.form-group:has(input[name="name"])::after {
+  content: "🔒";
+  position: absolute;
+  right: $space-2;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-secondary;
+  font-size: $text-xs;
+  pointer-events: none;
+}
+
+/* Enhanced form builder styling */
+.build-wrap {
+  position: relative;
+}
+
+.build-wrap .form-elements .form-element {
+  border: 1px solid $border-light;
+  border-radius: $radius-sm;
+  margin-bottom: $space-3;
+  padding: $space-3;
+  background-color: $bg-primary;
+  transition: $transition-all;
+}
+
+.build-wrap .form-elements .form-element:hover {
+  border-color: $interactive-primary;
+  box-shadow: $shadow-focus;
+}
+
+/* Toolbar item styling */
+.form-builder-toolbar .toolbar-item {
+  transition: $transition-all;
+}
+
+.form-builder-toolbar .toolbar-item:hover {
+  background-color: $bg-tertiary;
+  border-radius: $radius-sm;
+}
+
+/* Form element preview styling */
+.form-element-preview {
+  padding: $space-4;
+  background-color: $bg-tertiary;
+  border-radius: $radius-sm;
+  margin: $space-3 0;
+}
+
+.form-element-preview .form-control {
+  margin-bottom: $space-2;
+}
+
+.form-element-preview .form-label {
+  font-weight: 500;
+  color: $text-heading;
+  margin-bottom: $space-1;
+}
+
+/* Element type indicators */
+.element-type-indicator {
+  display: inline-block;
+  padding: $space-1 $space-2;
+  background-color: $interactive-primary;
+  color: $text-primary-inverse;
+  font-size: $text-xs;
+  border-radius: $radius-xs;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-left: $space-2;
+}
+
+.element-type-indicator.text { background-color: $status-success; }
+.element-type-indicator.number { background-color: $status-warning; color: $neutral-800; }
+.element-type-indicator.select { background-color: $status-info; }
+.element-type-indicator.radio { background-color: $purple-600; }
+.element-type-indicator.checkbox { background-color: $pink-600; }
+.element-type-indicator.file { background-color: $orange-600; }
+.element-type-indicator.date { background-color: $teal-600; }
+.element-type-indicator.button { background-color: $neutral-600; }
+
+/* Custom form validation styling */
+.form-element.has-validation-error {
+  border-color: $status-danger;
+  background-color: $danger-50;
+}
+
+.form-element.has-validation-error .validation-message {
+  color: $status-danger;
+  font-size: $text-sm;
+  margin-top: $space-1;
+  display: block;
+}
+
+/* Enhanced drag and drop styling */
+.form-element.dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+  transition: $transition-all;
+}
+
+.form-element.drag-over {
+  border-color: $interactive-primary;
+  background-color: $primary-50;
+}
+
+/* Form builder responsiveness */
+@media (max-width: $breakpoint-md) {
+  .build-wrap .form-elements {
+    padding: $space-3 $space-2;
+  }
+  
+  .form-element-preview {
+    padding: $space-3;
+    margin: $space-2 0;
+  }
+  
+  .form-builder-toolbar {
+    flex-wrap: wrap;
+  }
+  
+  .toolbar-item {
+    flex: 1 1 calc(50% - #{$space-3});
+    margin: $space-2;
+  }
+}

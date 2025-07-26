@@ -2,13 +2,13 @@
 
 // Drag and Drop styles
 .dragging {
-  background-color: $danger-color;
+  background-color: $status-danger;
   padding: 1px;
 }
 
 .sortable-placeholder {
-  background-color: #f0f0f0;
-  border: 1px dashed $border-gray;
+  background-color: $bg-tertiary;
+  border: 1px dashed $border-medium;
   height: 50px;
 }
 

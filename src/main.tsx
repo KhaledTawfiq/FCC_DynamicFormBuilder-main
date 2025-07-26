@@ -2,19 +2,15 @@ import { createRoot } from 'react-dom/client'
 import './scss/main.scss'
 import App from './App'
 
-// Import jQuery and make it globally available
-import $ from 'jquery'
-declare global {
-  interface Window {
-    $: typeof $;
-    jQuery: typeof $;
-  }
-}
-window.$ = window.jQuery = $
+// Polyfills for Node.js globals in browser
+(window as any).global = window;
 
 // Import Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+
+// Import react-form-builder2 styles
+import 'react-form-builder2/dist/app.css'
 
 const root = document.getElementById('root')
 if (!root) {

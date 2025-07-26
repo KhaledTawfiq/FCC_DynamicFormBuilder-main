@@ -47,7 +47,8 @@ const JsonModal: React.FC<JsonModalProps & { title?: string }> = ({
   if (!isOpen) return null;
   const handleCopyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(jsonData || '');
+      const textToCopy = typeof jsonData === 'string' ? jsonData : JSON.stringify(jsonData, null, 2);
+      await navigator.clipboard.writeText(textToCopy || '');
       // Could add a toast notification here
     } catch (error) {
       // Failed to copy - ignore silently
@@ -95,7 +96,10 @@ const JsonModal: React.FC<JsonModalProps & { title?: string }> = ({
             flexDirection: 'column'
           }}>
             <pre className="json-modal-content">
-              {jsonData || 'No data available'}
+              {typeof jsonData === 'string' 
+                ? jsonData 
+                : JSON.stringify(jsonData, null, 2) || 'No data available'
+              }
             </pre>
           </div>
           

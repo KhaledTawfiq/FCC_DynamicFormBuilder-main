@@ -5,17 +5,17 @@
   @include drag-styles;
 
   &[data-drag-over="true"] {
-    border-top: 3px solid $primary-color;
+    border-top: 3px solid $interactive-primary;
   }
 
   &.drop-target {
-    border: 2px dashed $primary-color;
-    background-color: #e3f2fd;
+    border: 2px dashed $interactive-primary;
+    background-color: $primary-50;
   }
 
   &.future-position {
-    box-shadow: 0 0 0 2px $success-color;
-    background-color: #d4edda;
+    box-shadow: 0 0 0 2px $status-success;
+    background-color: $success-50;
   }
 }
 

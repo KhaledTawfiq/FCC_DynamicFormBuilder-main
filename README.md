@@ -38,7 +38,7 @@ This project uses a modern SCSS architecture following the 7-1 pattern:
 
 ### Prerequisites
 - Node.js 16+
-- yarn
+- **Yarn** (recommended package manager)
 
 ### Installation
 ```bash

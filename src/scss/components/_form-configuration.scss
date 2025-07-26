@@ -1,0 +1,416 @@
+@use '../abstracts' as *;
+
+/* Modern Form Configuration Styles */
+
+.modern-form-configuration {
+  border-radius: $radius-xl;
+  margin-bottom: $space-8;
+  overflow: hidden;
+  transition: $transition-bounce;
+  border: 1px solid $border-light;
+}
+
+.modern-form-configuration:hover {
+  box-shadow: $shadow-md;
+  transform: translateY(-1px);
+}
+
+/* Header Section */
+.config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-6 $space-8;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: $backdrop-blur-md;
+  border-bottom: 1px solid rgba($border-light, 0.3);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba($neutral-400, 0.08);
+  border-radius: $radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-secondary;
+  backdrop-filter: $backdrop-blur-md;
+}
+
+.header-text h2 {
+  color: $text-heading;
+  font-size: $text-2xl;
+  font-weight: $font-bold;
+  margin: 0;
+  letter-spacing: $tracking-tight;
+}
+
+.header-text p {
+  color: $text-secondary;
+  font-size: $text-sm;
+  margin: 0;
+  margin-top: $space-1;
+}
+
+.toggle-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba($neutral-400, 0.08);
+  border-radius: $radius-md;
+  color: $text-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: $transition-all;
+  backdrop-filter: $backdrop-blur-md;
+}
+
+.toggle-btn:hover {
+  background: rgba($neutral-400, 0.12);
+  transform: scale(1.05);
+}
+
+.toggle-btn.expanded svg {
+  transform: rotate(180deg);
+}
+
+.toggle-btn svg {
+  transition: transform 0.3s ease;
+}
+
+/* Content Section */
+.config-content {
+  background: $bg-primary;
+  overflow: hidden;
+  transition: all 0.4s $animation-easing-ease-out;
+}
+
+.config-content.expanded {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.config-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.config-grid {
+  padding: $space-8;
+  display: grid;
+  gap: $space-8;
+}
+
+/* Section Styling */
+.config-section {
+  @include card-style();
+    box-shadow: unset;
+}
+  
+.config-section:hover {
+  box-shadow: unset;
+}
+
+/* Combined section styling - no title, cleaner layout */
+.combined-section {
+  border: 1px solid $border-light;
+  
+  &:hover {
+    border-color: $border-medium;
+  }
+}
+
+.section-header {
+  margin-bottom: $space-6;
+}
+
+.section-header h3 {
+  color: $text-secondary;
+  font-size: $text-lg;
+  font-weight: $font-semibold;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.section-divider {
+  height: 2px;
+  background: linear-gradient(90deg, $neutral-400, $neutral-300);
+  border-radius: 1px;
+  margin-top: $space-2;
+  width: 60px;
+}
+
+/* Input Group */
+.input-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $space-6;
+}
+
+/* For combined section, use a 2x2 grid layout */
+.combined-section .input-group {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $space-6;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+/* Modern Labels */
+.modern-label {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: $text-secondary;
+  font-weight: $form-label-font-weight;
+  margin-bottom: $space-2;
+  font-size: $text-sm;
+  letter-spacing: $tracking-wide;
+}
+
+.label-icon {
+  font-size: $text-base;
+}
+
+.label-required {
+  color: $status-danger;
+  font-weight: $font-semibold;
+}
+
+/* Modern Inputs */
+.modern-input {
+  @include input-style();
+}
+
+.modern-input:focus {
+  border-color: $interactive-primary;
+  box-shadow: $shadow-focus;
+}
+
+.modern-input:hover {
+  border-color: $border-medium;
+}
+
+.modern-input:disabled {
+  background: $bg-secondary;
+  color: $text-tertiary;
+  cursor: not-allowed;
+}
+
+.modern-input::placeholder {
+  color: $text-light;
+  font-style: italic;
+}
+
+/* Input Hints */
+.input-hint {
+  color: $text-tertiary;
+  font-size: $text-xs;
+  margin-top: $space-1;
+  display: block;
+  font-style: italic;
+}
+
+/* Status Section */
+.config-status {
+  @include section-gradient('primary');
+  border-radius: $radius-lg;
+  padding: $space-4 $space-6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: $shadow-primary;
+  border: 1px solid $primary-200;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-weight: $font-medium;
+  color: $primary-700;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-full;
+  background: $interactive-primary;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.active {
+  box-shadow: 0 0 0 4px rgba($interactive-primary, 0.15);
+}
+
+.status-info small {
+  color: $primary-700;
+  font-size: $text-xs;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modern-form-configuration {
+    margin: 1rem;
+    border-radius: 12px;
+  }
+  
+  .config-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .header-text h2 {
+    font-size: 1.25rem;
+  }
+  
+  .config-grid {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .input-group {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .config-section {
+    padding: 1rem;
+  }
+  
+  .config-status {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .config-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .header-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .toggle-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .config-grid {
+    padding: 1rem;
+  }
+}
+
+/* Dark mode support - using light theme instead */
+@media (prefers-color-scheme: dark) {
+  .modern-form-configuration {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-color: #e2e8f0;
+  }
+  
+  .config-header {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(226, 232, 240, 0.5);
+  }
+  
+  .header-icon {
+    background: rgba(148, 163, 184, 0.1);
+    color: #64748b;
+  }
+  
+  .header-text h2 {
+    color: #475569;
+  }
+  
+  .header-text p {
+    color: #64748b;
+  }
+  
+  .toggle-btn {
+    background: rgba(148, 163, 184, 0.1);
+    color: #64748b;
+  }
+  
+  .config-section {
+    background: #ffffff;
+    border-color: #e5e7eb;
+  }
+  
+  .config-section:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+  
+  .section-header h3 {
+    color: #64748b;
+  }
+  
+  .modern-label {
+    color: #64748b;
+  }
+  
+  .modern-input {
+    background: white;
+    border-color: #e5e7eb;
+    color: #475569;
+  }
+  
+  .modern-input:focus {
+    border-color: #a78bfa;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+  }
+  
+  .modern-input::placeholder {
+    color: #cbd5e1;
+  }
+  
+  .input-hint {
+    color: #94a3b8;
+  }
+}
+
+/* Accessibility */
+.modern-input:focus-visible,
+.toggle-btn:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .modern-input {
+    border-width: 2px;
+  }
+  
+  .modern-input:focus {
+    border-width: 3px;
+  }
+}

@@ -17,15 +17,13 @@
     "test:single": "jest --testPathPatterns"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@types/axios": "^0.14.4",
     "axios": "^1.10.0",
     "bootstrap": "^5.3.7",
-    "formBuilder": "^3.20.0",
-    "jquery": "^3.7.1",
-    "jquery-ui-sortable": "^1.0.0",
-    "prop-types": "^15.8.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-form-builder2": "^0.20.3"
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",
@@ -38,7 +36,6 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
-    "@types/jquery": "^3.5.32",
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

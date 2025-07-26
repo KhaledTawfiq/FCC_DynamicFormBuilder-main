@@ -55,11 +55,9 @@ export const FORM_BUILDER_CONFIG = {
       label: "defaultValue",
       value: ""
     },
-    GROUP: {
-      label: "Group",
-      type: "select",
-      value: "",
-      options: [] // Will be populated dynamically from API
+    GROUP_ID: {
+      label: "groupId",
+      value: ""
     },
     LIST_PROPERTY_KEY: {
       label: "listPropertyKey",

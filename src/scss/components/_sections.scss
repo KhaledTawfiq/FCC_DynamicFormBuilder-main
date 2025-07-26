@@ -2,18 +2,18 @@
 
 // Section styles
 .section-info {
-  background-color: $medium-gray;
-  padding: $section-padding;
+  background-color: $bg-tertiary;
+  padding: $space-4 $space-5;
 }
 
 // JSON container
 .json-container {
   white-space: pre-wrap;
-  background-color: $light-gray;
-  padding: $spacing-md;
-  border-radius: $border-radius;
-  font-family: $font-family-mono;
-  font-size: $font-size-sm;
+  background-color: $bg-secondary;
+  padding: $space-4;
+  border-radius: $radius-sm;
+  font-family: $font-mono;
+  font-size: $text-sm;
 }
 
 // Form builder dialog

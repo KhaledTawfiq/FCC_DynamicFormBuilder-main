@@ -1,11 +1,11 @@
 import { useCallback, useRef } from 'react';
 import { generateUniqueId } from '../../utils/helpers';
-import type { Section, SectionWithRef } from '../types/formBuilderTypes';
+import type { SectionWithRef } from '../types/formBuilderTypes';
 
 /**
- * Custom hook for section management
+ * Custom hook for section management - React Native Implementation
  */
-export const useSectionManagement = (
+export const useSectionManagementReact = (
   sections: SectionWithRef[],
   setSections: React.Dispatch<React.SetStateAction<SectionWithRef[]>>
 ) => {
@@ -37,10 +37,10 @@ export const useSectionManagement = (
   }, [setSections]);
 
   // Update a section
-  const updateSection = useCallback((index: number, updatedSection: Section): void => {
-    setSections(prev =>
-      prev.map((section, i) =>
-        i === index ? { ...section, ...updatedSection, ref: section.ref } : section
+  const updateSection = useCallback((index: number, updatedSection: SectionWithRef): void => {
+    setSections(prev => 
+      prev.map((section, i) => 
+        i === index ? { ...section, ...updatedSection } : section
       )
     );
   }, [setSections]);
@@ -49,8 +49,8 @@ export const useSectionManagement = (
   const reorderSections = useCallback((fromIndex: number, toIndex: number): void => {
     setSections(prev => {
       const newSections = [...prev];
-      const [movedSection] = newSections.splice(fromIndex, 1);
-      newSections.splice(toIndex, 0, movedSection);
+      const [removed] = newSections.splice(fromIndex, 1);
+      newSections.splice(toIndex, 0, removed);
       return newSections;
     });
   }, [setSections]);

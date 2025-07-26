@@ -5,6 +5,9 @@ import { fileURLToPath, URL } from 'node:url'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  css: {
+    devSourcemap: true
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -15,5 +18,12 @@ export default defineConfig({
       '@/config': fileURLToPath(new URL('./src/config', import.meta.url)),
       '@/styles': fileURLToPath(new URL('./src/styles', import.meta.url))
     }
+  },
+  define: {
+    global: 'globalThis',
+    'process.env': {}
+  },
+  optimizeDeps: {
+    include: ['react-form-builder2']
   }
 })

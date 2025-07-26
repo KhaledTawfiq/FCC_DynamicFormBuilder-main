@@ -1,33 +1,12 @@
-// Main hook
-export { useFormBuilder } from './useFormBuilder';
+// Hook exports for cleaner imports - React Implementation
+export { useFormBuilderReact } from './useFormBuilderReact';
+export { useElementDefaults } from './useElementDefaults';
 
-// Utility hooks
-export { useFormDataGenerator } from './utils/formDataGenerator';
-export { useSectionManagement } from './utils/sectionManagement';
-export { useApiOperations } from './utils/apiOperations';
+// Utility hook exports
+export { useFormDataGeneratorReact } from './utils/formDataGeneratorReact';
+export { useSectionManagementReact } from './utils/sectionManagementReact';
+export { useApiOperationsReact } from './utils/apiOperationsReact';
 
-// Configuration utilities
-export { getFormBuilderOptions, initializeLibraries } from './utils/formBuilderConfig';
-
-// Field name utilities
-export { 
-  updateFieldNamesFromLabels, 
-  setupFieldNameUpdateListeners, 
-  ensureFieldNames 
-} from './utils/fieldNameUpdater';
-
-// Custom controls
-export { registerAddressControl } from './controls/addressControl';
-export { registerGroupAttribute } from './controls/groupAttribute';
-
-// Types
-export type {
-  UseFormBuilderReturn,
-  SectionWithRef,
-  LoadedTemplate,
-  LoadedResponse,
-  FormConfig,
-  Section
-} from './types/formBuilderTypes';
-
-export type { GenerateFormDataResult } from './utils/formDataGenerator';
+// Type exports
+export type { UseFormBuilderReturn, SectionWithRef } from './types/formBuilderTypes';
+export type { GenerateFormDataResult } from './utils/formDataGeneratorReact';
