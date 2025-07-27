@@ -45,6 +45,10 @@ export interface FieldConfig {
   // Address-specific properties
   includeAddressCountry?: boolean;
   includeAddressApartment?: boolean;
+  addressFormat?: 'single' | 'multi' | 'structured';
+  restrictToCountry?: string;
+  enableAutocomplete?: boolean;
+  validateAddress?: boolean;
 }
 
 export interface OptionValue {
@@ -133,4 +137,42 @@ export interface ActionButtonsProps {
   onLoadJson: () => void;
   isSubmitting: boolean;
   isLoading: boolean;
+}
+
+// Address-specific types
+export interface AddressFieldConfig extends FieldConfig {
+  type: 'address';
+  addressFormat?: 'single' | 'multi' | 'structured';
+  restrictToCountry?: string;
+  enableAutocomplete?: boolean;
+  validateAddress?: boolean;
+  addressComponents?: {
+    street?: boolean;
+    city?: boolean;
+    state?: boolean;
+    zip?: boolean;
+    country?: boolean;
+  };
+}
+
+export interface AddressValidationResult {
+  isValid: boolean;
+  message: string;
+  suggestions?: string[];
+  formattedAddress?: string;
+  components?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+  };
+}
+
+export interface AddressAutocompleteResult {
+  suggestions: {
+    text: string;
+    description: string;
+    placeId: string;
+  }[];
 }

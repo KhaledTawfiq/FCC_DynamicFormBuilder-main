@@ -1,5 +1,5 @@
 /**
- * Element Defaults Configuration
+ * Element Defaults Configuration - Updated with Address Control
  * Provides comprehensive default properties for all react-form-builder2 form elements
  */
 
@@ -192,6 +192,27 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     condition: ''
   },
 
+  // Address Field - NEW CONTROL
+  Address: {
+    type: 'address',
+    required: false,
+    label: 'Address Field',
+    description: 'Enter a complete address',
+    placeholder: 'Enter your address...',
+    className: 'form-control address-field',
+    access: true,
+    value: '',
+    maxlength: 500,
+    defaultValue: '',
+    other: '',
+    groupId: '',
+    values: [],
+    validations: [
+      { type: 'address', message: 'Please enter a valid address' }
+    ],
+    condition: ''
+  },
+
   // Button
   Button: {
     type: 'button',
@@ -334,6 +355,7 @@ export const processFormData = (data: any[]): any[] => {
         element.name === 'text_input' || 
         element.name === 'textarea' ||
         element.name === 'number_input' ||
+        element.name === 'address' ||
         element.name.startsWith('element_')) {
       
       // Determine element type from element structure
@@ -348,6 +370,7 @@ export const processFormData = (data: any[]): any[] => {
         'RadioButtons': 'RadioButtons',
         'Checkboxes': 'Checkboxes',
         'Tags': 'Tags',
+        'Address': 'Address', // NEW MAPPING
         'Button': 'Button',
         'FileUpload': 'FileUpload',
         'DatePicker': 'DatePicker',

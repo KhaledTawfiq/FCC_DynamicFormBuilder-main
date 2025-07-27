@@ -418,6 +418,13 @@ const SectionReact: React.FC<SectionProps> = ({
                   content: ''
                 },
                 {
+                  key: 'Address',
+                  name: 'Address Field',
+                  static: false,
+                  icon: 'fas fa-map-marker-alt',
+                  content: ''
+                },
+                {
                   key: 'Button',
                   name: 'Button',
                   static: true,
