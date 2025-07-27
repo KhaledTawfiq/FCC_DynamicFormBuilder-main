@@ -1,18 +1,51 @@
 /**
- * Custom Form Elements Edit Component
- * Extends the default react-form-builder2 edit form to include our custom properties
+ * Fixed Custom Form Elements Edit Component
+ * Fixes the input field clearing issue with proper TypeScript types
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { generateElementName } from '../config/elementDefaults';
 
+interface ValidationRule {
+  type: string;
+  message: string;
+}
+
+interface OptionValue {
+  value: string;
+  text: string;
+  key: string;
+}
+
+interface FormElementData {
+  id?: string;
+  name?: string;
+  field_name?: string;
+  element?: string;
+  type?: string;
+  label?: string;
+  description?: string;
+  placeholder?: string;
+  required?: boolean;
+  className?: string;
+  defaultValue?: string;
+  maxlength?: number;
+  access?: boolean;
+  other?: string;
+  groupId?: string;
+  condition?: string;
+  values?: OptionValue[];
+  validations?: ValidationRule[];
+  [key: string]: any;
+}
+
 interface FormElementsEditProps {
-  element?: any;
-  updateElement?: (element: any) => void;
+  element?: FormElementData;
+  updateElement?: (element: FormElementData) => void;
   preview?: any;
   editForm?: any;
   className?: string;
-  [key: string]: any; // Allow any additional props
+  [key: string]: any;
 }
 
 const FormElementsEdit: React.FC<FormElementsEditProps> = ({
@@ -22,84 +55,128 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
   editForm,
   className = ''
 }) => {
-  const [formData, setFormData] = useState(element || {});
+  const [formData, setFormData] = useState<FormElementData>(element || {});
+  const [isInitialized, setIsInitialized] = useState(false);
   
+  // Initialize form data only once when element changes
   useEffect(() => {
-    console.log('FormElementsEdit received element:', element);
-    console.log('Element keys:', element ? Object.keys(element) : 'no element');
-    console.log('Element name:', element?.name);
-    console.log('Element field_name:', element?.field_name);
-    console.log('Element element:', element?.element);
-    
-    const elementData = element || {};
-    
-    // Check if name exists in different possible fields
-    if (!elementData.name) {
-      if (elementData.field_name) {
-        elementData.name = elementData.field_name;
-        console.log('Using field_name as name:', elementData.name);
-      } else if (elementData.element && !elementData.name) {
-        elementData.name = generateElementName(elementData.element);
-        console.log('Generated name for element:', elementData.name);
-        
-        // Update the element with the generated name
-        if (updateElement) {
-          updateElement(elementData);
+    if (element && !isInitialized) {
+      console.log('FormElementsEdit initializing with element:', element);
+      
+      const elementData: FormElementData = { ...element };
+      
+      // Check if name exists in different possible fields
+      if (!elementData.name) {
+        if (elementData.field_name) {
+          elementData.name = elementData.field_name;
+          console.log('Using field_name as name:', elementData.name);
+        } else if (elementData.element) {
+          elementData.name = generateElementName(elementData.element);
+          console.log('Generated name for element:', elementData.name);
+          
+          // Update the element with the generated name
+          if (updateElement) {
+            updateElement(elementData);
+          }
+        } else {
+          // Fallback if no element type is specified
+          elementData.name = generateElementName('TextInput');
+          console.log('Generated fallback name:', elementData.name);
         }
       }
+      
+      setFormData(elementData);
+      setIsInitialized(true);
     }
-    
-    setFormData(elementData);
-  }, [element, updateElement]);
+  }, [element, updateElement, isInitialized]);
 
-  const handleInputChange = (field: string, value: any) => {
-    const updatedElement = {
-      ...formData,
-      [field]: value
-    };
-    setFormData(updatedElement);
-    if (updateElement) {
-      updateElement(updatedElement);
-    }
-  };
+  // Reset initialization when element ID changes
+  useEffect(() => {
+    setIsInitialized(false);
+  }, [element?.id, element?.element]);
 
-  const handleArrayChange = (field: string, index: number, key: string, value: string) => {
-    const updatedElement = { ...formData };
-    if (!updatedElement[field]) {
-      updatedElement[field] = [];
-    }
-    if (!updatedElement[field][index]) {
-      updatedElement[field][index] = {};
-    }
-    updatedElement[field][index][key] = value;
-    setFormData(updatedElement);
-    if (updateElement) {
-      updateElement(updatedElement);
-    }
-  };
+  // Debounced update function
+  const debouncedUpdate = useCallback(
+    (() => {
+      let timeoutId: NodeJS.Timeout;
+      return (updatedElement: FormElementData) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          if (updateElement) {
+            console.log('Updating element:', updatedElement);
+            updateElement(updatedElement);
+          }
+        }, 300); // 300ms debounce
+      };
+    })(),
+    [updateElement]
+  );
 
-  const addArrayItem = (field: string) => {
-    const updatedElement = { ...formData };
-    if (!updatedElement[field]) {
-      updatedElement[field] = [];
-    }
-    updatedElement[field].push({ value: '', text: '', key: '' });
-    setFormData(updatedElement);
-    if (updateElement) {
-      updateElement(updatedElement);
-    }
-  };
+  const handleInputChange = useCallback((field: string, value: any) => {
+    setFormData((prevData: FormElementData) => {
+      const updatedElement: FormElementData = {
+        ...prevData,
+        [field]: value
+      };
+      
+      // Update the parent component with debounce
+      debouncedUpdate(updatedElement);
+      
+      return updatedElement;
+    });
+  }, [debouncedUpdate]);
 
-  const removeArrayItem = (field: string, index: number) => {
-    const updatedElement = { ...formData };
-    if (updatedElement[field]) {
-      updatedElement[field].splice(index, 1);
-      setFormData(updatedElement);
+  const handleArrayChange = useCallback((field: string, index: number, key: string, value: string) => {
+    setFormData((prevData: FormElementData) => {
+      const updatedElement: FormElementData = { ...prevData };
+      if (!updatedElement[field]) {
+        updatedElement[field] = [];
+      }
+      if (!updatedElement[field][index]) {
+        updatedElement[field][index] = {};
+      }
+      updatedElement[field][index][key] = value;
+      
+      // Update the parent component with debounce
+      debouncedUpdate(updatedElement);
+      
+      return updatedElement;
+    });
+  }, [debouncedUpdate]);
+
+  const addArrayItem = useCallback((field: string) => {
+    setFormData((prevData: FormElementData) => {
+      const updatedElement: FormElementData = { ...prevData };
+      if (!updatedElement[field]) {
+        updatedElement[field] = [];
+      }
+      
+      if (field === 'values') {
+        updatedElement[field].push({ value: '', text: '', key: '' });
+      } else if (field === 'validations') {
+        updatedElement[field].push({ type: '', message: '' });
+      }
+      
       if (updateElement) {
         updateElement(updatedElement);
       }
-    }
-  };
+      
+      return updatedElement;
+    });
+  }, [updateElement]);
+
+  const removeArrayItem = useCallback((field: string, index: number) => {
+    setFormData((prevData: FormElementData) => {
+      const updatedElement: FormElementData = { ...prevData };
+      if (updatedElement[field] && Array.isArray(updatedElement[field])) {
+        updatedElement[field].splice(index, 1);
+        if (updateElement) {
+          updateElement(updatedElement);
+        }
+      }
+      return updatedElement;
+    });
+  }, [updateElement]);
 
   const renderBasicFields = () => (
     <div className="basic-fields">
@@ -154,7 +231,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
       </div>
 
       {/* Placeholder Field */}
-      {!['header', 'paragraph', 'button'].includes(formData.type) && (
+      {!['header', 'paragraph', 'button'].includes(formData.type || '') && (
         <div className="form-group">
           <label htmlFor="element_placeholder">Placeholder</label>
           <input
@@ -217,7 +294,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
       </div>
 
       {/* Max Length Field */}
-      {['text', 'textarea', 'number'].includes(formData.type) && (
+      {['text', 'textarea', 'number'].includes(formData.type || '') && (
         <div className="form-group">
           <label htmlFor="element_maxlength">Maximum Length</label>
           <input
@@ -290,15 +367,17 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
   );
 
   const renderOptionsFields = () => {
-    const hasOptions = ['select', 'radio-group', 'checkbox-group', 'autocomplete'].includes(formData.type);
+    const hasOptions = ['select', 'radio-group', 'checkbox-group', 'autocomplete'].includes(formData.type || '');
     
     if (!hasOptions) return null;
+
+    const values = formData.values || [];
 
     return (
       <div className="options-fields">
         <h4>Options</h4>
         
-        {formData.values && formData.values.map((option: any, index: number) => (
+        {values.map((option: OptionValue, index: number) => (
           <div key={index} className="option-item border p-3 mb-2 rounded">
             <div className="row">
               <div className="col-md-4">
@@ -306,7 +385,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
                 <input
                   type="text"
                   className="form-control form-control-sm"
-                  value={option.value || ''}
+                  value={option?.value || ''}
                   onChange={(e) => handleArrayChange('values', index, 'value', e.target.value)}
                   placeholder="Option value"
                 />
@@ -316,7 +395,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
                 <input
                   type="text"
                   className="form-control form-control-sm"
-                  value={option.text || ''}
+                  value={option?.text || ''}
                   onChange={(e) => handleArrayChange('values', index, 'text', e.target.value)}
                   placeholder="Display text"
                 />
@@ -326,7 +405,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
                 <input
                   type="text"
                   className="form-control form-control-sm"
-                  value={option.key || ''}
+                  value={option?.key || ''}
                   onChange={(e) => handleArrayChange('values', index, 'key', e.target.value)}
                   placeholder="Option key"
                 />
@@ -357,76 +436,77 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
     );
   };
 
-  const renderValidationFields = () => (
-    <div className="validation-fields">
-      <h4>Validation Rules</h4>
-      
-      {formData.validations && formData.validations.map((validation: any, index: number) => (
-        <div key={index} className="validation-item border p-3 mb-2 rounded">
-          <div className="row">
-            <div className="col-md-4">
-              <label>Type</label>
-              <select
-                className="form-control form-control-sm"
-                value={validation.type || ''}
-                onChange={(e) => handleArrayChange('validations', index, 'type', e.target.value)}
-              >
-                <option value="">Select validation type</option>
-                <option value="required">Required</option>
-                <option value="email">Email</option>
-                <option value="number">Number</option>
-                <option value="date">Date</option>
-                <option value="url">URL</option>
-                <option value="pattern">Pattern</option>
-                <option value="minlength">Minimum Length</option>
-                <option value="maxlength">Maximum Length</option>
-                <option value="file">File</option>
-              </select>
-            </div>
-            <div className="col-md-7">
-              <label>Message</label>
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                value={validation.message || ''}
-                onChange={(e) => handleArrayChange('validations', index, 'message', e.target.value)}
-                placeholder="Validation error message"
-              />
-            </div>
-            <div className="col-md-1">
-              <label>&nbsp;</label>
-              <button
-                type="button"
-                className="btn btn-sm btn-danger d-block"
-                onClick={() => removeArrayItem('validations', index)}
-                title="Remove validation"
-              >
-                ×
-              </button>
+  const renderValidationFields = () => {
+    const validations = formData.validations || [];
+    
+    return (
+      <div className="validation-fields">
+        <h4>Validation Rules</h4>
+        
+        {validations.map((validation: ValidationRule, index: number) => (
+          <div key={index} className="validation-item border p-3 mb-2 rounded">
+            <div className="row">
+              <div className="col-md-4">
+                <label>Type</label>
+                <select
+                  className="form-control form-control-sm"
+                  value={validation?.type || ''}
+                  onChange={(e) => handleArrayChange('validations', index, 'type', e.target.value)}
+                >
+                  <option value="">Select validation type</option>
+                  <option value="required">Required</option>
+                  <option value="email">Email</option>
+                  <option value="number">Number</option>
+                  <option value="date">Date</option>
+                  <option value="url">URL</option>
+                  <option value="pattern">Pattern</option>
+                  <option value="minlength">Minimum Length</option>
+                  <option value="maxlength">Maximum Length</option>
+                  <option value="file">File</option>
+                </select>
+              </div>
+              <div className="col-md-7">
+                <label>Message</label>
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  value={validation?.message || ''}
+                  onChange={(e) => handleArrayChange('validations', index, 'message', e.target.value)}
+                  placeholder="Validation error message"
+                />
+              </div>
+              <div className="col-md-1">
+                <label>&nbsp;</label>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-danger d-block"
+                  onClick={() => removeArrayItem('validations', index)}
+                  title="Remove validation"
+                >
+                  ×
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-      
-      <button
-        type="button"
-        className="btn btn-sm btn-primary"
-        onClick={() => addArrayItem('validations')}
-      >
-        + Add Validation Rule
-      </button>
-    </div>
-  );
+        ))}
+        
+        <button
+          type="button"
+          className="btn btn-sm btn-primary"
+          onClick={() => addArrayItem('validations')}
+        >
+          + Add Validation Rule
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className={`custom-form-elements-edit ${className}`}>
       <div className="edit-form-content">
         {renderBasicFields()}
-
         {renderAdvancedFields()}
-
         {renderOptionsFields()}
-
         {renderValidationFields()}
       </div>
     </div>

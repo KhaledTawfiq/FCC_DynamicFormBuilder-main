@@ -1,258 +1,136 @@
 /* ============================================
-   Theme Variables - Light Modern Theme
+   Simplified Theme Variables - Replace _theme.scss
    ============================================ */
 
+// This file should replace src/scss/abstracts/_theme.scss
+
 /* ============================================
-   Color Palette
+   Basic Color Palette
    ============================================ */
 
 // Primary Colors
-$primary-50: #faf5ff;
-$primary-100: #f3e8ff;
-$primary-200: #e9d5ff;
-$primary-300: #d8b4fe;
-$primary-400: #c084fc;
-$primary-500: #a78bfa;
-$primary-600: #9333ea;
-$primary-700: #7c3aed;
-$primary-800: #6b21a8;
-$primary-900: #581c87;
+$primary: #007bff;
+$primary-hover: #0056b3;
+$primary-light: #e7f1ff;
 
-// Neutral Colors (Slate)
-$neutral-50: #f8fafc;
-$neutral-100: #f1f5f9;
-$neutral-200: #e2e8f0;
-$neutral-300: #cbd5e1;
-$neutral-400: #94a3b8;
-$neutral-500: #64748b;
-$neutral-600: #475569;
-$neutral-700: #334155;
-$neutral-800: #1e293b;
-$neutral-900: #0f172a;
+// Secondary Colors
+$secondary: #6c757d;
+$secondary-hover: #5a6268;
+$secondary-light: #f8f9fa;
 
 // Success Colors
-$success-50: #f0fdf4;
-$success-100: #dcfce7;
-$success-200: #bbf7d0;
-$success-300: #86efac;
-$success-400: #4ade80;
-$success-500: #22c55e;
-$success-600: #16a34a;
-$success-700: #15803d;
-$success-800: #166534;
-$success-900: #14532d;
+$success: #28a745;
+$success-hover: #218838;
+$success-light: #d4edda;
 
 // Warning Colors
-$warning-50: #fffbeb;
-$warning-100: #fef3c7;
-$warning-200: #fde68a;
-$warning-300: #fcd34d;
-$warning-400: #fbbf24;
-$warning-500: #f59e0b;
-$warning-600: #d97706;
-$warning-700: #b45309;
-$warning-800: #92400e;
-$warning-900: #78350f;
-
-// Extended colors for element indicators
-$purple-600: #9333ea;
-$pink-600: #db2777;
-$orange-600: #ea580c;
-$teal-600: #0d9488;
-$emerald-600: #059669;
-$amber-600: #d97706;
-$red-300: #fca5a5;
-$red-500: #ef4444;
-$emerald-300: #6ee7b7;
-$amber-300: #fcd34d;
+$warning: #ffc107;
+$warning-hover: #e0a800;
+$warning-light: #fff3cd;
 
 // Danger Colors
-$danger-50: #fef2f2;
-$danger-100: #fee2e2;
-$danger-200: #fecaca;
-$danger-300: #fca5a5;
-$danger-400: #f87171;
-$danger-500: #ef4444;
-$danger-600: #dc2626;
-$danger-700: #b91c1c;
-$danger-800: #991b1b;
-$danger-900: #7f1d1d;
+$danger: #dc3545;
+$danger-hover: #c82333;
+$danger-light: #f8d7da;
 
 // Info Colors
-$info-50: #f0f9ff;
-$info-100: #e0f2fe;
-$info-200: #bae6fd;
-$info-300: #7dd3fc;
-$info-400: #38bdf8;
-$info-500: #0ea5e9;
-$info-600: #0284c7;
-$info-700: #0369a1;
-$info-800: #075985;
-$info-900: #0c4a6e;
+$info: #17a2b8;
+$info-hover: #138496;
+$info-light: #d1ecf1;
 
 /* ============================================
-   Semantic Color Variables
+   Neutral Colors
    ============================================ */
 
-// Background Colors
-$bg-primary: #ffffff;
-$bg-secondary: $neutral-50;
-$bg-tertiary: $neutral-100;
-$bg-accent: $primary-50;
-
-// Text Colors
-$text-primary: $neutral-600;
-$text-secondary: $neutral-500;
-$text-tertiary: $neutral-400;
-$text-light: $neutral-300;
-$text-heading: $neutral-600;
-$text-primary-inverse: #ffffff;
-
-// Border Colors
-$border-light: $neutral-200;
-$border-medium: $neutral-300;
-$border-dark: $neutral-400;
-
-// Interactive Colors
-$interactive-primary: $primary-500;
-$interactive-primary-hover: $primary-400;
-$interactive-primary-active: $primary-600;
-
-$interactive-secondary: $neutral-200;
-$interactive-secondary-hover: $neutral-300;
-$interactive-secondary-active: $neutral-400;
-
-// Status Colors
-$status-success: $success-500;
-$status-warning: $warning-500;
-$status-danger: $danger-400;
-$status-info: $info-500;
+$white: #ffffff;
+$light-gray: #f8f9fa;
+$medium-gray: #e9ecef;
+$border-gray: #dee2e6;
+$text-gray: #6c757d;
+$dark-gray: #495057;
+$black: #212529;
 
 /* ============================================
-   Gradient Definitions
+   Background Colors
    ============================================ */
 
-$gradient-primary: linear-gradient(135deg, $primary-500 0%, $primary-400 100%);
-$gradient-secondary: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
-$gradient-success: linear-gradient(135deg, $success-400 0%, $success-500 100%);
-$gradient-warning: linear-gradient(135deg, $warning-400 0%, $warning-500 100%);
-$gradient-danger: linear-gradient(135deg, $danger-400 0%, $danger-500 100%);
+$bg-primary: $white;
+$bg-secondary: $light-gray;
+$bg-tertiary: $medium-gray;
 
-// Subtle gradients for sections
-$gradient-subtle-primary: linear-gradient(135deg, $primary-50 0%, $primary-100 100%);
-$gradient-subtle-success: linear-gradient(135deg, $success-50 0%, $success-100 100%);
-$gradient-subtle-warning: linear-gradient(135deg, $warning-50 0%, $warning-100 100%);
-$gradient-subtle-danger: linear-gradient(135deg, $danger-50 0%, $danger-100 100%);
-$gradient-subtle-info: linear-gradient(135deg, $info-50 0%, $info-100 100%);
+/* ============================================
+   Text Colors
+   ============================================ */
+
+$text-primary: $dark-gray;
+$text-secondary: $text-gray;
+$text-light: #adb5bd;
+$text-heading: $black;
+
+/* ============================================
+   Border Colors
+   ============================================ */
+
+$border-light: $border-gray;
+$border-medium: #ced4da;
+$border-dark: #adb5bd;
 
 /* ============================================
    Shadow Variables
    ============================================ */
 
-$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
-$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.10);
-$shadow-xl: 0 12px 30px rgba(0, 0, 0, 0.12);
-$shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.15);
-
-// Interactive shadows
-$shadow-primary: 0 4px 14px rgba(167, 139, 250, 0.25);
-$shadow-primary-hover: 0 6px 20px rgba(167, 139, 250, 0.35);
-$shadow-success: 0 4px 14px rgba(34, 197, 94, 0.25);
-$shadow-warning: 0 4px 14px rgba(245, 158, 11, 0.25);
-$shadow-danger: 0 4px 14px rgba(248, 113, 113, 0.25);
-
-// Additional shadow aliases
-$shadow-soft: $shadow-sm;
-$shadow-medium: $shadow-md;
-$shadow-focus: $shadow-primary;
+$shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+$shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 
 // Focus shadow
-$shadow-focus: 0 0 0 3px rgba(167, 139, 250, 0.1);
-$shadow-focus-ring: 0 0 0 2px $primary-500;
+$shadow-focus: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
 
 /* ============================================
    Border Radius
    ============================================ */
 
-$radius-xs: 4px;
-$radius-sm: 6px;
-$radius-md: 8px;
-$radius-lg: 12px;
-$radius-xl: 16px;
-$radius-2xl: 20px;
-$radius-full: 50%;
+$radius-sm: 0.25rem;
+$radius-md: 0.375rem;
+$radius-lg: 0.5rem;
+$radius-xl: 1rem;
 
 /* ============================================
    Spacing Scale
    ============================================ */
 
-$space-px: 1px;
-$space-0: 0;
 $space-1: 0.25rem;
 $space-2: 0.5rem;
 $space-3: 0.75rem;
 $space-4: 1rem;
 $space-5: 1.25rem;
 $space-6: 1.5rem;
-$space-7: 1.75rem;
 $space-8: 2rem;
-$space-10: 2.5rem;
-$space-12: 3rem;
-$space-16: 4rem;
-$space-20: 5rem;
-$space-24: 6rem;
 
 /* ============================================
    Typography
    ============================================ */
 
-// Font Families
-$font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-// Font Sizes
-$text-xs: 0.75rem;
-$text-sm: 0.875rem;
-$text-base: 1rem;
-$text-lg: 1.125rem;
-$text-xl: 1.25rem;
-$text-2xl: 1.5rem;
-$text-3xl: 1.875rem;
-$text-4xl: 2.25rem;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.25rem;
 
-// Font Weights
-$font-light: 300;
-$font-normal: 400;
-$font-medium: 500;
-$font-semibold: 600;
-$font-bold: 700;
-
-// Line Heights
-$leading-tight: 1.25;
-$leading-normal: 1.5;
-$leading-relaxed: 1.625;
-
-// Letter Spacing
-$tracking-tight: -0.025em;
-$tracking-normal: 0;
-$tracking-wide: 0.025em;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
 
 /* ============================================
    Transitions
    ============================================ */
 
-$transition-fast: 0.15s ease-out;
-$transition-base: 0.2s ease-out;
-$transition-slow: 0.3s ease-out;
-$transition-bounce: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-// Specific transitions
-$transition-colors: color 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out;
-$transition-shadow: box-shadow 0.2s ease-out;
-$transition-transform: transform 0.2s ease-out;
-$transition-all: all 0.2s ease-out;
+$transition-base: all 0.15s ease-in-out;
+$transition-fast: all 0.1s ease-in-out;
+$transition-slow: all 0.3s ease-in-out;
 
 /* ============================================
    Z-Index Scale
@@ -261,225 +139,129 @@ $transition-all: all 0.2s ease-out;
 $z-dropdown: 1000;
 $z-sticky: 1020;
 $z-fixed: 1030;
-$z-modal-backdrop: 1040;
 $z-modal: 1050;
-$z-popover: 1060;
-$z-tooltip: 1070;
 
 /* ============================================
-   Breakpoints
-   ============================================ */
-
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
-$breakpoint-2xl: 1536px;
-
-/* ============================================
-   Component Specific Variables
+   Component Variables
    ============================================ */
 
 // Buttons
 $btn-padding-sm: $space-2 $space-3;
-$btn-padding-md: $space-3 $space-6;
-$btn-padding-lg: $space-4 $space-8;
-$btn-border-radius: $radius-lg;
-$btn-font-weight: $font-semibold;
+$btn-padding-md: $space-3 $space-4;
+$btn-padding-lg: $space-4 $space-5;
 
 // Forms
-$form-input-padding: $space-3 $space-4;
-$form-input-border-radius: $radius-md;
-$form-input-border-width: 2px;
-$form-label-font-weight: $font-medium;
+$input-padding: $space-3;
+$input-border-width: 1px;
+$input-border-color: $border-light;
+$input-border-radius: $radius-md;
 
 // Cards
-$card-padding: $space-6;
+$card-padding: $space-4;
 $card-border-radius: $radius-lg;
-$card-border-width: 1px;
-
-// Navigation
-$nav-padding: $space-6 $space-8;
-$nav-border-radius: $radius-xl;
+$card-border-color: $border-light;
 
 /* ============================================
-   Animation Variables
+   Legacy Compatibility
    ============================================ */
 
-$animation-duration-fast: 0.15s;
-$animation-duration-normal: 0.3s;
-$animation-duration-slow: 0.5s;
+// Legacy compatibility variables
+$text-xs: $font-size-xs;
+$text-sm: $font-size-sm;
+$text-base: $font-size-base;
+$text-lg: $font-size-lg;
 
-$animation-easing-ease-out: cubic-bezier(0.4, 0, 0.2, 1);
-$animation-easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
-$animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-/* ============================================
-   Backdrop Filters
-   ============================================ */
-
-$backdrop-blur-sm: blur(4px);
-$backdrop-blur-md: blur(8px);
-$backdrop-blur-lg: blur(16px);
-
-/* ============================================
-   Legacy Variable Compatibility
-   ============================================ */
-
-// Backward compatibility with old variable names
-$primary-color: $interactive-primary;
-$danger-color: $status-danger;
-$success-color: $status-success;
-$error-color: $status-danger;
-$info-color: $status-info;
+// Keep these for backward compatibility
+$primary-color: $primary;
+$danger-color: $danger;
+$success-color: $success;
+$error-color: $danger;
+$info-color: $info;
 $background-color: $bg-secondary;
-$light-gray: $neutral-100;
-$medium-gray: $neutral-200;
-$border-gray: $border-medium;
-$text-gray: $text-secondary;
-$dark-gray: $neutral-700;
-$white: $bg-primary;
-$black: $neutral-800;
-
-// Layout compatibility
 $container-padding: $space-5;
 $section-padding: $space-4 $space-5;
 $button-gap: $space-4;
 $border-radius: $radius-sm;
-$small-border-radius: $radius-xs;
-
-// Typography compatibility
-$font-family-base: $font-sans;
+$small-border-radius: $radius-sm;
+$font-family-base: $font-family;
 $font-family-mono: $font-mono;
-$font-size-sm: $text-sm;
-
-// Spacing compatibility
+$font-size-sm: $font-size-sm;
 $spacing-xs: $space-1;
 $spacing-sm: $space-2;
 $spacing-md: $space-4;
 $spacing-lg: $space-5;
 $spacing-xl: $space-8;
-
-// Z-index compatibility
 $z-index-sticky: $z-sticky;
 $z-index-modal: $z-modal;
 $z-index-snackbar: 1;
-
-// Transitions compatibility - renamed to avoid conflict
-$transition-legacy: $transition-all;
-$transition-fast: $transition-fast;
-
-// Breakpoints compatibility
-$mobile-max: $breakpoint-sm;
-
-// Icon sizes compatibility
-$icon-sm: 17px;
+$transition-legacy-base: $transition-base;
+$mobile-max: 768px;
+$icon-sm: 16px;
 $icon-md: 20px;
-
-// Loader compatibility
 $loader-size: 20px;
-$loader-border-width: 5px;
+$loader-border-width: 3px;
 
 /* ============================================
-   End Legacy Compatibility
+   Utility Mixins
    ============================================ */
 
 @mixin button-style($bg-color, $hover-color: null, $text-color: white) {
-  background: $bg-color;
+  background-color: $bg-color;
   color: $text-color;
   border: none;
-  border-radius: $btn-border-radius;
+  border-radius: $radius-md;
   padding: $btn-padding-md;
-  font-weight: $btn-font-weight;
-  font-size: $text-sm;
+  font-weight: $font-weight-medium;
   cursor: pointer;
-  transition: $transition-all;
+  transition: $transition-base;
   display: inline-flex;
   align-items: center;
   gap: $space-2;
+  text-decoration: none;
   
   @if $hover-color {
     &:hover {
-      background: $hover-color;
-      // transform: translateY(-1px);
+      background-color: $hover-color;
     }
   }
   
-  &:active {
-    transform: translateY(0);
-    background: $hover-color;
-  }
-  
   &:disabled {
-    background: $neutral-300;
-    color: $neutral-500;
+    background-color: $medium-gray;
+    color: $text-light;
     cursor: not-allowed;
-    transform: none;
   }
 }
 
 @mixin input-style() {
   width: 100%;
-  padding: $form-input-padding;
-  border: $form-input-border-width solid $border-light;
-  border-radius: $form-input-border-radius;
-  font-size: $text-sm;
-  background: $bg-primary;
-  transition: $transition-all;
-  color: $text-primary;
+  padding: $input-padding;
+  border: $input-border-width solid $input-border-color;
+  border-radius: $input-border-radius;
+  font-size: $font-size-base;
+  background-color: $white;
+  transition: $transition-base;
   
   &:focus {
     outline: none;
-    border-color: $interactive-primary;
+    border-color: $primary;
     box-shadow: $shadow-focus;
-    transform: translateY(-1px);
-  }
-  
-  &:hover {
-    border-color: $border-medium;
-  }
-  
-  &::placeholder {
-    color: $text-light;
-    font-style: italic;
   }
   
   &:disabled {
-    background: $bg-secondary;
-    color: $text-tertiary;
+    background-color: $light-gray;
+    color: $text-light;
     cursor: not-allowed;
   }
 }
 
 @mixin card-style() {
-  background: $bg-primary;
+  background-color: $white;
   border-radius: $card-border-radius;
   padding: $card-padding;
-  border: $card-border-width solid $border-light;
+  border: 1px solid $card-border-color;
   box-shadow: $shadow-sm;
-  transition: $transition-all;
   
   &:hover {
     box-shadow: $shadow-md;
-    transform: translateY(-1px);
-  }
-}
-
-@mixin section-gradient($color) {
-  @if $color == 'primary' {
-    background: $gradient-subtle-primary;
-    border-color: $primary-200;
-  } @else if $color == 'success' {
-    background: $gradient-subtle-success;
-    border-color: $success-200;
-  } @else if $color == 'warning' {
-    background: $gradient-subtle-warning;
-    border-color: $warning-200;
-  } @else if $color == 'danger' {
-    background: $gradient-subtle-danger;
-    border-color: $danger-200;
-  } @else if $color == 'info' {
-    background: $gradient-subtle-info;
-    border-color: $info-200;
   }
 }

@@ -1,21 +1,28 @@
 @use '../abstracts' as *;
 
-// Accordion styles
+// Simplified Accordion styles
 .accordion-item {
-  @include drag-styles;
+  cursor: move;
+  transition: $transition-base;
 
   &[data-drag-over="true"] {
-    border-top: 3px solid $interactive-primary;
+    border-top: 3px solid $primary;
   }
 
   &.drop-target {
-    border: 2px dashed $interactive-primary;
-    background-color: $primary-50;
+    border: 2px dashed $primary;
+    background-color: $primary-light;
   }
 
   &.future-position {
-    box-shadow: 0 0 0 2px $status-success;
-    background-color: $success-50;
+    box-shadow: 0 0 0 2px $success;
+    background-color: $success-light;
+  }
+
+  &.dragging {
+    border: 2px solid $danger !important;
+    outline: 0 !important;
+    box-shadow: none !important;
   }
 }
 
@@ -28,7 +35,10 @@
     overflow: visible;
 
     .form-wrap.form-builder .cb-wrap.sticky-controls {
-      @include position-sticky(5px, $z-index-modal);
+      position: sticky !important;
+      top: 5px;
+      z-index: $z-sticky;
+      align-self: flex-start;
     }
   }
 }

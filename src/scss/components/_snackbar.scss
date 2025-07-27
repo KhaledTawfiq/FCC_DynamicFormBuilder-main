@@ -1,6 +1,6 @@
 @use '../abstracts' as *;
 
-// Snackbar styles
+// Simplified Snackbar styles
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -8,27 +8,51 @@
   background-color: $black;
   color: $white;
   text-align: center;
-  border-radius: $small-border-radius;
+  border-radius: $radius-sm;
   padding: 16px;
   position: fixed;
-  z-index: $z-index-snackbar;
+  z-index: 1;
   left: 50%;
-  bottom: $spacing-xl;
+  bottom: $space-8;
+  transition: $transition-base;
 
   &.show {
     visibility: visible;
-    @include animation-fade;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
   }
 
   &.success {
-    background-color: $success-color;
+    background-color: $success;
   }
 
   &.error {
-    background-color: $error-color;
+    background-color: $danger;
   }
 
   &.info {
-    background-color: $info-color;
+    background-color: $info;
+  }
+}
+
+// Keyframe animations
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: $space-8;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: $space-8;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
   }
 }

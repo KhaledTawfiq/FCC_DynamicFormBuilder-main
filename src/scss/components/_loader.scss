@@ -1,6 +1,6 @@
 @use '../abstracts' as *;
 
-// Loader component
+// Simplified Loader component
 .loader {
   width: $loader-size;
   height: $loader-size;
@@ -9,7 +9,7 @@
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
-  @include loader-animation;
+  animation: rotation 1s linear infinite;
 }
 
 .loader-container {
@@ -18,6 +18,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #e8d6d68c;
-  @include flex-center;
+  background-color: rgba(232, 214, 214, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Keyframe animation
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -1,11 +1,11 @@
-/* Element Defaults Styles */
+/* Simplified Element Defaults Styles */
 @use '../abstracts' as *;
 
 /* Read-only name field styling */
 .form-builder input[name="name"][readonly],
 .frmb input[name="name"][readonly],
 .edit-form input[name="name"][readonly] {
-  background-color: $bg-tertiary !important;
+  background-color: $medium-gray !important;
   border: 1px solid $border-light !important;
   color: $text-secondary !important;
   cursor: not-allowed !important;
@@ -22,7 +22,7 @@
 
 /* Read-only indicator styling */
 .readonly-indicator {
-  font-size: $text-xs;
+  font-size: 0.75rem;
   color: $text-secondary;
   font-style: italic;
   margin-top: $space-1;
@@ -41,7 +41,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: $text-secondary;
-  font-size: $text-xs;
+  font-size: 0.75rem;
   pointer-events: none;
 }
 
@@ -55,29 +55,29 @@
   border-radius: $radius-sm;
   margin-bottom: $space-3;
   padding: $space-3;
-  background-color: $bg-primary;
-  transition: $transition-all;
+  background-color: $white;
+  transition: $transition-base;
 }
 
 .build-wrap .form-elements .form-element:hover {
-  border-color: $interactive-primary;
+  border-color: $primary;
   box-shadow: $shadow-focus;
 }
 
 /* Toolbar item styling */
 .form-builder-toolbar .toolbar-item {
-  transition: $transition-all;
+  transition: $transition-base;
 }
 
 .form-builder-toolbar .toolbar-item:hover {
-  background-color: $bg-tertiary;
+  background-color: $medium-gray;
   border-radius: $radius-sm;
 }
 
 /* Form element preview styling */
 .form-element-preview {
   padding: $space-4;
-  background-color: $bg-tertiary;
+  background-color: $medium-gray;
   border-radius: $radius-sm;
   margin: $space-3 0;
 }
@@ -96,33 +96,33 @@
 .element-type-indicator {
   display: inline-block;
   padding: $space-1 $space-2;
-  background-color: $interactive-primary;
-  color: $text-primary-inverse;
-  font-size: $text-xs;
-  border-radius: $radius-xs;
+  background-color: $primary;
+  color: $white;
+  font-size: 0.75rem;
+  border-radius: $radius-sm;
   text-transform: uppercase;
   font-weight: bold;
   margin-left: $space-2;
 }
 
-.element-type-indicator.text { background-color: $status-success; }
-.element-type-indicator.number { background-color: $status-warning; color: $neutral-800; }
-.element-type-indicator.select { background-color: $status-info; }
-.element-type-indicator.radio { background-color: $purple-600; }
-.element-type-indicator.checkbox { background-color: $pink-600; }
-.element-type-indicator.file { background-color: $orange-600; }
-.element-type-indicator.date { background-color: $teal-600; }
-.element-type-indicator.button { background-color: $neutral-600; }
+.element-type-indicator.text { background-color: $success; }
+.element-type-indicator.number { background-color: $warning; color: $black; }
+.element-type-indicator.select { background-color: $info; }
+.element-type-indicator.radio { background-color: #9b59b6; }
+.element-type-indicator.checkbox { background-color: #e91e63; }
+.element-type-indicator.file { background-color: #ff9800; }
+.element-type-indicator.date { background-color: #009688; }
+.element-type-indicator.button { background-color: $secondary; }
 
 /* Custom form validation styling */
 .form-element.has-validation-error {
-  border-color: $status-danger;
-  background-color: $danger-50;
+  border-color: $danger;
+  background-color: $danger-light;
 }
 
 .form-element.has-validation-error .validation-message {
-  color: $status-danger;
-  font-size: $text-sm;
+  color: $danger;
+  font-size: $font-size-sm;
   margin-top: $space-1;
   display: block;
 }
@@ -131,16 +131,16 @@
 .form-element.dragging {
   opacity: 0.5;
   transform: rotate(5deg);
-  transition: $transition-all;
+  transition: $transition-base;
 }
 
 .form-element.drag-over {
-  border-color: $interactive-primary;
-  background-color: $primary-50;
+  border-color: $primary;
+  background-color: $primary-light;
 }
 
 /* Form builder responsiveness */
-@media (max-width: $breakpoint-md) {
+@media (max-width: 768px) {
   .build-wrap .form-elements {
     padding: $space-3 $space-2;
   }

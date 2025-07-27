@@ -1,19 +1,19 @@
 @use '../abstracts' as *;
 
-// Section styles
+// Simplified Section styles
 .section-info {
-  background-color: $bg-tertiary;
+  background-color: $medium-gray;
   padding: $space-4 $space-5;
 }
 
 // JSON container
 .json-container {
   white-space: pre-wrap;
-  background-color: $bg-secondary;
+  background-color: $light-gray;
   padding: $space-4;
   border-radius: $radius-sm;
   font-family: $font-mono;
-  font-size: $text-sm;
+  font-size: $font-size-sm;
 }
 
 // Form builder dialog
