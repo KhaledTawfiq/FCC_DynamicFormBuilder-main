@@ -1,5 +1,5 @@
 /**
- * Fixed Custom Form Elements Edit Component - Updated with Address Support
+ * Fixed Custom Form Elements Edit Component
  * Fixes the input field clearing issue with proper TypeScript types
  */
 
@@ -294,7 +294,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
       </div>
 
       {/* Max Length Field */}
-      {['text', 'textarea', 'number', 'address'].includes(formData.type || '') && (
+      {['text', 'textarea', 'number'].includes(formData.type || '') && (
         <div className="form-group">
           <label htmlFor="element_maxlength">Maximum Length</label>
           <input
@@ -365,90 +365,6 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
       </div>
     </div>
   );
-
-  const renderAddressSpecificFields = () => {
-    const isAddressType = formData.type === 'address';
-    
-    if (!isAddressType) return null;
-
-    return (
-      <div className="address-specific-fields">
-        <h4>Address Field Properties</h4>
-        
-        {/* Address Format Field */}
-        <div className="form-group">
-          <label htmlFor="address_format">Address Format</label>
-          <select
-            id="address_format"
-            className="form-control"
-            value={formData.addressFormat || 'single'}
-            onChange={(e) => handleInputChange('addressFormat', e.target.value)}
-          >
-            <option value="single">Single Line Address</option>
-            <option value="multi">Multi-line Address</option>
-            <option value="structured">Structured Address (Street, City, State, ZIP)</option>
-          </select>
-          <small className="form-text text-muted">
-            Choose how the address should be displayed and collected
-          </small>
-        </div>
-
-        {/* Country Restriction Field */}
-        <div className="form-group">
-          <label htmlFor="address_country">Restrict to Country</label>
-          <input
-            id="address_country"
-            type="text"
-            className="form-control"
-            value={formData.restrictToCountry || ''}
-            onChange={(e) => handleInputChange('restrictToCountry', e.target.value)}
-            placeholder="e.g., US, CA, UK (leave empty for all countries)"
-          />
-          <small className="form-text text-muted">
-            Enter country codes to restrict address to specific countries
-          </small>
-        </div>
-
-        {/* Enable Autocomplete Field */}
-        <div className="form-group">
-          <div className="form-check">
-            <input
-              id="address_autocomplete"
-              type="checkbox"
-              className="form-check-input"
-              checked={formData.enableAutocomplete !== false}
-              onChange={(e) => handleInputChange('enableAutocomplete', e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="address_autocomplete">
-              Enable Address Autocomplete
-            </label>
-          </div>
-          <small className="form-text text-muted">
-            Allow users to select from suggested addresses while typing
-          </small>
-        </div>
-
-        {/* Validate Address Field */}
-        <div className="form-group">
-          <div className="form-check">
-            <input
-              id="address_validate"
-              type="checkbox"
-              className="form-check-input"
-              checked={formData.validateAddress || false}
-              onChange={(e) => handleInputChange('validateAddress', e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="address_validate">
-              Validate Address
-            </label>
-          </div>
-          <small className="form-text text-muted">
-            Check if the entered address is valid and exists
-          </small>
-        </div>
-      </div>
-    );
-  };
 
   const renderOptionsFields = () => {
     const hasOptions = ['select', 'radio-group', 'checkbox-group', 'autocomplete'].includes(formData.type || '');
@@ -547,7 +463,6 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
                   <option value="minlength">Minimum Length</option>
                   <option value="maxlength">Maximum Length</option>
                   <option value="file">File</option>
-                  <option value="address">Address</option>
                 </select>
               </div>
               <div className="col-md-7">
@@ -591,7 +506,6 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
       <div className="edit-form-content">
         {renderBasicFields()}
         {renderAdvancedFields()}
-        {renderAddressSpecificFields()}
         {renderOptionsFields()}
         {renderValidationFields()}
       </div>

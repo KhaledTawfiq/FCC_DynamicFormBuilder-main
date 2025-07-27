@@ -6,8 +6,8 @@ import { processFormData, enhanceFormData } from '../../config/elementDefaults';
 import FormElementsEdit from '../FormElementsEdit';
 
 /**
- * Section Component - React Native Implementation
- * Represents a single form section using react-form-builder2
+ * Section Component - React Native Implementation with Address Support
+ * Fixed TypeScript types for react-form-builder2 compatibility
  */
 const SectionReact: React.FC<SectionProps> = ({ 
   section, 
@@ -344,12 +344,14 @@ const SectionReact: React.FC<SectionProps> = ({
               saveAlways={true}
               editMode={true}
               locale="en"
-              renderEditForm={(props) => {
+              renderEditForm={(props: any) => {
                 console.log('Edit form props:', props);
+                // Handle the case where props might be a string or object
+                const elementData = typeof props === 'object' ? props.element || props : {};
                 return (
                   <FormElementsEdit
                     {...props}
-                    element={props.element || props}
+                    element={elementData}
                   />
                 );
               }}
@@ -415,13 +417,6 @@ const SectionReact: React.FC<SectionProps> = ({
                   name: 'Autocomplete',
                   static: false,
                   icon: 'fas fa-tags',
-                  content: ''
-                },
-                {
-                  key: 'Address',
-                  name: 'Address Field',
-                  static: false,
-                  icon: 'fas fa-map-marker-alt',
                   content: ''
                 },
                 {

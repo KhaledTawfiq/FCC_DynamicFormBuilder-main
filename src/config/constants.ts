@@ -14,7 +14,7 @@ export const FORM_BUILDER_CONFIG = {
     "radio-group",
     "checkbox-group",
     "autocomplete",
-    "address", // NEW: Added address control
+    "address",
     "hidden",
     "paragraph",
     "header",
@@ -74,28 +74,6 @@ export const FORM_BUILDER_CONFIG = {
     CONDITION: {
       label: "condition",
       value: ""
-    },
-    // NEW: Address-specific attributes
-    ADDRESS_FORMAT: {
-      label: "addressFormat",
-      value: "single",
-      options: {
-        single: "Single Line",
-        multi: "Multi-line",
-        structured: "Structured"
-      }
-    },
-    RESTRICT_TO_COUNTRY: {
-      label: "restrictToCountry",
-      value: ""
-    },
-    ENABLE_AUTOCOMPLETE: {
-      label: "enableAutocomplete",
-      value: true
-    },
-    VALIDATE_ADDRESS: {
-      label: "validateAddress",
-      value: false
     },
     EVENTS: {
       label: "Events",
