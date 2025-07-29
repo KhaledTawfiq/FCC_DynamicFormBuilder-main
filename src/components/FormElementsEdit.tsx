@@ -1,11 +1,11 @@
 /**
- * Fixed Custom Form Elements Edit Component
- * Fixes the input field clearing issue with proper TypeScript types
+ * FormElementsEdit Component with Minimal DefaultValueAttribute Integration
+ * Just imports and uses the external DefaultValueAttribute component
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { generateElementName } from '../config/elementDefaults';
-
+import DefaultValueAttribute from './custom-attrs/DefaultValueAttribute';
 interface ValidationRule {
   type: string;
   message: string;
@@ -23,12 +23,14 @@ interface FormElementData {
   field_name?: string;
   element?: string;
   type?: string;
+  key?: string; // Add this
   label?: string;
   description?: string;
   placeholder?: string;
   required?: boolean;
   className?: string;
   defaultValue?: string;
+  defaultValues?: string[];
   maxlength?: number;
   access?: boolean;
   other?: string;
@@ -36,6 +38,9 @@ interface FormElementData {
   condition?: string;
   values?: OptionValue[];
   validations?: ValidationRule[];
+  // Address-specific properties
+  includeAddressCountry?: boolean;
+  includeAddressApartment?: boolean;
   [key: string]: any;
 }
 
@@ -263,7 +268,11 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
     </div>
   );
 
-  const renderAdvancedFields = () => (
+const renderAdvancedFields = () => {
+  // Check if this is an address component
+  const isAddressComponent = formData.key === 'AddressComponent';
+
+  return (
     <div className="advanced-fields">
       <h4>Advanced Properties</h4>
       
@@ -280,18 +289,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
         />
       </div>
 
-      {/* Default Value Field */}
-      <div className="form-group">
-        <label htmlFor="element_default_value">Default Value</label>
-        <input
-          id="element_default_value"
-          type="text"
-          className="form-control"
-          value={formData.defaultValue || ''}
-          onChange={(e) => handleInputChange('defaultValue', e.target.value)}
-          placeholder="Enter default value"
-        />
-      </div>
+      {/* Default Value Field - REMOVED - Now handled by external component */}
 
       {/* Max Length Field */}
       {['text', 'textarea', 'number'].includes(formData.type || '') && (
@@ -307,6 +305,49 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
             min="0"
           />
         </div>
+      )}
+
+      {/* Address-specific options - Show for AddressComponent */}
+      {isAddressComponent && (
+        <>
+          {/* Include Address Country */}
+          <div className="form-group">
+            <div className="form-check">
+              <input
+                id="element_include_country"
+                type="checkbox"
+                className="form-check-input"
+                checked={formData.includeAddressCountry !== false}
+                onChange={(e) => {
+                  console.log('Country checkbox changed to:', e.target.checked);
+                  handleInputChange('includeAddressCountry', e.target.checked);
+                }}
+              />
+              <label className="form-check-label" htmlFor="element_include_country">
+                Include Country Field
+              </label>
+            </div>
+          </div>
+
+          {/* Include Address Apartment */}
+          <div className="form-group">
+            <div className="form-check">
+              <input
+                id="element_include_apartment"
+                type="checkbox"
+                className="form-check-input"
+                checked={formData.includeAddressApartment !== false}
+                onChange={(e) => {
+                  console.log('Apartment checkbox changed to:', e.target.checked);
+                  handleInputChange('includeAddressApartment', e.target.checked);
+                }}
+              />
+              <label className="form-check-label" htmlFor="element_include_apartment">
+                Include Apartment/Unit Field
+              </label>
+            </div>
+          </div>
+        </>
       )}
 
       {/* Access Field */}
@@ -365,6 +406,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
       </div>
     </div>
   );
+};
 
   const renderOptionsFields = () => {
     const hasOptions = ['select', 'radio-group', 'checkbox-group', 'autocomplete'].includes(formData.type || '');
@@ -505,6 +547,13 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
     <div className={`custom-form-elements-edit ${className}`}>
       <div className="edit-form-content">
         {renderBasicFields()}
+        
+        {/* ✅ External DefaultValueAttribute Component - ONLY default value logic */}
+        <DefaultValueAttribute
+          formData={formData}
+          onInputChange={handleInputChange}
+        />
+        
         {renderAdvancedFields()}
         {renderOptionsFields()}
         {renderValidationFields()}

@@ -377,7 +377,9 @@ const SectionReact: React.FC<SectionProps> = ({
       static: false,
       props: {},
       label: "Address Field",
-    }
+      includeAddressCountry: true,
+      includeAddressApartment: true,
+    },
   ];
 
   return (

@@ -39,7 +39,10 @@ const cleanElementData = (element: any) => {
     // Keep all other properties
     ...cleanElement
   } = element;
-
+  // Handle special type mapping for custom components
+  if (element.key === 'AddressComponent' || element.element === 'AddressComponent') {
+    cleanElement.type = 'address';
+  }
   return cleanElement;
 };
 

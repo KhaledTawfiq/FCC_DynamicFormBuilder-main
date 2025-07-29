@@ -6,6 +6,7 @@ import LoadingSpinner from './UI/LoadingSpinner';
 import Snackbar from './Snackbar/Snackbar';
 import JsonModal from './JsonModal/JsonModal';
 import FormConfiguration from './FormConfiguration/FormConfiguration';
+import GroupIdComponent from './custom-attrs/GroupId';
 
 /**
  * FormBuilder Component - React Native Implementation
@@ -179,6 +180,7 @@ const FormBuilderReact: React.FC = () => {
           jsonData={generatedJsonData}
         />
       )}
+      <GroupIdComponent />
     </div>
   );
 };

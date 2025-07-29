@@ -289,7 +289,7 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     values: [],
     validations: [],
     condition: ''
-  }
+  },
 };
 
 /**
@@ -297,7 +297,7 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
  */
 export const applyElementDefaults = (elementType: string, existingElement?: any): any => {
   const defaults = ELEMENT_DEFAULTS[elementType];
-  
+
   if (!defaults) {
     console.warn(`No defaults found for element type: ${elementType}`);
     return existingElement || {};
@@ -305,7 +305,7 @@ export const applyElementDefaults = (elementType: string, existingElement?: any)
 
   // Generate unique name
   const elementName = generateElementName(elementType);
-  
+
   // Merge defaults with existing element properties
   const element = {
     ...defaults,
@@ -329,20 +329,20 @@ export const processFormData = (data: any[]): any[] => {
 
   return data.map((element, index) => {
     // If element doesn't have a name or has a default/empty name, apply defaults
-    if (!element.name || 
-        element.name === '' || 
-        element.name === 'text_input' || 
-        element.name === 'textarea' ||
-        element.name === 'number_input' ||
-        element.name.startsWith('element_')) {
-      
+    if (!element.name ||
+      element.name === '' ||
+      element.name === 'text_input' ||
+      element.name === 'textarea' ||
+      element.name === 'number_input' ||
+      element.name.startsWith('element_')) {
+
       // Determine element type from element structure
       let elementType = element.element || element.type || 'TextInput';
-      
+
       // Map common element names to our configuration keys
       const typeMapping: Record<string, string> = {
         'TextInput': 'TextInput',
-        'TextArea': 'TextArea', 
+        'TextArea': 'TextArea',
         'NumberInput': 'NumberInput',
         'Dropdown': 'Dropdown',
         'RadioButtons': 'RadioButtons',
@@ -352,14 +352,14 @@ export const processFormData = (data: any[]): any[] => {
         'FileUpload': 'FileUpload',
         'DatePicker': 'DatePicker',
         'Header': 'Header',
-        'Paragraph': 'Paragraph'
+        'Paragraph': 'Paragraph',
       };
-      
+
       elementType = typeMapping[elementType] || elementType;
-      
+
       return applyElementDefaults(elementType, element);
     }
-    
+
     return element;
   });
 };
