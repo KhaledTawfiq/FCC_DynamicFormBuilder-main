@@ -1,0 +1,476 @@
+/* ============================================
+   Modals - Modal Dialog Components
+   ============================================ */
+
+@use '../abstracts' as *;
+
+/* ============================================
+   Modal Base Styles
+   ============================================ */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: map-get($z-indexes, modal);
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+
+  &.fade {
+    transition: opacity 0.15s linear;
+  }
+
+  &.show {
+    display: block;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: map-get($z-indexes, modal-backdrop);
+  width: 100vw;
+  height: 100vh;
+  background-color: $modal-backdrop-bg;
+
+  &.fade {
+    opacity: 0;
+  }
+
+  &.show {
+    opacity: 1;
+  }
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: map-get($spacers, 4);
+  pointer-events: none;
+
+  .modal.fade & {
+    transition: transform 0.3s ease-out;
+    transform: translate(0, -50px);
+  }
+
+  .modal.show & {
+    transform: none;
+  }
+
+  // Modal sizes
+  &.modal-sm {
+    max-width: 300px;
+  }
+
+  &.modal-lg {
+    max-width: 800px;
+  }
+
+  &.modal-xl {
+    max-width: 1140px;
+  }
+
+  // Fullscreen modal
+  &.modal-fullscreen {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+
+    .modal-content {
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+    }
+  }
+
+  // Responsive fullscreen
+  @each $breakpoint in map-keys($breakpoints) {
+    $infix: if($breakpoint == xs, "", "-#{$breakpoint}");
+
+    &.modal-fullscreen#{$infix}-down {
+      @include media-breakpoint-down($breakpoint) {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+
+        .modal-content {
+          height: 100%;
+          border: 0;
+          border-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+.modal-dialog-scrollable {
+  height: calc(100% - #{map-get($spacers, 4)} * 2);
+
+  .modal-content {
+    max-height: 100%;
+    overflow: hidden;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+  }
+}
+
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  min-height: calc(100% - #{map-get($spacers, 4)} * 2);
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: $modal-content-bg;
+  background-clip: padding-box;
+  border: 1px solid $border-color-light;
+  border-radius: $modal-border-radius;
+  box-shadow: map-get($box-shadows, xl);
+  outline: 0;
+}
+
+/* ============================================
+   Modal Header
+   ============================================ */
+
+.modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: map-get($spacers, 4) map-get($spacers, 5);
+  border-bottom: 1px solid $border-color;
+  border-top-left-radius: calc(#{$modal-border-radius} - 1px);
+  border-top-right-radius: calc(#{$modal-border-radius} - 1px);
+
+  .btn-close {
+    padding: calc(#{map-get($spacers, 4)} * 0.5);
+    margin: calc(-0.5 * #{map-get($spacers, 4)}) calc(-0.5 * #{map-get($spacers, 5)}) calc(-0.5 * #{map-get($spacers, 4)}) auto;
+  }
+}
+
+.modal-title {
+  margin-bottom: 0;
+  line-height: map-get($line-heights, normal);
+  font-size: map-get($font-sizes, xl);
+  font-weight: map-get($font-weights, semibold);
+  color: $text-heading;
+}
+
+/* ============================================
+   Modal Body
+   ============================================ */
+
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: map-get($spacers, 5);
+}
+
+/* ============================================
+   Modal Footer
+   ============================================ */
+
+.modal-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: calc(#{map-get($spacers, 5)} - #{map-get($spacers, 1)} * 0.5);
+  border-top: 1px solid $border-color;
+  border-bottom-right-radius: calc(#{$modal-border-radius} - 1px);
+  border-bottom-left-radius: calc(#{$modal-border-radius} - 1px);
+
+  > * {
+    margin: calc(#{map-get($spacers, 1)} * 0.5);
+  }
+}
+
+/* ============================================
+   JSON Modal Specific Styles
+   ============================================ */
+
+.json-modal-content {
+  flex: 1;
+  overflow: auto;
+  background-color: $gray-900;
+  color: $gray-100;
+  font-family: $font-family-mono;
+  font-size: map-get($font-sizes, sm);
+  line-height: map-get($line-heights, relaxed);
+  padding: map-get($spacers, 4);
+  margin: 0;
+  white-space: pre-wrap;
+  border-radius: 0;
+  border: none;
+
+  // Syntax highlighting for JSON
+  .json-key {
+    color: #e06c75;
+  }
+
+  .json-string {
+    color: #98c379;
+  }
+
+  .json-number {
+    color: #d19a66;
+  }
+
+  .json-boolean {
+    color: #56b6c2;
+  }
+
+  .json-null {
+    color: #c678dd;
+  }
+
+  // Scrollbar styling
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $gray-800;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $gray-600;
+    border-radius: map-get($border-radius, base);
+
+    &:hover {
+      background: $gray-500;
+    }
+  }
+}
+
+/* ============================================
+   Loading Modal
+   ============================================ */
+
+.modal-loading {
+  .modal-body {
+    @include flex-center;
+    flex-direction: column;
+    gap: map-get($spacers, 4);
+    padding: map-get($spacers, 8);
+
+    .loading-spinner {
+      @include loading-spinner(3rem, 0.3em, $primary);
+    }
+
+    .loading-text {
+      color: $text-primary;
+      font-size: map-get($font-sizes, lg);
+      text-align: center;
+    }
+  }
+}
+
+/* ============================================
+   Confirmation Modal
+   ============================================ */
+
+.modal-confirmation {
+  .modal-body {
+    text-align: center;
+    padding: map-get($spacers, 8) map-get($spacers, 5);
+
+    .confirmation-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto map-get($spacers, 4);
+      border-radius: 50%;
+      @include flex-center;
+
+      &.icon-warning {
+        background-color: $warning-light;
+        color: $warning;
+      }
+
+      &.icon-danger {
+        background-color: $danger-light;
+        color: $danger;
+      }
+
+      &.icon-success {
+        background-color: $success-light;
+        color: $success;
+      }
+
+      &.icon-info {
+        background-color: $info-light;
+        color: $info;
+      }
+
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .confirmation-title {
+      font-size: map-get($font-sizes, xl);
+      font-weight: map-get($font-weights, semibold);
+      margin-bottom: map-get($spacers, 3);
+      color: $text-heading;
+    }
+
+    .confirmation-message {
+      color: $text-muted;
+      margin-bottom: 0;
+    }
+  }
+
+  .modal-footer {
+    justify-content: center;
+    gap: map-get($spacers, 3);
+  }
+}
+
+/* ============================================
+   Responsive Modal Styles
+   ============================================ */
+
+@include media-breakpoint-up(sm) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: map-get($spacers, 7) auto;
+  }
+
+  .modal-dialog-scrollable {
+    height: calc(100% - #{map-get($spacers, 7)} * 2);
+  }
+
+  .modal-dialog-centered {
+    min-height: calc(100% - #{map-get($spacers, 7)} * 2);
+  }
+
+  .modal-sm {
+    max-width: 300px;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .modal-lg,
+  .modal-xl {
+    max-width: 800px;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .modal-xl {
+    max-width: 1140px;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .modal-dialog {
+    margin: map-get($spacers, 2);
+  }
+
+  .modal-header {
+    padding: map-get($spacers, 3) map-get($spacers, 4);
+  }
+
+  .modal-body {
+    padding: map-get($spacers, 4);
+  }
+
+  .modal-footer {
+    padding: map-get($spacers, 3);
+    flex-direction: column;
+
+    > * {
+      margin: map-get($spacers, 1) 0;
+      width: 100%;
+    }
+  }
+
+  .json-modal-content {
+    font-size: 0.75rem;
+    padding: map-get($spacers, 3);
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .modal-dialog {
+    margin: map-get($spacers, 1);
+  }
+
+  .modal-title {
+    font-size: map-get($font-sizes, lg);
+  }
+
+  .modal-confirmation {
+    .modal-body {
+      padding: map-get($spacers, 6) map-get($spacers, 4);
+
+      .confirmation-icon {
+        width: 48px;
+        height: 48px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .confirmation-title {
+        font-size: map-get($font-sizes, lg);
+      }
+    }
+  }
+}
+
+/* ============================================
+   Modal Animations
+   ============================================ */
+
+.modal-slide-down {
+  .modal-dialog {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out;
+  }
+
+  &.show .modal-dialog {
+    transform: translateY(0);
+  }
+}
+
+.modal-zoom {
+  .modal-dialog {
+    transform: scale(0.7);
+    transition: transform 0.3s ease-out;
+  }
+
+  &.show .modal-dialog {
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .modal,
+  .modal-backdrop {
+    display: none !important;
+  }
+}

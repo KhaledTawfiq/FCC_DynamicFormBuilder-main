@@ -4,8 +4,10 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { generateElementName } from '../config/elementDefaults';
 import DefaultValueAttribute from './custom-attrs/DefaultValueAttribute';
+import GroupIdComponent from './custom-attrs/GroupId';
+import { generateElementName, EventRule, ReadOnlyCondition } from '../config/elementDefaults';
+
 interface ValidationRule {
   type: string;
   message: string;
@@ -31,6 +33,8 @@ interface FormElementData {
   className?: string;
   defaultValue?: string;
   defaultValues?: string[];
+  readOnly?: boolean;
+  readOnlyCondition?: ReadOnlyCondition;
   maxlength?: number;
   access?: boolean;
   other?: string;
@@ -38,6 +42,7 @@ interface FormElementData {
   condition?: string;
   values?: OptionValue[];
   validations?: ValidationRule[];
+  Events?: EventRule[];
   // Address-specific properties
   includeAddressCountry?: boolean;
   includeAddressApartment?: boolean;
@@ -160,6 +165,8 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
         updatedElement[field].push({ value: '', text: '', key: '' });
       } else if (field === 'validations') {
         updatedElement[field].push({ type: '', message: '' });
+      } else if (field === 'Events') {
+        updatedElement[field].push({ Type: 'getOptions', On: 'render', Url: '', Parameters: '' });
       }
       
       if (updateElement) {
@@ -265,6 +272,22 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
           </label>
         </div>
       </div>
+
+      {/* Read Only Field */}
+      <div className="form-group">
+        <div className="form-check">
+          <input
+            id="element_readonly"
+            type="checkbox"
+            className="form-check-input"
+            checked={formData.readOnly || false}
+            onChange={(e) => handleInputChange('readOnly', e.target.checked)}
+          />
+          <label className="form-check-label" htmlFor="element_readonly">
+            Read Only
+          </label>
+        </div>
+      </div>
     </div>
   );
 
@@ -290,6 +313,59 @@ const renderAdvancedFields = () => {
       </div>
 
       {/* Default Value Field - REMOVED - Now handled by external component */}
+      {/* Default Value Field with Token Support for Text Input */}
+      {formData.type === 'text' ? (
+        <div className="form-group">
+          <label htmlFor="element_default_value">Default Value (with Token Support)</label>
+          <div className="row">
+            <div className="col-md-4">
+              <select
+                className="form-control form-control-sm"
+                onChange={(e) => {
+                  const entity = e.target.value;
+                  if (entity) {
+                    const currentValue = formData.defaultValue || '';
+                    const tokenPrefix = `{${entity}.`;
+                    if (!currentValue.includes(tokenPrefix)) {
+                      handleInputChange('defaultValue', currentValue + tokenPrefix + '}');
+                    }
+                  }
+                }}
+              >
+                <option value="">Select Entity</option>
+                <option value="client">Client</option>
+                <option value="company">Company</option>
+                <option value="careerAdvisor">Career Advisor</option>
+              </select>
+            </div>
+            <div className="col-md-8">
+              <input
+                id="element_default_value"
+                type="text"
+                className="form-control form-control-sm"
+                value={formData.defaultValue || ''}
+                onChange={(e) => handleInputChange('defaultValue', e.target.value)}
+                placeholder="Enter default value or use tokens like {careerAdvisor.FirstName}"
+              />
+            </div>
+          </div>
+          <small className="form-text text-muted">
+            💡 Use tokens like {'{careerAdvisor.FirstName}'} or {'{client.LastName}'} for dynamic values
+          </small>
+        </div>
+      ) : (
+        <div className="form-group">
+          <label htmlFor="element_default_value">Default Value</label>
+          <input
+            id="element_default_value"
+            type="text"
+            className="form-control"
+            value={formData.defaultValue || ''}
+            onChange={(e) => handleInputChange('defaultValue', e.target.value)}
+            placeholder="Enter default value"
+          />
+        </div>
+      )}
 
       {/* Max Length Field */}
       {['text', 'textarea', 'number'].includes(formData.type || '') && (
@@ -379,17 +455,18 @@ const renderAdvancedFields = () => {
         />
       </div>
 
-      {/* Group ID Field */}
+      {/* Group ID Field - REPLACED WITH CUSTOM COMPONENT */}
       <div className="form-group">
         <label htmlFor="element_group_id">Group ID</label>
-        <input
-          id="element_group_id"
-          type="text"
-          className="form-control"
-          value={formData.groupId || ''}
-          onChange={(e) => handleInputChange('groupId', e.target.value)}
-          placeholder="Enter group identifier"
-        />
+        <div className="group-id-wrapper">
+          <GroupIdComponent 
+            selectedValue={formData.groupId || ''}
+            onSelectionChange={(selectedId, selectedName) => {
+              console.log('GroupId selection changed:', { id: selectedId, name: selectedName });
+              handleInputChange('groupId', selectedId);
+            }}
+          />
+        </div>
       </div>
 
       {/* Condition Field */}
@@ -403,6 +480,64 @@ const renderAdvancedFields = () => {
           onChange={(e) => handleInputChange('condition', e.target.value)}
           placeholder="Enter conditional logic (e.g., show if other_field == 'value')"
         />
+      </div>
+
+      {/* Read Only Condition Fields */}
+      <div className="form-group">
+        <h5>Read Only Condition</h5>
+        <div className="row">
+          <div className="col-md-4">
+            <label>Field</label>
+            <input
+              type="text"
+              className="form-control form-control-sm"
+              value={formData.readOnlyCondition?.field || ''}
+              onChange={(e) => {
+                const updatedCondition = {
+                  ...formData.readOnlyCondition,
+                  field: e.target.value
+                };
+                handleInputChange('readOnlyCondition', updatedCondition);
+              }}
+              placeholder="Field name or token like {careerAdvisor.FirstName}"
+            />
+          </div>
+          <div className="col-md-4">
+            <label>Type</label>
+            <select
+              className="form-control form-control-sm"
+              value={formData.readOnlyCondition?.type || '10'}
+              onChange={(e) => {
+                const updatedCondition = {
+                  ...formData.readOnlyCondition,
+                  type: e.target.value
+                };
+                handleInputChange('readOnlyCondition', updatedCondition);
+              }}
+            >
+              <option value="10">hasValue</option>
+            </select>
+          </div>
+          <div className="col-md-4">
+            <label>Value</label>
+            <input
+              type="text"
+              className="form-control form-control-sm"
+              value={formData.readOnlyCondition?.value || ''}
+              onChange={(e) => {
+                const updatedCondition = {
+                  ...formData.readOnlyCondition,
+                  value: e.target.value
+                };
+                handleInputChange('readOnlyCondition', updatedCondition);
+              }}
+              placeholder="Comparison value"
+            />
+          </div>
+        </div>
+        <small className="form-text text-muted">
+          💡 Field supports tokens like {'{careerAdvisor.FirstName}'} for dynamic comparisons
+        </small>
       </div>
     </div>
   );
@@ -543,6 +678,82 @@ const renderAdvancedFields = () => {
     );
   };
 
+  const renderEventsFields = () => {
+    const events = formData.Events || [];
+    
+    return (
+      <div className="events-fields">
+        <h4>Events</h4>
+        
+        {events.map((event: EventRule, index: number) => (
+          <div key={index} className="event-item border p-3 mb-2 rounded">
+            <div className="row">
+              <div className="col-md-3">
+                <label>Type</label>
+                <select
+                  className="form-control form-control-sm"
+                  value={event?.Type || ''}
+                  onChange={(e) => handleArrayChange('Events', index, 'Type', e.target.value)}
+                >
+                  <option value="getOptions">getOptions</option>
+                </select>
+              </div>
+              <div className="col-md-3">
+                <label>Trigger</label>
+                <select
+                  className="form-control form-control-sm"
+                  value={event?.On || ''}
+                  onChange={(e) => handleArrayChange('Events', index, 'On', e.target.value)}
+                >
+                  <option value="render">render</option>
+                </select>
+              </div>
+              <div className="col-md-2">
+                <label>URL</label>
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  value={event?.Url || ''}
+                  onChange={(e) => handleArrayChange('Events', index, 'Url', e.target.value)}
+                  placeholder="API endpoint"
+                />
+              </div>
+              <div className="col-md-3">
+                <label>Parameters</label>
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  value={event?.Parameters || ''}
+                  onChange={(e) => handleArrayChange('Events', index, 'Parameters', e.target.value)}
+                  placeholder="Query parameters"
+                />
+              </div>
+              <div className="col-md-1">
+                <label>&nbsp;</label>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-danger d-block"
+                  onClick={() => removeArrayItem('Events', index)}
+                  title="Remove event"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        <button
+          type="button"
+          className="btn btn-sm btn-primary"
+          onClick={() => addArrayItem('Events')}
+        >
+          + Add Event
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className={`custom-form-elements-edit ${className}`}>
       <div className="edit-form-content">
@@ -557,6 +768,7 @@ const renderAdvancedFields = () => {
         {renderAdvancedFields()}
         {renderOptionsFields()}
         {renderValidationFields()}
+        {renderEventsFields()}
       </div>
     </div>
   );

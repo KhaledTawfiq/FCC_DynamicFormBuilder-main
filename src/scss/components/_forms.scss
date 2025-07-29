@@ -1,0 +1,727 @@
+/* ============================================
+   Forms - Unified Form Component Styles
+   ============================================ */
+
+@use '../abstracts' as *;
+
+/* ============================================
+   Base Form Styles
+   ============================================ */
+
+.form-group {
+  margin-bottom: map-get($spacers, 6);
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: map-get($spacers, 2);
+  font-weight: map-get($font-weights, medium);
+  color: $text-heading;
+  font-size: map-get($font-sizes, sm);
+}
+
+.form-text {
+  margin-top: map-get($spacers, 1);
+  font-size: map-get($font-sizes, sm);
+  color: $text-muted;
+}
+
+/* ============================================
+   Form Controls
+   ============================================ */
+
+.form-control {
+  @include form-control-base;
+
+  // Size variants
+  &.form-control-sm {
+    @include button-size(
+      map-get($spacers, 1), 
+      map-get($spacers, 2), 
+      map-get($font-sizes, sm), 
+      map-get($border-radius, sm)
+    );
+  }
+
+  &.form-control-lg {
+    @include button-size(
+      map-get($spacers, 4), 
+      map-get($spacers, 5), 
+      map-get($font-sizes, lg), 
+      map-get($border-radius, lg)
+    );
+  }
+
+  // Validation states
+  &.is-valid {
+    @include form-control-validation($success);
+  }
+
+  &.is-invalid {
+    @include form-control-validation($danger);
+  }
+
+  // Readonly variant
+  &.readonly-field {
+    background-color: $input-disabled-bg !important;
+    border-color: $border-color-light !important;
+    color: $text-muted !important;
+    cursor: not-allowed !important;
+    
+    &:focus {
+      box-shadow: none !important;
+      border-color: $border-color-light !important;
+    }
+  }
+}
+
+/* ============================================
+   Select Elements
+   ============================================ */
+
+.form-select {
+  @include form-select;
+
+  // Size variants
+  &.form-select-sm {
+    @include button-size(
+      map-get($spacers, 1), 
+      map-get($spacers, 2), 
+      map-get($font-sizes, sm), 
+      map-get($border-radius, sm)
+    );
+    padding-right: calc(#{map-get($spacers, 2)} + 1.5rem);
+  }
+
+  &.form-select-lg {
+    @include button-size(
+      map-get($spacers, 4), 
+      map-get($spacers, 5), 
+      map-get($font-sizes, lg), 
+      map-get($border-radius, lg)
+    );
+    padding-right: calc(#{map-get($spacers, 5)} + 2.5rem);
+  }
+
+  // Validation states
+  &.is-valid {
+    @include form-control-validation($success);
+  }
+
+  &.is-invalid {
+    @include form-control-validation($danger);
+  }
+}
+
+/* ============================================
+   Textarea Elements
+   ============================================ */
+
+.form-textarea {
+  @include form-textarea;
+
+  // Size variants
+  &.form-textarea-sm {
+    @include button-size(
+      map-get($spacers, 1), 
+      map-get($spacers, 2), 
+      map-get($font-sizes, sm), 
+      map-get($border-radius, sm)
+    );
+  }
+
+  &.form-textarea-lg {
+    @include button-size(
+      map-get($spacers, 4), 
+      map-get($spacers, 5), 
+      map-get($font-sizes, lg), 
+      map-get($border-radius, lg)
+    );
+  }
+}
+
+/* ============================================
+   Checkbox and Radio Elements
+   ============================================ */
+
+.form-check {
+  @include form-check;
+
+  // Inline variant
+  &.form-check-inline {
+    @include form-check-inline;
+  }
+
+  // Checkbox specific styles
+  .form-check-input[type="checkbox"] {
+    border-radius: map-get($border-radius, base);
+
+    &:checked {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3e%3c/svg%3e");
+    }
+
+    &:indeterminate {
+      background-color: $primary;
+      border-color: $primary;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3e%3cpath fill-rule='evenodd' d='M4 10a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1z' clip-rule='evenodd'/%3e%3c/svg%3e");
+    }
+  }
+
+  // Radio specific styles
+  .form-check-input[type="radio"] {
+    border-radius: 50%;
+
+    &:checked {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='white'/%3e%3c/svg%3e");
+    }
+  }
+}
+
+/* ============================================
+   Form Validation Feedback
+   ============================================ */
+
+.valid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: map-get($spacers, 1);
+  font-size: map-get($font-sizes, sm);
+  color: $success;
+
+  .was-validated &,
+  .is-valid ~ & {
+    display: block;
+  }
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: map-get($spacers, 1);
+  font-size: map-get($font-sizes, sm);
+  color: $danger;
+
+  .was-validated &,
+  .is-invalid ~ & {
+    display: block;
+  }
+}
+
+.valid-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 5;
+  display: none;
+  max-width: 100%;
+  padding: map-get($spacers, 1) map-get($spacers, 2);
+  margin-top: 0.1rem;
+  font-size: map-get($font-sizes, sm);
+  color: $white;
+  background-color: rgba($success, 0.9);
+  border-radius: map-get($border-radius, base);
+
+  .was-validated &,
+  .is-valid ~ & {
+    display: block;
+  }
+}
+
+.invalid-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 5;
+  display: none;
+  max-width: 100%;
+  padding: map-get($spacers, 1) map-get($spacers, 2);
+  margin-top: 0.1rem;
+  font-size: map-get($font-sizes, sm);
+  color: $white;
+  background-color: rgba($danger, 0.9);
+  border-radius: map-get($border-radius, base);
+
+  .was-validated &,
+  .is-invalid ~ & {
+    display: block;
+  }
+}
+
+/* ============================================
+   Form Builder Specific Styles
+   ============================================ */
+
+.form-builder-container {
+  .form-group {
+    margin-bottom: map-get($spacers, 6);
+
+    .form-label {
+      font-weight: map-get($font-weights, semibold);
+      margin-bottom: map-get($spacers, 2);
+      display: block;
+      color: $text-heading;
+      font-size: map-get($font-sizes, sm);
+    }
+
+    .form-control,
+    .form-select {
+      transition: $transition-base;
+
+      &:hover:not(:disabled):not([readonly]) {
+        border-color: $border-color-dark;
+      }
+    }
+  }
+}
+
+/* ============================================
+   Form Element Edit Styles
+   ============================================ */
+
+.form-elements-edit {
+  padding: 0;
+  overflow: hidden;
+  background-color: $surface-bg;
+  border-radius: map-get($border-radius, lg);
+  border: 1px solid $border-color-light;
+
+  .edit-form-content {
+    padding: map-get($spacers, 6);
+    overflow-y: auto;
+  }
+
+  // Form sections
+  .form-section {
+    background-color: $gray-100;
+    padding: map-get($spacers, 6);
+    border-radius: map-get($border-radius, lg);
+    margin: map-get($spacers, 4) 0;
+    border: 1px solid $border-color-light;
+    transition: $transition-base;
+
+    h4 {
+      color: $text-heading;
+      font-size: map-get($font-sizes, lg);
+      margin-bottom: map-get($spacers, 4);
+      padding-bottom: map-get($spacers, 2);
+      border-bottom: 2px solid $border-color-light;
+      font-weight: map-get($font-weights, bold);
+      display: flex;
+      align-items: center;
+      gap: map-get($spacers, 2);
+    }
+
+    // Section color variants
+    &.basic-section h4 {
+      color: $primary;
+      border-bottom-color: $primary;
+    }
+
+    &.advanced-section h4 {
+      color: $success;
+      border-bottom-color: $success;
+    }
+
+    &.options-section h4 {
+      color: $warning;
+      border-bottom-color: $warning;
+    }
+
+    &.validation-section h4 {
+      color: $danger;
+      border-bottom-color: $danger;
+    }
+
+    &.default-value-section {
+      background-color: #f8f9ff;
+      border-color: #d1d9e6;
+
+      h4 {
+        color: #4c63d2;
+        border-bottom-color: #4c63d2;
+      }
+    }
+  }
+
+  // Form items (options, validations, etc.)
+  .form-item {
+    background-color: $surface-bg;
+    border: 1px solid $border-color-light;
+    border-radius: map-get($border-radius, lg);
+    padding: map-get($spacers, 4);
+    margin-bottom: map-get($spacers, 4);
+    transition: $transition-base;
+    box-shadow: map-get($box-shadows, sm);
+
+    &:hover {
+      border-color: $border-color;
+      box-shadow: map-get($box-shadows, md);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Special form item variants
+  .option-item {
+    @extend .form-item;
+  }
+
+  .validation-item {
+    @extend .form-item;
+  }
+
+  .default-value-item {
+    @extend .form-item;
+    
+    background-color: $surface-bg;
+    border: 1px solid #e2e8f0;
+    position: relative;
+
+    &:hover {
+      border-color: #4c63d2;
+      box-shadow: 0 2px 8px rgba(76, 99, 210, 0.1);
+    }
+
+    .form-label {
+      font-weight: map-get($font-weights, medium);
+      color: $text-primary;
+      font-size: map-get($font-sizes, sm);
+      margin-bottom: map-get($spacers, 2);
+    }
+
+    code {
+      background-color: #f1f5f9;
+      color: #334155;
+      padding: map-get($spacers, 1) map-get($spacers, 2);
+      border-radius: map-get($border-radius, sm);
+      font-size: 0.8rem;
+      font-family: $font-family-mono;
+    }
+  }
+}
+
+/* ============================================
+   Custom Component Integrations
+   ============================================ */
+
+// GroupId Component
+.group-id-component {
+  width: 100%;
+
+  .form-select {
+    @include form-select;
+  }
+
+  .form-text {
+    color: $text-secondary;
+    font-size: map-get($font-sizes, sm);
+    margin-top: map-get($spacers, 1);
+    display: block;
+  }
+
+  .invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: map-get($spacers, 1);
+    font-size: map-get($font-sizes, sm);
+    color: $danger;
+  }
+}
+
+.group-id-wrapper {
+  position: relative;
+
+  .group-id-component {
+    width: 100%;
+  }
+}
+
+.group-id-error {
+  .invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: map-get($spacers, 1);
+    font-size: map-get($font-sizes, sm);
+    color: $danger;
+  }
+}
+
+// Default Value Attribute Component
+.default-value-fields {
+  background-color: #f8f9fa;
+  padding: map-get($spacers, 6);
+  border-radius: map-get($border-radius, lg);
+  margin: map-get($spacers, 4) 0;
+  border: 1px solid #dee2e6;
+  transition: $transition-base;
+
+  h4 {
+    color: #0c5460;
+    border-bottom-color: #17a2b8;
+  }
+
+  .alert {
+    border-radius: map-get($border-radius, md);
+    padding: map-get($spacers, 3);
+    margin-bottom: map-get($spacers, 4);
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+
+    &.alert-info {
+      background-color: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1e40af;
+
+      strong {
+        color: #1e3a8a;
+      }
+
+      code {
+        background-color: #dbeafe;
+        color: #1e40af;
+        padding: map-get($spacers, 1) map-get($spacers, 2);
+        border-radius: map-get($border-radius, sm);
+        font-size: 0.9rem;
+        border: 1px solid #bfdbfe;
+        display: inline-block;
+        margin-top: map-get($spacers, 1);
+        min-height: 24px;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+.dynamic-default-value-builder {
+  background-color: #f8f9ff;
+  border: 1px solid #d1d9e6;
+  border-radius: map-get($border-radius, lg);
+  padding: map-get($spacers, 4);
+  margin-top: map-get($spacers, 3);
+
+  h5 {
+    color: #4c63d2;
+    font-size: 1rem;
+    font-weight: map-get($font-weights, bold);
+    margin-bottom: map-get($spacers, 2);
+    display: flex;
+    align-items: center;
+    gap: map-get($spacers, 2);
+
+    &::before {
+      content: "⚡";
+      font-size: 1.2rem;
+    }
+  }
+}
+
+/* ============================================
+   Form Configuration Styles
+   ============================================ */
+
+.form-configuration {
+  border-radius: map-get($border-radius, lg);
+  margin-bottom: map-get($spacers, 8);
+  overflow: hidden;
+  transition: $transition-base;
+  border: 1px solid $border-color-light;
+  background-color: $surface-bg;
+
+  .config-header {
+    @include flex-between;
+    padding: map-get($spacers, 6);
+    background-color: $gray-100;
+    border-bottom: 1px solid $border-color-light;
+
+    .header-content {
+      @include flex-start;
+      gap: map-get($spacers, 4);
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      background-color: $surface-bg;
+      border-radius: map-get($border-radius, lg);
+      @include flex-center;
+      color: $primary;
+      border: 1px solid $border-color-light;
+    }
+
+    .header-text h2 {
+      color: $text-heading;
+      font-size: map-get($font-sizes, lg);
+      font-weight: map-get($font-weights, bold);
+      margin: 0;
+    }
+
+    .toggle-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid $border-color-light;
+      background-color: $surface-bg;
+      border-radius: map-get($border-radius, md);
+      color: $text-secondary;
+      @include flex-center;
+      cursor: pointer;
+      transition: $transition-base;
+
+      &:hover {
+        background-color: $gray-100;
+        border-color: $border-color;
+      }
+
+      &.expanded svg {
+        transform: rotate(180deg);
+      }
+
+      svg {
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  .config-content {
+    background-color: $surface-bg;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &.expanded {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    &.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+  }
+
+  .config-grid {
+    padding: map-get($spacers, 6);
+  }
+
+  .config-section {
+    @include card-base;
+    padding: map-get($spacers, 6);
+
+    &:hover {
+      border-color: $border-color;
+    }
+  }
+
+  .input-wrapper {
+    margin-bottom: map-get($spacers, 4);
+  }
+
+  .modern-label {
+    @include flex-start;
+    gap: map-get($spacers, 2);
+    color: $text-primary;
+    font-weight: map-get($font-weights, medium);
+    margin-bottom: map-get($spacers, 2);
+    font-size: map-get($font-sizes, sm);
+
+    .label-icon {
+      font-size: map-get($font-sizes, base);
+    }
+
+    .label-required {
+      color: $danger;
+      font-weight: map-get($font-weights, bold);
+    }
+  }
+
+  .modern-input {
+    @include form-control-base;
+  }
+
+  .input-hint {
+    color: $text-muted;
+    font-size: 0.75rem;
+    margin-top: map-get($spacers, 1);
+    display: block;
+    font-style: italic;
+  }
+}
+
+/* ============================================
+   Responsive Form Styles
+   ============================================ */
+
+@include media-breakpoint-down(md) {
+  .form-configuration {
+    margin: map-get($spacers, 4);
+    border-radius: map-get($border-radius, md);
+
+    .config-header {
+      padding: map-get($spacers, 4);
+
+      .header-text h2 {
+        font-size: map-get($font-sizes, base);
+      }
+    }
+
+    .config-grid {
+      padding: map-get($spacers, 4);
+    }
+
+    .config-section {
+      padding: map-get($spacers, 4);
+    }
+  }
+
+  .form-elements-edit {
+    border-radius: map-get($border-radius, md);
+
+    .edit-form-content {
+      padding: map-get($spacers, 4);
+    }
+
+    .form-section {
+      padding: map-get($spacers, 4);
+      margin: map-get($spacers, 3) 0;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .form-configuration {
+    .config-header {
+      padding: map-get($spacers, 3);
+
+      .header-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .toggle-btn {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    .config-grid {
+      padding: map-get($spacers, 3);
+    }
+  }
+
+  .form-elements-edit {
+    .edit-form-content {
+      padding: map-get($spacers, 3);
+    }
+
+    .form-section {
+      padding: map-get($spacers, 3);
+      margin: map-get($spacers, 2) 0;
+    }
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 16px; // Prevent zoom on iOS
+  }
+}

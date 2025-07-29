@@ -1,0 +1,428 @@
+/* ============================================
+   Cards - Card and Container Components
+   ============================================ */
+
+@use '../abstracts' as *;
+
+/* ============================================
+   Base Card Styles
+   ============================================ */
+
+.card {
+  @include card-base;
+  
+  // Card variants
+  &.card-flush {
+    border: 0;
+    border-radius: 0;
+  }
+
+  &.card-elevated {
+    box-shadow: map-get($box-shadows, lg);
+    border: 0;
+  }
+
+  &.card-outlined {
+    border: 2px solid $border-color;
+  }
+}
+
+.card-body {
+  @include card-body;
+}
+
+.card-header {
+  @include card-header;
+  
+  &.card-header-actions {
+    @include flex-between;
+  }
+}
+
+.card-footer {
+  @include card-footer;
+  
+  &.card-footer-actions {
+    @include flex-end;
+    gap: map-get($spacers, 3);
+  }
+}
+
+.card-title {
+  margin-bottom: map-get($spacers, 3);
+  font-size: map-get($font-sizes, xl);
+  font-weight: map-get($font-weights, semibold);
+  color: $text-heading;
+}
+
+.card-subtitle {
+  margin-top: calc(-#{map-get($spacers, 3)} / 2);
+  margin-bottom: 0;
+  font-size: map-get($font-sizes, sm);
+  color: $text-muted;
+}
+
+.card-text {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.card-link {
+  color: $primary;
+  text-decoration: none;
+  
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+  }
+  
+  + .card-link {
+    margin-left: map-get($spacers, 3);
+  }
+}
+
+/* ============================================
+   Card Groups and Layouts
+   ============================================ */
+
+.card-group {
+  display: flex;
+  flex-direction: column;
+  
+  .card {
+    margin-bottom: map-get($spacers, 4);
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  @include media-breakpoint-up(sm) {
+    flex-direction: row;
+    
+    .card {
+      flex: 1 0 0%;
+      margin-bottom: 0;
+      
+      &:not(:last-child) {
+        border-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      
+      &:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}
+
+.card-columns {
+  @include media-breakpoint-up(sm) {
+    column-count: 2;
+    column-gap: map-get($spacers, 4);
+    orphans: 1;
+    widows: 1;
+    
+    .card {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: map-get($spacers, 4);
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    column-count: 3;
+  }
+}
+
+/* ============================================
+   Accordion Styles (Card-based)
+   ============================================ */
+
+.accordion {
+  .accordion-item {
+    @include card-base;
+    border-top: 0;
+    
+    &:first-child {
+      border-top: 1px solid $border-color;
+      border-top-left-radius: $card-border-radius;
+      border-top-right-radius: $card-border-radius;
+    }
+    
+    &:last-child {
+      border-bottom-left-radius: $card-border-radius;
+      border-bottom-right-radius: $card-border-radius;
+    }
+    
+    &:not(:first-child) {
+      border-top: 0;
+    }
+
+    // Drag and drop styles
+    cursor: move;
+    transition: $transition-base;
+
+    &[data-drag-over="true"] {
+      border-top: 3px solid $primary;
+    }
+
+    &.drop-target {
+      border: 2px dashed $primary;
+      background-color: $primary-light;
+    }
+
+    &.future-position {
+      box-shadow: 0 0 0 2px $success;
+      background-color: $success-light;
+    }
+
+    &.dragging {
+      border: 2px solid $danger;
+      outline: 0;
+      box-shadow: none;
+      opacity: 0.8;
+    }
+  }
+
+  .accordion-header {
+    margin-bottom: 0;
+    
+    .accordion-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: map-get($spacers, 4) map-get($spacers, 5);
+      font-size: map-get($font-sizes, base);
+      color: $text-primary;
+      text-align: left;
+      background-color: $white;
+      border: 0;
+      border-radius: 0;
+      overflow-anchor: none;
+      transition: $transition-base;
+
+      &:not(.collapsed) {
+        color: $primary;
+        background-color: $primary-light;
+        box-shadow: inset 0 -1px 0 rgba($black, 0.125);
+
+        &::after {
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23#{str-slice(inspect($primary), 2)}'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+          transform: rotate(-180deg);
+        }
+      }
+
+      &::after {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: auto;
+        content: "";
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23#{str-slice(inspect($text-muted), 2)}'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-size: 1.25rem;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      &:hover {
+        z-index: 2;
+        background-color: $gray-100;
+      }
+
+      &:focus {
+        z-index: 3;
+        outline: 0;
+        box-shadow: inset 0 -1px 0 rgba($black, 0.125), 0 0 0 0.25rem rgba($primary, 0.25);
+      }
+    }
+  }
+
+  .accordion-collapse {
+    &.collapse:not(.show) {
+      display: none;
+    }
+
+    &.collapsing {
+      height: 0;
+      overflow: hidden;
+      transition: height 0.35s ease;
+    }
+  }
+
+  .accordion-body {
+    padding: 0 0 map-get($spacers, 4) 0;
+
+    .build-wrap {
+      position: relative;
+      overflow: visible;
+
+      .form-wrap.form-builder .cb-wrap.sticky-controls {
+        @include position-sticky;
+      }
+    }
+  }
+}
+
+/* ============================================
+   Section Styles
+   ============================================ */
+
+.section-info {
+  background-color: $gray-100;
+  padding: map-get($spacers, 4) map-get($spacers, 5);
+  border-radius: map-get($border-radius, md);
+  margin-bottom: map-get($spacers, 4);
+}
+
+.sections-container {
+  margin-bottom: map-get($spacers, 6);
+}
+
+.sections-accordion {
+  border-radius: map-get($border-radius, lg);
+  overflow: hidden;
+  border: 1px solid $border-color;
+}
+
+.empty-state {
+  text-align: center;
+  padding: map-get($spacers, 16) map-get($spacers, 8);
+  color: $text-muted;
+  background-color: $gray-100;
+  border-radius: map-get($border-radius, lg);
+  border: 2px dashed $border-color;
+
+  p {
+    margin: 0;
+    font-size: map-get($font-sizes, lg);
+  }
+}
+
+/* ============================================
+   Form Builder Container
+   ============================================ */
+
+.form-builder-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: map-get($spacers, 6);
+  background-color: $white;
+  border-radius: map-get($border-radius, xl);
+  box-shadow: map-get($box-shadows, lg);
+  border: 1px solid $border-color-light;
+}
+
+/* ============================================
+   JSON Container
+   ============================================ */
+
+.json-container {
+  white-space: pre-wrap;
+  background-color: $gray-100;
+  padding: map-get($spacers, 4);
+  border-radius: map-get($border-radius, md);
+  font-family: $font-family-mono;
+  font-size: map-get($font-sizes, sm);
+  border: 1px solid $border-color;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* ============================================
+   Responsive Card Styles
+   ============================================ */
+
+@include media-breakpoint-down(md) {
+  .form-builder-container {
+    padding: map-get($spacers, 4);
+    border-radius: map-get($border-radius, lg);
+  }
+
+  .card-group {
+    .card {
+      margin-bottom: map-get($spacers, 3);
+    }
+  }
+
+  .accordion {
+    .accordion-header {
+      .accordion-button {
+        padding: map-get($spacers, 3) map-get($spacers, 4);
+        font-size: map-get($font-sizes, sm);
+      }
+    }
+  }
+
+  .section-info {
+    padding: map-get($spacers, 3) map-get($spacers, 4);
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .form-builder-container {
+    padding: map-get($spacers, 3);
+    border-radius: map-get($border-radius, md);
+    margin: map-get($spacers, 2);
+  }
+
+  .card {
+    border-radius: map-get($border-radius, md);
+  }
+
+  .card-body {
+    padding: map-get($spacers, 4);
+  }
+
+  .empty-state {
+    padding: map-get($spacers, 8) map-get($spacers, 4);
+
+    p {
+      font-size: map-get($font-sizes, base);
+    }
+  }
+}
+
+/* ============================================
+   Card Animations
+   ============================================ */
+
+.card-hover {
+  transition: $transition-base;
+
+  &:hover {
+    @include hover-lift;
+  }
+}
+
+.card-fade-in {
+  @include fade-in;
+}
+
+.card-slide-up {
+  @include slide-in-up;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .form-builder-container {
+    box-shadow: none;
+    border: 1px solid $border-color;
+  }
+
+  .accordion-button::after {
+    display: none;
+  }
+
+  .accordion-collapse {
+    display: block !important;
+    height: auto !important;
+  }
+}

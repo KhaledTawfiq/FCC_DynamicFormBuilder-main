@@ -3,9 +3,17 @@ import { ReactFormBuilder, Registry } from "react-form-builder2";
 import type { SectionProps } from "../../types";
 import { useElementDefaults } from "../../hooks/useElementDefaults";
 import FormElementsEdit from "../FormElementsEdit";
+import { SearchLookupComponent } from "../controls/SearchLookupComponent";
 import { AddressComponent } from "../controls/AddressComponent";
 
-// Register the custom component
+// Register both custom components
+try {
+  (Registry as any).register("SearchLookupComponent", SearchLookupComponent);
+  console.log("SearchLookupComponent registered successfully");
+} catch (error) {
+  console.warn("Failed to register SearchLookupComponent:", error);
+}
+
 try {
   (Registry as any).register("AddressComponent", AddressComponent);
   console.log("AddressComponent registered successfully");
@@ -14,7 +22,7 @@ try {
 }
 
 /**
- * Section Component - React Implementation with Address Support
+ * Section Component - React Implementation with Address and Search Lookup Support
  * Fixed TypeScript types for react-form-builder2 compatibility
  */
 const SectionReact: React.FC<SectionProps> = ({
@@ -278,15 +286,15 @@ const SectionReact: React.FC<SectionProps> = ({
     }
   });
 
-  // Define toolbar items with custom component (bypassing TypeScript)
+  // Define toolbar items with both custom components (bypassing TypeScript)
   const customToolbarItems: any[] = [
-    {
-      key: "Header",
-      name: "Header",
-      static: true,
-      icon: "fas fa-heading",
-      content: "Header Text",
-    },
+    // {
+    //   key: "Header",
+    //   name: "Header",
+    //   static: true,
+    //   icon: "fas fa-heading",
+    //   content: "Header Text",
+    // },
     {
       key: "Paragraph",
       name: "Paragraph",
@@ -336,13 +344,13 @@ const SectionReact: React.FC<SectionProps> = ({
       icon: "far fa-check-square",
       content: "",
     },
-    {
-      key: "Tags",
-      name: "Autocomplete",
-      static: false,
-      icon: "fas fa-tags",
-      content: "",
-    },
+    // {
+    //   key: "Tags",
+    //   name: "Autocomplete",
+    //   static: false,
+    //   icon: "fas fa-tags",
+    //   content: "",
+    // },
     {
       key: "Button",
       name: "Button",
@@ -350,13 +358,13 @@ const SectionReact: React.FC<SectionProps> = ({
       icon: "far fa-square",
       content: "Button",
     },
-    {
-      key: "FileUpload",
-      name: "File Upload",
-      static: false,
-      icon: "fas fa-file-upload",
-      content: "",
-    },
+    // {
+    //   key: "FileUpload",
+    //   name: "File Upload",
+    //   static: false,
+    //   icon: "fas fa-file-upload",
+    //   content: "",
+    // },
     {
       key: "DatePicker",
       name: "Date Field",
@@ -379,6 +387,20 @@ const SectionReact: React.FC<SectionProps> = ({
       label: "Address Field",
       includeAddressCountry: true,
       includeAddressApartment: true,
+    },
+    // Custom search-lookup component with all properties
+    {
+      key: "SearchLookupComponent",
+      element: "CustomElement",
+      component: SearchLookupComponent,
+      type: "custom",
+      forwardRef: true,
+      field_name: "search-lookup_",
+      name: "Search Lookup",
+      icon: "fas fa-search",
+      static: false,
+      props: {},
+      label: "Search Lookup Field",
     },
   ];
 

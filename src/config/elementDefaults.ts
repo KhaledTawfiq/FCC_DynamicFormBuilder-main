@@ -3,6 +3,19 @@
  * Provides comprehensive default properties for all react-form-builder2 form elements
  */
 
+export interface EventRule {
+  Type: string;
+  On: string;
+  Url: string;
+  Parameters: string;
+}
+
+export interface ReadOnlyCondition {
+  field: string;
+  type: string;
+  value: string;
+}
+
 export interface ElementDefaults {
   type: string;
   required: boolean;
@@ -15,10 +28,13 @@ export interface ElementDefaults {
   value: string;
   maxlength: number;
   defaultValue: string;
+  readOnly: boolean;
+  readOnlyCondition: ReadOnlyCondition;
   other: string;
   groupId: string;
   values: Array<{ value: string; text: string; key: string }>;
   validations: Array<{ type: string; message: string }>;
+  Events: Array<EventRule>;
   condition: string;
 }
 
@@ -53,10 +69,13 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 255,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -72,10 +91,13 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 1000,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -91,12 +113,15 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 50,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [
       { type: 'number', message: 'Please enter a valid number' }
     ],
+    Events: [],
     condition: ''
   },
 
@@ -112,6 +137,8 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 0,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [
@@ -120,6 +147,7 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
       { value: 'option3', text: 'Option 3', key: 'option3' }
     ],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -135,6 +163,8 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 0,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [
@@ -143,6 +173,7 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
       { value: 'option3', text: 'Option 3', key: 'option3' }
     ],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -158,6 +189,8 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 0,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [
@@ -166,6 +199,7 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
       { value: 'option3', text: 'Option 3', key: 'option3' }
     ],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -181,6 +215,8 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 255,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [
@@ -189,6 +225,7 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
       { value: 'tag3', text: 'Tag 3', key: 'tag3' }
     ],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -204,10 +241,13 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: 'Click Me',
     maxlength: 0,
     defaultValue: 'Click Me',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -223,12 +263,15 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 0,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [
       { type: 'file', message: 'Please select a valid file' }
     ],
+    Events: [],
     condition: ''
   },
 
@@ -244,12 +287,15 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: '',
     maxlength: 0,
     defaultValue: '',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [
       { type: 'date', message: 'Please enter a valid date' }
     ],
+    Events: [],
     condition: ''
   },
 
@@ -265,10 +311,13 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: 'Header Text',
     maxlength: 0,
     defaultValue: 'Header Text',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [],
+    Events: [],
     condition: ''
   },
 
@@ -284,10 +333,13 @@ export const ELEMENT_DEFAULTS: Record<string, Partial<ElementDefaults>> = {
     value: 'Paragraph text content...',
     maxlength: 0,
     defaultValue: 'Paragraph text content...',
+    readOnly: false,
+    readOnlyCondition: { field: '', type: '10', value: '' },
     other: '',
     groupId: '',
     values: [],
     validations: [],
+    Events: [],
     condition: ''
   },
 };

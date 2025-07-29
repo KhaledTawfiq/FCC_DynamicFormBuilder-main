@@ -40,6 +40,10 @@ const cleanElementData = (element: any) => {
     ...cleanElement
   } = element;
   // Handle special type mapping for custom components
+  if (element.key === 'SearchLookupComponent' || element.element === 'SearchLookupComponent') {
+    cleanElement.type = 'search-lookup';
+  }
+    
   if (element.key === 'AddressComponent' || element.element === 'AddressComponent') {
     cleanElement.type = 'address';
   }

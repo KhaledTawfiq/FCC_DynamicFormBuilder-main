@@ -1,0 +1,337 @@
+/* ============================================
+   Navigation - Tabs, Breadcrumbs, Pagination
+   ============================================ */
+
+@use '../abstracts' as *;
+
+/* ============================================
+   Breadcrumb Styles
+   ============================================ */
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: map-get($spacers, 3) 0;
+  margin-bottom: map-get($spacers, 4);
+  list-style: none;
+  background-color: transparent;
+  border-radius: map-get($border-radius, base);
+}
+
+.breadcrumb-item {
+  + .breadcrumb-item {
+    padding-left: map-get($spacers, 2);
+
+    &::before {
+      float: left;
+      padding-right: map-get($spacers, 2);
+      color: $text-muted;
+      content: "/";
+    }
+  }
+
+  &.active {
+    color: $text-muted;
+  }
+
+  a {
+    color: $primary;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-hover;
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ============================================
+   Tab Navigation
+   ============================================ */
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: map-get($spacers, 2) map-get($spacers, 4);
+  color: $primary;
+  text-decoration: none;
+  transition: $transition-base;
+  border: 1px solid transparent;
+
+  &:hover,
+  &:focus {
+    color: $primary-hover;
+    text-decoration: none;
+  }
+
+  &.disabled {
+    color: $text-muted;
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
+.nav-tabs {
+  border-bottom: 1px solid $border-color;
+
+  .nav-link {
+    margin-bottom: -1px;
+    background: none;
+    border: 1px solid transparent;
+    border-top-left-radius: map-get($border-radius, base);
+    border-top-right-radius: map-get($border-radius, base);
+
+    &:hover,
+    &:focus {
+      border-color: $border-color-light $border-color-light $border-color;
+      isolation: isolate;
+    }
+
+    &.disabled {
+      color: $text-muted;
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+
+  .nav-item.show .nav-link,
+  .nav-link.active {
+    color: $text-primary;
+    background-color: $white;
+    border-color: $border-color $border-color $white;
+  }
+}
+
+.nav-pills {
+  .nav-link {
+    background: none;
+    border: 0;
+    border-radius: map-get($border-radius, base);
+
+    &.active,
+    .show > & {
+      color: $white;
+      background-color: $primary;
+    }
+  }
+}
+
+/* ============================================
+   Pagination
+   ============================================ */
+
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  color: $primary;
+  text-decoration: none;
+  background-color: $white;
+  border: 1px solid $border-color;
+  transition: $transition-base;
+
+  &:hover {
+    z-index: 2;
+    color: $primary-hover;
+    background-color: $gray-100;
+    border-color: $border-color;
+  }
+
+  &:focus {
+    z-index: 3;
+    color: $primary-hover;
+    background-color: $gray-100;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+  }
+}
+
+.page-item {
+  &:not(:first-child) .page-link {
+    margin-left: -1px;
+  }
+
+  &.active .page-link {
+    z-index: 3;
+    color: $white;
+    background-color: $primary;
+    border-color: $primary;
+  }
+
+  &.disabled .page-link {
+    color: $text-muted;
+    pointer-events: none;
+    background-color: $white;
+    border-color: $border-color;
+  }
+}
+
+.page-item:first-child .page-link {
+  border-top-left-radius: map-get($border-radius, base);
+  border-bottom-left-radius: map-get($border-radius, base);
+}
+
+.page-item:last-child .page-link {
+  border-top-right-radius: map-get($border-radius, base);
+  border-bottom-right-radius: map-get($border-radius, base);
+}
+
+/* ============================================
+   Dropdown Navigation
+   ============================================ */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  white-space: nowrap;
+
+  &::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+  }
+
+  &:empty::after {
+    margin-left: 0;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: map-get($z-indexes, dropdown);
+  display: none;
+  min-width: 10rem;
+  padding: map-get($spacers, 2) 0;
+  margin: 0;
+  font-size: map-get($font-sizes, base);
+  color: $text-primary;
+  text-align: left;
+  list-style: none;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 1px solid $border-color-light;
+  border-radius: map-get($border-radius, base);
+  box-shadow: map-get($box-shadows, lg);
+
+  &.show {
+    display: block;
+  }
+
+  &.dropdown-menu-end {
+    right: 0;
+    left: auto;
+  }
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: map-get($spacers, 1) map-get($spacers, 4);
+  clear: both;
+  font-weight: map-get($font-weights, normal);
+  color: $text-primary;
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+
+  &:hover,
+  &:focus {
+    color: $text-heading;
+    background-color: $gray-100;
+  }
+
+  &.active,
+  &:active {
+    color: $white;
+    text-decoration: none;
+    background-color: $primary;
+  }
+
+  &.disabled,
+  &:disabled {
+    color: $text-muted;
+    pointer-events: none;
+    background-color: transparent;
+  }
+}
+
+.dropdown-divider {
+  height: 0;
+  margin: calc(#{map-get($spacers, 2)} / 2) 0;
+  overflow: hidden;
+  border-top: 1px solid $border-color-light;
+}
+
+.dropdown-header {
+  display: block;
+  padding: map-get($spacers, 2) map-get($spacers, 4);
+  margin-bottom: 0;
+  font-size: map-get($font-sizes, sm);
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+/* ============================================
+   Responsive Navigation
+   ============================================ */
+
+@include media-breakpoint-down(md) {
+  .nav-tabs {
+    .nav-link {
+      padding: map-get($spacers, 2) map-get($spacers, 3);
+      font-size: map-get($font-sizes, sm);
+    }
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+
+  .page-link {
+    padding: map-get($spacers, 1) map-get($spacers, 2);
+    font-size: map-get($font-sizes, sm);
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .nav {
+    flex-direction: column;
+  }
+
+  .nav-tabs .nav-link {
+    border: 1px solid $border-color;
+    border-radius: map-get($border-radius, base);
+    margin-bottom: map-get($spacers, 1);
+
+    &.active {
+      border-color: $primary;
+    }
+  }
+
+  .breadcrumb {
+    font-size: map-get($font-sizes, sm);
+  }
+}
