@@ -1,0 +1,56 @@
+@use '../abstracts' as *;
+
+// Simplified Accordion styles
+.accordion-item {
+  cursor: move;
+  transition: $transition-base;
+
+  &[data-drag-over="true"] {
+    border-top: 3px solid $primary;
+  }
+
+  &.drop-target {
+    border: 2px dashed $primary;
+    background-color: $primary-light;
+  }
+
+  &.future-position {
+    box-shadow: 0 0 0 2px $success;
+    background-color: $success-light;
+  }
+
+  &.dragging {
+    border: 2px solid $danger !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+.accordion-body {
+  padding: 0;
+  padding-bottom: 1rem;
+
+  .build-wrap {
+    position: relative;
+    overflow: visible;
+
+    .form-wrap.form-builder .cb-wrap.sticky-controls {
+      position: sticky !important;
+      top: 5px;
+      z-index: $z-sticky;
+      align-self: flex-start;
+    }
+  }
+}
+
+.accordion-collapse {
+  overflow: hidden;
+
+  &.show {
+    overflow: visible;
+  }
+
+  &.collapse:not(.show) {
+    overflow: hidden;
+  }
+}

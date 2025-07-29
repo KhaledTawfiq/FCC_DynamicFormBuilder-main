@@ -1,0 +1,464 @@
+/* Updated Custom Form Elements Edit Styling with Default Value Fields */
+@use '../abstracts' as *;
+
+.custom-form-elements-edit {
+  padding: 0;
+  overflow: hidden;
+  background-color: $white;
+  border-radius: $radius-lg;
+  border: 1px solid $border-light;
+}
+
+.edit-form-content {
+  padding: $space-6;
+  overflow-y: auto;
+}
+
+.custom-form-elements-edit .form-group {
+  margin-bottom: $space-6;
+}
+
+.custom-form-elements-edit .form-group label {
+  font-weight: $font-weight-semibold;
+  margin-bottom: $space-2;
+  display: block;
+  color: $text-heading;
+  font-size: $font-size-sm;
+}
+
+.custom-form-elements-edit .form-control {
+  @include input-style();
+}
+
+/* Read-only field styling */
+.custom-form-elements-edit .readonly-field {
+  background-color: $light-gray !important;
+  border-color: $border-medium !important;
+  color: $text-secondary !important;
+  cursor: not-allowed !important;
+}
+
+/* Form sections */
+.custom-form-elements-edit .basic-fields,
+.custom-form-elements-edit .advanced-fields,
+.custom-form-elements-edit .options-fields,
+.custom-form-elements-edit .validation-fields {
+  background-color: $light-gray;
+  padding: $space-6;
+  border-radius: $radius-lg;
+  margin: $space-4 0;
+  border: 1px solid $border-light;
+  transition: $transition-base;
+}
+
+/* NEW: Default Value Fields Styling */
+.custom-form-elements-edit .default-value-fields {
+  background-color: #f8f9fa;
+  padding: $space-6;
+  border-radius: $radius-lg;
+  margin: $space-4 0;
+  border: 1px solid #dee2e6;
+  transition: $transition-base;
+}
+
+/* Section headers */
+.custom-form-elements-edit h4 {
+  color: $text-heading;
+  font-size: $font-size-lg;
+  margin-bottom: $space-4;
+  padding-bottom: $space-2;
+  border-bottom: 2px solid $border-light;
+  font-weight: $font-weight-bold;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.custom-form-elements-edit .basic-fields h4 {
+  color: $primary;
+  border-bottom-color: $primary;
+}
+
+.custom-form-elements-edit .default-value-fields h4 {
+  color: #0c5460;
+  border-bottom-color: #17a2b8;
+}
+
+.custom-form-elements-edit .advanced-fields h4 {
+  color: $success;
+  border-bottom-color: $success;
+}
+
+.custom-form-elements-edit .options-fields h4 {
+  color: #d97706;
+  border-bottom-color: #d97706;
+}
+
+.custom-form-elements-edit .validation-fields h4 {
+  color: $danger;
+  border-bottom-color: $danger;
+}
+
+/* Element type badge */
+.custom-form-elements-edit .element-type-badge {
+  background-color: #17a2b8;
+  color: $white;
+  padding: $space-1 $space-2;
+  border-radius: $radius-sm;
+  font-size: 0.75rem;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  margin-left: $space-2;
+}
+
+/* Color input specific styling */
+.custom-form-elements-edit .form-control-color {
+  height: 40px;
+  padding: $space-1;
+  cursor: pointer;
+}
+
+/* Alert boxes */
+.custom-form-elements-edit .alert {
+  border-radius: $radius-md;
+  padding: $space-3;
+  margin-bottom: $space-4;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  
+  small {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+  }
+}
+
+.custom-form-elements-edit .alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.custom-form-elements-edit .alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+/* Icon styling */
+.custom-form-elements-edit .fas,
+.custom-form-elements-edit .fa {
+  margin-right: $space-2;
+  flex-shrink: 0;
+}
+
+/* Option and validation items */
+.custom-form-elements-edit .option-item,
+.custom-form-elements-edit .validation-item {
+  background-color: $white;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
+  padding: $space-4;
+  margin-bottom: $space-4;
+  transition: $transition-base;
+  box-shadow: $shadow-sm;
+}
+
+.custom-form-elements-edit .option-item:hover,
+.custom-form-elements-edit .validation-item:hover {
+  border-color: $border-medium;
+  box-shadow: $shadow-md;
+}
+
+/* Buttons */
+.custom-form-elements-edit .btn {
+  border: none;
+  border-radius: $radius-md;
+  padding: $space-2 $space-4;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: $transition-base;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.custom-form-elements-edit .btn-primary {
+  @include button-style($primary, $primary-hover);
+}
+
+.custom-form-elements-edit .btn-danger {
+  @include button-style($danger, $danger-hover);
+}
+
+.custom-form-elements-edit .btn-sm {
+  font-size: 0.75rem;
+  padding: $space-1 $space-3;
+}
+
+/* Form check styling */
+.custom-form-elements-edit .form-check {
+  margin-top: $space-3;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.custom-form-elements-edit .form-check-input {
+  width: 18px;
+  height: 18px;
+  border: 2px solid $border-medium;
+  border-radius: $radius-sm;
+  background-color: $white;
+  cursor: pointer;
+  transition: $transition-base;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.custom-form-elements-edit .form-check-input:checked {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.custom-form-elements-edit .form-check-label {
+  font-weight: $font-weight-medium;
+  color: $text-heading;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Form hints */
+.custom-form-elements-edit .form-text {
+  color: $text-secondary;
+  font-size: 0.75rem;
+  margin-top: $space-2;
+}
+
+/* Multiple selection styling for checkbox groups */
+.custom-form-elements-edit .multiple-defaults-info {
+  background-color: #e7f3ff;
+  border: 1px solid #b8daff;
+  border-radius: $radius-sm;
+  padding: $space-3;
+  margin-top: $space-2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .custom-form-elements-edit {
+    border-radius: $radius-md;
+  }
+  
+  .edit-form-content {
+    padding: $space-4;
+  }
+  
+  .custom-form-elements-edit .basic-fields,
+  .custom-form-elements-edit .default-value-fields,
+  .custom-form-elements-edit .advanced-fields,
+  .custom-form-elements-edit .options-fields,
+  .custom-form-elements-edit .validation-fields {
+    padding: $space-4;
+    margin: $space-3 0;
+  }
+  
+  .custom-form-elements-edit .element-type-badge {
+    display: block;
+    margin-left: 0;
+    margin-top: $space-1;
+    width: fit-content;
+  }
+}
+
+/* Focus states for accessibility */
+.custom-form-elements-edit .form-control:focus,
+.custom-form-elements-edit .btn:focus,
+.custom-form-elements-edit .form-check-input:focus {
+  outline: 2px solid $primary;
+  outline-offset: 2px;
+}
+
+/* Enhanced styling for Dynamic Default Value Builder */
+.custom-form-elements-edit .dynamic-default-value-builder {
+  background-color: #f8f9ff;
+  border: 1px solid #d1d9e6;
+  border-radius: $radius-lg;
+  padding: $space-4;
+  margin-top: $space-3;
+  
+  h5 {
+    color: #4c63d2;
+    font-size: 1rem;
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-2;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    
+    &::before {
+      content: "⚡";
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.custom-form-elements-edit .default-value-item {
+  background-color: $white;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: $radius-md;
+  padding: $space-4;
+  margin-bottom: $space-3;
+  transition: $transition-base;
+  position: relative;
+  
+  &:hover {
+    border-color: #4c63d2 !important;
+    box-shadow: 0 2px 8px rgba(76, 99, 210, 0.1);
+  }
+  
+  .form-label {
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    font-size: 0.875rem;
+    margin-bottom: $space-2;
+  }
+  
+  .form-control-sm {
+    font-size: 0.875rem;
+    padding: $space-2;
+    border-radius: $radius-sm;
+    border: 1px solid $border-light;
+    transition: $transition-base;
+    
+    &:focus {
+      border-color: #4c63d2;
+      box-shadow: 0 0 0 0.2rem rgba(76, 99, 210, 0.25);
+    }
+  }
+  
+  .btn-sm {
+    padding: $space-1 $space-3;
+    font-size: 0.75rem;
+    border-radius: $radius-sm;
+    font-weight: $font-weight-medium;
+    min-width: 60px;
+    
+    &.btn-primary {
+      background-color: #4c63d2;
+      border-color: #4c63d2;
+      
+      &:hover {
+        background-color: #3b4fa0;
+        border-color: #3b4fa0;
+      }
+    }
+    
+    &.btn-danger {
+      background-color: #ef4444;
+      border-color: #ef4444;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        background-color: #dc2626;
+        border-color: #dc2626;
+      }
+    }
+  }
+  
+  // Preview styling
+  code {
+    background-color: #f1f5f9;
+    color: #334155;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    font-size: 0.8rem;
+    font-family: $font-mono;
+  }
+}
+
+.custom-form-elements-edit .alert-info {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+  
+  strong {
+    color: #1e3a8a;
+  }
+  
+  code {
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    font-size: 0.9rem;
+    border: 1px solid #bfdbfe;
+    display: inline-block;
+    margin-top: $space-1;
+    min-height: 24px;
+    line-height: 1.4;
+  }
+}
+
+/* Gap utility for button groups */
+.custom-form-elements-edit .d-flex.gap-2 {
+  gap: $space-2;
+}
+
+/* Button group alignment */
+.custom-form-elements-edit .col-md-3 .d-flex {
+  height: 100%;
+  align-items: flex-end;
+}
+
+/* Responsive adjustments for dynamic builder */
+@media (max-width: 768px) {
+  .custom-form-elements-edit .dynamic-default-value-builder {
+    padding: $space-3;
+  }
+  
+  .custom-form-elements-edit .default-value-item {
+    padding: $space-3;
+    
+    .row {
+      margin: 0;
+      
+      > [class*="col-"] {
+        padding: 0 $space-1;
+        margin-bottom: $space-3;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    
+    .d-flex.gap-2 {
+      justify-content: center;
+      margin-top: $space-2;
+    }
+  }
+}
+
+/* Special styling for different default value types */
+.custom-form-elements-edit .default-value-fields {
+  .form-group {
+    position: relative;
+  }
+  
+  select.form-control {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+}

@@ -1,0 +1,125 @@
+/* GroupId Component Styles */
+@use '../abstracts' as *;
+
+.group-id-component {
+  width: 100%;
+  
+  select.form-control {
+    @include input-style();
+    
+    // Ensure proper styling for the select element
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    appearance: none;
+    
+    &:disabled {
+      background-color: $light-gray;
+      color: $text-light;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    &.is-invalid {
+      border-color: $danger;
+      
+      &:focus {
+        border-color: $danger;
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+      }
+    }
+  }
+  
+  .form-text {
+    color: $text-secondary;
+    font-size: 0.875rem;
+    margin-top: $space-1;
+    display: block;
+  }
+  
+  .invalid-feedback {
+    color: $danger;
+    font-size: 0.875rem;
+    margin-top: $space-1;
+    display: block;
+  }
+}
+
+.group-id-wrapper {
+  position: relative;
+  
+  .group-id-component {
+    width: 100%;
+  }
+}
+
+.group-id-error {
+  .invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: $danger;
+  }
+}
+
+/* Integration with existing form styling */
+.custom-form-elements-edit {
+  .group-id-wrapper {
+    .group-id-component {
+      select.form-control {
+        transition: $transition-base;
+        
+        &:hover:not(:disabled) {
+          border-color: $border-medium;
+        }
+        
+        &:focus {
+          outline: none;
+          border-color: $primary;
+          box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+      }
+    }
+  }
+  
+  .form-group:has(.group-id-wrapper) {
+    margin-bottom: $space-6;
+    
+    label {
+      font-weight: $font-weight-semibold;
+      margin-bottom: $space-2;
+      display: block;
+      color: $text-heading;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+/* Loading state styling */
+.group-id-component {
+  select[disabled] {
+    background-color: $light-gray !important;
+    color: $text-secondary !important;
+    cursor: not-allowed !important;
+    
+    &:hover {
+      border-color: $border-light !important;
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .group-id-component {
+    select.form-control {
+      font-size: 16px; // Prevent zoom on iOS
+    }
+    
+    .form-text {
+      font-size: 0.8rem;
+    }
+  }
+}

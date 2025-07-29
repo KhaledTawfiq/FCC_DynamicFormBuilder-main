@@ -1,282 +1,54 @@
-/* ============================================
-   SCSS Variables - Centralized Design System
-   ============================================ */
+// Variables
+// Colors
+$primary-color: #007bff;
+$danger-color: #ad0909;
+$success-color: #285735;
+$error-color: #840909;
+$info-color: #17a2b8;
+$background-color: #eeeeee;
+$light-gray: #f5f5f5;
+$medium-gray: #f6f6f6;
+$border-gray: #ccc;
+$text-gray: #666;
+$dark-gray: #495057;
+$white: #fff;
+$black: #333;
 
-/* ============================================
-   Color Palette
-   ============================================ */
+// Layout
+$container-padding: 20px;
+$section-padding: 1rem 1.25rem;
+$button-gap: 15px;
+$border-radius: 5px;
+$small-border-radius: 2px;
 
-// Primary Colors
-$primary: #007bff;
-$primary-hover: #0056b3;
-$primary-light: #e7f1ff;
-$primary-dark: #004085;
+// Typography
+$font-family-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-family-mono: Consolas, monospace;
+$font-size-sm: 14px;
 
-// Secondary Colors
-$secondary: #6c757d;
-$secondary-hover: #5a6268;
-$secondary-light: #f8f9fa;
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 15px;
+$spacing-lg: 20px;
+$spacing-xl: 30px;
 
-// Status Colors
-$success: #28a745;
-$success-hover: #218838;
-$success-light: #d4edda;
+// Z-index
+$z-index-sticky: 100;
+$z-index-modal: 1000;
+$z-index-snackbar: 1;
 
-$warning: #ffc107;
-$warning-hover: #e0a800;
-$warning-light: #fff3cd;
+// Transitions
+$transition-legacy-base: all 0.2s ease;
+$transition-fast: 250ms;
 
-$danger: #dc3545;
-$danger-hover: #c82333;
-$danger-light: #f8d7da;
+// Breakpoints
+$mobile-max: 481px;
 
-$info: #17a2b8;
-$info-hover: #138496;
-$info-light: #d1ecf1;
+// Icon sizes
+$icon-sm: 17px;
+$icon-md: 20px;
 
-// Neutral Colors
-$white: #ffffff;
-$gray-100: #f8f9fa;
-$gray-200: #e9ecef;
-$gray-300: #dee2e6;
-$gray-400: #ced4da;
-$gray-500: #adb5bd;
-$gray-600: #6c757d;
-$gray-700: #495057;
-$gray-800: #343a40;
-$gray-900: #212529;
-$black: #000000;
-
-/* ============================================
-   Semantic Color Assignments
-   ============================================ */
-
-// Background Colors
-$body-bg: $gray-100;
-$surface-bg: $white;
-$overlay-bg: rgba($black, 0.5);
-
-// Text Colors
-$text-primary: $gray-700;
-$text-secondary: $gray-600;
-$text-muted: $gray-500;
-$text-heading: $gray-900;
-
-// Border Colors
-$border-color: $gray-300;
-$border-color-light: $gray-200;
-$border-color-dark: $gray-400;
-
-/* ============================================
-   Spacing Scale
-   ============================================ */
-
-$spacer: 1rem;
-$spacers: (
-  0: 0,
-  1: $spacer * 0.25,   // 4px
-  2: $spacer * 0.5,    // 8px
-  3: $spacer * 0.75,   // 12px
-  4: $spacer,          // 16px
-  5: $spacer * 1.25,   // 20px
-  6: $spacer * 1.5,    // 24px
-  7: $spacer * 1.75,   // 28px
-  8: $spacer * 2,      // 32px
-  9: $spacer * 2.25,   // 36px
-  10: $spacer * 2.5,   // 40px
-  12: $spacer * 3,     // 48px
-  16: $spacer * 4,     // 64px
-  20: $spacer * 5,     // 80px
-  24: $spacer * 6      // 96px
-);
-
-/* ============================================
-   Typography
-   ============================================ */
-
-$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
-$font-size-base: 1rem;
-$font-sizes: (
-  xs: 0.75rem,    // 12px
-  sm: 0.875rem,   // 14px
-  base: 1rem,     // 16px
-  lg: 1.125rem,   // 18px
-  xl: 1.25rem,    // 20px
-  2xl: 1.5rem,    // 24px
-  3xl: 1.875rem,  // 30px
-  4xl: 2.25rem,   // 36px
-  5xl: 3rem       // 48px
-);
-
-$font-weights: (
-  light: 300,
-  normal: 400,
-  medium: 500,
-  semibold: 600,
-  bold: 700,
-  extrabold: 800
-);
-
-$line-heights: (
-  none: 1,
-  tight: 1.25,
-  snug: 1.375,
-  normal: 1.5,
-  relaxed: 1.625,
-  loose: 2
-);
-
-/* ============================================
-   Border Radius
-   ============================================ */
-
-$border-radius: (
-  none: 0,
-  sm: 0.125rem,   // 2px
-  base: 0.25rem,  // 4px
-  md: 0.375rem,   // 6px
-  lg: 0.5rem,     // 8px
-  xl: 0.75rem,    // 12px
-  2xl: 1rem,      // 16px
-  3xl: 1.5rem,    // 24px
-  full: 9999px
-);
-
-/* ============================================
-   Shadows
-   ============================================ */
-
-$box-shadows: (
-  sm: 0 1px 2px 0 rgba($black, 0.05),
-  base: (0 1px 3px 0 rgba($black, 0.1), 0 1px 2px 0 rgba($black, 0.06)),
-  md: (0 4px 6px -1px rgba($black, 0.1), 0 2px 4px -1px rgba($black, 0.06)),
-  lg: (0 10px 15px -3px rgba($black, 0.1), 0 4px 6px -2px rgba($black, 0.05)),
-  xl: (0 20px 25px -5px rgba($black, 0.1), 0 10px 10px -5px rgba($black, 0.04)),
-  2xl: 0 25px 50px -12px rgba($black, 0.25),
-  inner: inset 0 2px 4px 0 rgba($black, 0.06),
-  none: none
-);
-
-// Focus shadow
-$focus-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
-
-/* ============================================
-   Transitions
-   ============================================ */
-
-$transition-duration: (
-  75: 75ms,
-  100: 100ms,
-  150: 150ms,
-  200: 200ms,
-  300: 300ms,
-  500: 500ms,
-  700: 700ms,
-  1000: 1000ms
-);
-
-$transition-timing: (
-  linear: linear,
-  in: cubic-bezier(0.4, 0, 1, 1),
-  out: cubic-bezier(0, 0, 0.2, 1),
-  in-out: cubic-bezier(0.4, 0, 0.2, 1)
-);
-
-$transition-base: all map-get($transition-duration, 150) map-get($transition-timing, in-out);
-$transition-fast: all map-get($transition-duration, 100) map-get($transition-timing, in-out);
-$transition-slow: all map-get($transition-duration, 300) map-get($transition-timing, in-out);
-
-/* ============================================
-   Z-Index Scale
-   ============================================ */
-
-$z-indexes: (
-  auto: auto,
-  0: 0,
-  10: 10,
-  20: 20,
-  30: 30,
-  40: 40,
-  50: 50,
-  dropdown: 1000,
-  sticky: 1020,
-  fixed: 1030,
-  modal-backdrop: 1040,
-  modal: 1050,
-  popover: 1060,
-  tooltip: 1070
-);
-
-/* ============================================
-   Breakpoints
-   ============================================ */
-
-$breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px
-);
-
-/* ============================================
-   Component Specific Variables
-   ============================================ */
-
-// Forms
-$input-padding-y: map-get($spacers, 3);
-$input-padding-x: map-get($spacers, 3);
-$input-font-size: map-get($font-sizes, base);
-$input-border-width: 1px;
-$input-border-color: $border-color;
-$input-border-radius: map-get($border-radius, md);
-$input-bg: $white;
-$input-disabled-bg: $gray-200;
-$input-focus-border-color: $primary;
-$input-focus-box-shadow: $focus-shadow;
-
-// Buttons
-$btn-padding-y: map-get($spacers, 3);
-$btn-padding-x: map-get($spacers, 4);
-$btn-font-size: map-get($font-sizes, base);
-$btn-font-weight: map-get($font-weights, medium);
-$btn-border-radius: map-get($border-radius, md);
-$btn-border-width: 1px;
-
-// Cards
-$card-padding: map-get($spacers, 6);
-$card-border-radius: map-get($border-radius, lg);
-$card-border-color: $border-color;
-$card-bg: $white;
-
-// Modals
-$modal-backdrop-bg: $overlay-bg;
-$modal-content-bg: $white;
-$modal-border-radius: map-get($border-radius, lg);
-
-// Accordion
-$accordion-border-color: $border-color;
-$accordion-bg: $white;
-
-/* ============================================
-   Legacy Compatibility (for gradual migration)
-   ============================================ */
-
-// Keep some old variable names for backward compatibility
-$primary-color: $primary;
-$danger-color: $danger;
-$success-color: $success;
-$background-color: $body-bg;
-$border-gray: $border-color;
-$text-gray: $text-secondary;
-$container-padding: map-get($spacers, 5);
-$section-padding: map-get($spacers, 4) map-get($spacers, 5);
-$border-radius: map-get($border-radius, base);
-$font-family-base: $font-family-base;
-$font-size-sm: map-get($font-sizes, sm);
-$z-index-sticky: map-get($z-indexes, sticky);
-$z-index-modal: map-get($z-indexes, modal);
-$transition-legacy-base: $transition-base;
+// Loader
+$loader-size: 20px;
+$loader-border-width: 5px;

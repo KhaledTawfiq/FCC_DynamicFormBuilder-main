@@ -1,17 +1,14 @@
-/* ============================================
-   Components Index - Forward All Components
-   ============================================ */
-
-// Core UI Components
-@forward 'forms';
+// Forward all component files
 @forward 'buttons';
-@forward 'cards';
-@forward 'notifications';
-
-// Layout Components
-@forward 'modals';
-@forward 'navigation';
-@forward 'loading';
-
-// Utility Components
-@forward 'utilities';
+@forward 'accordion';
+@forward 'loader';
+@forward 'snackbar';
+@forward 'drag-drop';
+@forward 'sections';
+@forward 'events-new';
+@forward 'react-form-builder';
+@forward 'element-defaults';
+@forward 'custom-edit-form-new';
+@forward 'form-configuration';
+@forward 'default-value-attr';
+@forward 'group-id';

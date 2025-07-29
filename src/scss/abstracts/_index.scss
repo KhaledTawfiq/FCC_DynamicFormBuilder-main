@@ -1,12 +1,3 @@
-/* ============================================
-   Abstracts Index - Forward All Abstract Files
-   ============================================ */
-
-// Variables must come first
-@forward 'variables';
-
-// Mixins depend on variables
+// Forward all abstracts
+@forward 'theme';
 @forward 'mixins';
-
-// Functions (if any) come last
-// @forward 'functions'; // Uncomment when functions are added

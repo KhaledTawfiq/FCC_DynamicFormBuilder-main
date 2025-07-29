@@ -1,10 +1,8 @@
-/* ============================================
-   Main SCSS - Dynamic Form Builder
-   Modern, Clean, and Organized Architecture
-   ============================================ */
+// Main SCSS file for the Dynamic Form Builder
+// Use all partials in the correct order
 
-// 1. Abstracts (variables, mixins, functions) - No CSS output
-@use 'abstracts' as *;
+// 1. Abstracts (variables, mixins, functions)
+@use 'abstracts';
 
 // 2. Base styles (reset, animations, typography)
 @use 'base';
@@ -17,13 +15,3 @@
 
 // 5. Pages (page-specific styles)
 @use 'pages';
-
-/* ============================================
-   Architecture Benefits:
-   ✅ Single source of truth for all form styles
-   ✅ Consistent design system with unified variables
-   ✅ Reduced CSS duplication and better performance
-   ✅ Scalable and maintainable structure
-   ✅ Clear separation of concerns
-   ✅ Better developer experience
-   ============================================ */

@@ -1,608 +1,134 @@
-/* ============================================
-   Buttons - Unified Button Component Styles
-   ============================================ */
-
+/* Simplified Button Styles */
 @use '../abstracts' as *;
 
-/* ============================================
-   Base Button Styles
-   ============================================ */
-
-.btn {
-  @include button-base;
-
-  // Size variants
-  &.btn-sm {
-    @include button-size(
-      map-get($spacers, 1), 
-      map-get($spacers, 3), 
-      map-get($font-sizes, sm), 
-      map-get($border-radius, sm)
-    );
-  }
-
-  &.btn-lg {
-    @include button-size(
-      map-get($spacers, 4), 
-      map-get($spacers, 5), 
-      map-get($font-sizes, lg), 
-      map-get($border-radius, lg)
-    );
-  }
-
-  // Block variant
-  &.btn-block {
-    display: flex;
-    width: 100%;
-  }
-
-  // Icon-only variant
-  &.btn-icon {
-    padding: $btn-padding-y;
-    width: calc(#{$btn-font-size} * #{map-get($line-heights, normal)} + #{$btn-padding-y} * 2 + #{$btn-border-width} * 2);
-    height: calc(#{$btn-font-size} * #{map-get($line-heights, normal)} + #{$btn-padding-y} * 2 + #{$btn-border-width} * 2);
-    justify-content: center;
-  }
-}
-
-/* ============================================
-   Button Color Variants
-   ============================================ */
-
-.btn-primary {
-  @include button-variant($primary, $primary, $white, $primary-hover, $primary-hover, $white);
-}
-
-.btn-secondary {
-  @include button-variant($secondary, $secondary, $white, $secondary-hover, $secondary-hover, $white);
-}
-
-.btn-success {
-  @include button-variant($success, $success, $white, $success-hover, $success-hover, $white);
-}
-
-.btn-warning {
-  @include button-variant($warning, $warning, $gray-900, $warning-hover, $warning-hover, $gray-900);
-}
-
-.btn-danger {
-  @include button-variant($danger, $danger, $white, $danger-hover, $danger-hover, $white);
-}
-
-.btn-info {
-  @include button-variant($info, $info, $white, $info-hover, $info-hover, $white);
-}
-
-.btn-light {
-  @include button-variant($gray-100, $gray-100, $gray-900, $gray-200, $gray-200, $gray-900);
-}
-
-.btn-dark {
-  @include button-variant($gray-800, $gray-800, $white, $gray-900, $gray-900, $white);
-}
-
-/* ============================================
-   Button Outline Variants
-   ============================================ */
-
-.btn-outline-primary {
-  @include button-outline-variant($primary, $white);
-}
-
-.btn-outline-secondary {
-  @include button-outline-variant($secondary, $white);
-}
-
-.btn-outline-success {
-  @include button-outline-variant($success, $white);
-}
-
-.btn-outline-warning {
-  @include button-outline-variant($warning, $gray-900);
-}
-
-.btn-outline-danger {
-  @include button-outline-variant($danger, $white);
-}
-
-.btn-outline-info {
-  @include button-outline-variant($info, $white);
-}
-
-.btn-outline-light {
-  @include button-outline-variant($gray-100, $gray-900);
-}
-
-.btn-outline-dark {
-  @include button-outline-variant($gray-800, $white);
-}
-
-/* ============================================
-   Button Groups
-   ============================================ */
-
-.btn-group {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-
-  > .btn {
-    position: relative;
-    flex: 1 1 auto;
-
-    &:not(:first-child) {
-      margin-left: -$btn-border-width;
-    }
-
-    &:first-child:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    &:not(:first-child):not(:last-child) {
-      border-radius: 0;
-    }
-
-    &:last-child:not(:first-child) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      z-index: 1;
-    }
-  }
-}
-
-.btn-group-vertical {
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  > .btn {
-    width: 100%;
-
-    &:not(:first-child) {
-      margin-top: -$btn-border-width;
-      margin-left: 0;
-    }
-
-    &:first-child:not(:last-child) {
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-      border-top-right-radius: $btn-border-radius;
-    }
-
-    &:not(:first-child):not(:last-child) {
-      border-radius: 0;
-    }
-
-    &:last-child:not(:first-child) {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      border-bottom-left-radius: $btn-border-radius;
-    }
-  }
-}
-
-/* ============================================
-   Form Builder Specific Button Styles
-   ============================================ */
-
 .generic-buttons {
-  margin-top: map-get($spacers, 4);
+  margin-top: $space-4;
   display: flex;
-  gap: map-get($spacers, 4);
+  gap: $space-4;
   flex-wrap: wrap;
   align-items: center;
+}
 
-  .btn {
-    min-height: 44px;
-    text-decoration: none;
-    @include hover-lift;
-
-    &:disabled {
-      transform: none;
-      box-shadow: map-get($box-shadows, sm);
+/* Primary button styling */
+.generic-buttons .btn,
+.generic-buttons .btn-primary {
+  @include button-style($primary, $primary-hover);
+  min-height: 44px;
+  text-decoration: none;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+  
+  &:disabled {
+    background-color: $medium-gray;
+    color: $text-light;
+    cursor: not-allowed;
+    
+    &:hover {
+      box-shadow: $shadow-sm;
     }
   }
 }
 
-.submit-button-wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: map-get($spacers, 3);
-
-  .btn:disabled {
-    padding-left: 2.5rem;
-  }
-
-  .loading-spinner {
-    position: absolute;
-    left: map-get($spacers, 3);
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-  }
+/* Secondary button styling */
+.generic-buttons .btn-secondary {
+  @include button-style($secondary, $secondary-hover);
 }
 
-/* ============================================
-   Action Button Styles
-   ============================================ */
+/* Success button styling */
+.generic-buttons .btn-success {
+  @include button-style($success, $success-hover);
+}
 
+/* Warning button styling */
+.generic-buttons .btn-warning {
+  @include button-style($warning, $warning-hover, $black);
+}
+
+/* Danger button styling */
+.generic-buttons .btn-danger {
+  @include button-style($danger, $danger-hover);
+}
+
+/* Info button styling */
+.generic-buttons .btn-info {
+  @include button-style($info, $info-hover);
+}
+
+/* Remove button styles */
 .remove-btn {
-  text-decoration: none;
+  text-decoration: none !important;
   color: $danger;
   background-color: $danger-light;
-  border: 1px solid rgba($danger, 0.2);
-  border-radius: map-get($border-radius, md);
-  padding: map-get($spacers, 2) map-get($spacers, 3);
+  border: 1px solid #f5c2c7;
+  border-radius: $radius-md;
+  padding: $space-2 $space-3;
   transition: $transition-base;
   display: inline-flex;
   align-items: center;
-  gap: map-get($spacers, 2);
-  font-size: map-get($font-sizes, sm);
-
+  gap: $space-2;
+  
   &:hover {
-    background-color: rgba($danger, 0.1);
+    background-color: #f1aeb5;
     border-color: $danger;
     color: $danger;
-    text-decoration: none;
   }
-
-  &:focus {
-    @include focus-ring($danger);
-  }
-
-  img,
-  svg {
+  
+  img {
     width: 16px;
-    height: 16px;
     margin: 0;
   }
 }
 
 .removeBtnHolder {
-  @include flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* ============================================
-   Toggle Button Styles
-   ============================================ */
-
-.btn-toggle {
-  &.active {
-    background-color: $primary;
-    border-color: $primary;
-    color: $white;
-  }
-}
-
-/* ============================================
-   Close Button Styles
-   ============================================ */
-
-.btn-close {
-  box-sizing: content-box;
-  width: 1em;
-  height: 1em;
-  padding: 0.25em;
-  color: $gray-800;
-  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='m.235.867 8.36 6.235L16.47.867c.287-.203.68-.145.888.142.191.301.13.712-.143.9L8.426 8.144l8.787 6.234c.273.188.334.599.143.9-.208.287-.601.345-.888.142L8.595 8.38.235 14.615c-.287.203-.68.145-.888-.142-.191-.301-.13-.712.143-.9L7.277 8.144 8.426 8.144z'/%3e%3c/svg%3e") center/1em auto no-repeat;
-  border: 0;
-  border-radius: map-get($border-radius, base);
-  opacity: 0.5;
-  transition: $transition-base;
-
-  &:hover {
-    color: $gray-900;
-    text-decoration: none;
-    opacity: 0.75;
-  }
-
-  &:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
-    opacity: 1;
-  }
-
-  &:disabled,
-  &.disabled {
-    pointer-events: none;
-    user-select: none;
-    opacity: 0.25;
-  }
-}
-
-/* ============================================
-   Floating Action Button
-   ============================================ */
-
-.btn-fab {
-  position: fixed;
-  bottom: map-get($spacers, 6);
-  right: map-get($spacers, 6);
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  box-shadow: map-get($box-shadows, lg);
-  z-index: map-get($z-indexes, fixed);
-  @include flex-center;
-
-  &:hover {
-    @include hover-lift(map-get($box-shadows, xl));
-  }
-}
-
-/* ============================================
-   Toolbar Button Styles
-   ============================================ */
-
-.toolbar-header-buttons {
-  @include flex-center;
-  gap: map-get($spacers, 2);
-  padding: map-get($spacers, 2);
-  border-radius: 16px;
-  background-color: rgba($white, 0.1);
-  backdrop-filter: blur(10px);
-
-  .btn {
-    background-color: rgba($white, 0.2);
-    border: 1px solid rgba($white, 0.3);
-    color: $white;
-    padding: map-get($spacers, 1) map-get($spacers, 2);
-    border-radius: map-get($border-radius, md);
-    transition: $transition-base;
-    font-size: map-get($font-sizes, sm);
-
-    &:hover {
-      background-color: rgba($white, 0.3);
-      border-color: rgba($white, 0.5);
-      transform: translateY(-1px);
-      box-shadow: map-get($box-shadows, md);
-      color: $white;
-    }
-
-    &:active {
-      transform: translateY(0);
-      box-shadow: map-get($box-shadows, sm);
-    }
-
-    // Icon styling
-    .fa-edit {
-      color: $info;
-    }
-
-    .fa-trash {
-      color: $danger;
-    }
-
-    .fa-grip-vertical {
-      color: $gray-600;
-    }
-
-    // Button variants within toolbar
-    &.btn-primary {
-      background: linear-gradient(135deg, rgba($primary, 0.8), rgba($primary-dark, 0.8));
-      border-color: rgba($primary, 0.6);
-
-      &:hover {
-        background: linear-gradient(135deg, rgba($primary-dark, 0.9), rgba($primary-dark, 0.9));
-        border-color: rgba($primary, 0.8);
-      }
-    }
-
-    &.btn-success {
-      background: linear-gradient(135deg, rgba($success, 0.8), rgba($success-hover, 0.8));
-      border-color: rgba($success, 0.6);
-
-      &:hover {
-        background: linear-gradient(135deg, rgba($success-hover, 0.9), rgba($success-hover, 0.9));
-        border-color: rgba($success, 0.8);
-      }
-    }
-
-    &.btn-warning {
-      background: linear-gradient(135deg, rgba($warning, 0.8), rgba($warning-hover, 0.8));
-      border-color: rgba($warning, 0.6);
-      color: $gray-900;
-
-      &:hover {
-        background: linear-gradient(135deg, rgba($warning-hover, 0.9), rgba($warning-hover, 0.9));
-        border-color: rgba($warning, 0.8);
-        color: $gray-900;
-      }
-    }
-
-    &.btn-danger {
-      background: linear-gradient(135deg, rgba($danger, 0.8), rgba($danger-hover, 0.8));
-      border-color: rgba($danger, 0.6);
-
-      &:hover {
-        background: linear-gradient(135deg, rgba($danger-hover, 0.9), rgba($danger-hover, 0.9));
-        border-color: rgba($danger, 0.8);
-      }
-    }
-
-    &.btn-info {
-      background: linear-gradient(135deg, rgba($info, 0.8), rgba($info-hover, 0.8));
-      border-color: rgba($info, 0.6);
-
-      &:hover {
-        background: linear-gradient(135deg, rgba($info-hover, 0.9), rgba($info-hover, 0.9));
-        border-color: rgba($info, 0.8);
-      }
-    }
-
-    // Size variants
-    &.btn-sm {
-      padding: map-get($spacers, 1) map-get($spacers, 2);
-      font-size: 0.8rem;
-    }
-
-    &.btn-icon {
-      padding: map-get($spacers, 2);
-      width: 2.5rem;
-      height: 2.5rem;
-      @include flex-center;
-    }
-  }
-
-  // Button groups within toolbar
-  .btn-group {
-    .btn {
-      margin: 0;
-
-      &:first-child {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      &:last-child {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      &:not(:first-child):not(:last-child) {
-        border-radius: 0;
-      }
-    }
-  }
-
-  // Action button container
-  .toolbar-actions {
-    @include flex-center;
-    gap: map-get($spacers, 2);
-    margin-top: map-get($spacers, 4);
-    flex-wrap: wrap;
-  }
-}
-
-/* ============================================
-   Loading Button States
-   ============================================ */
-
-.btn-loading {
+/* Submit button wrapper */
+.submit-button-wrapper {
   position: relative;
-  pointer-events: none;
-
-  .btn-text {
-    opacity: 0;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    @include loading-spinner(1rem, 0.15em, currentColor);
-  }
+  display: inline-flex;
+  align-items: center;
+  gap: $space-3;
 }
 
-/* ============================================
-   Responsive Button Styles
-   ============================================ */
+/* Loading state button adjustments */
+.submit-button-wrapper .btn:disabled {
+  padding-left: 2.5rem;
+}
 
-@include media-breakpoint-down(md) {
+/* Loading spinner positioning for buttons */
+.submit-button-wrapper .loading-spinner {
+  position: absolute;
+  left: $space-3;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Button focus states */
+.generic-buttons .btn:focus,
+.remove-btn:focus {
+  outline: 2px solid $primary;
+  outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
   .generic-buttons {
     flex-direction: column;
     align-items: stretch;
-    gap: map-get($spacers, 3);
-
-    .btn {
-      justify-content: center;
-      width: 100%;
-    }
-
-    .submit-button-wrapper {
-      width: 100%;
-    }
+    gap: $space-3;
   }
-
-  .btn-group {
-    flex-direction: column;
-    width: 100%;
-
-    > .btn {
-      width: 100%;
-      border-radius: $btn-border-radius;
-      margin: 0;
-      margin-bottom: map-get($spacers, 1);
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  .toolbar-header-buttons {
-    flex-wrap: wrap;
+  
+  .generic-buttons .btn {
     justify-content: center;
-
-    .btn {
-      flex: 1 1 auto;
-      min-width: 120px;
-    }
+    width: 100%;
   }
-}
-
-@include media-breakpoint-down(sm) {
-  .btn-fab {
-    bottom: map-get($spacers, 4);
-    right: map-get($spacers, 4);
-    width: 48px;
-    height: 48px;
-  }
-
-  .toolbar-header-buttons {
-    padding: map-get($spacers, 1);
-
-    .btn {
-      padding: map-get($spacers, 1);
-      font-size: 0.75rem;
-      min-width: 80px;
-    }
-  }
-}
-
-/* ============================================
-   Focus and Accessibility
-   ============================================ */
-
-.btn:focus,
-.remove-btn:focus,
-.btn-close:focus {
-  @include focus-ring;
-}
-
-.btn:focus-visible,
-.remove-btn:focus-visible,
-.btn-close:focus-visible {
-  @include focus-ring;
-}
-
-/* Skip focus for mouse users */
-.btn:focus:not(:focus-visible),
-.remove-btn:focus:not(:focus-visible),
-.btn-close:focus:not(:focus-visible) {
-  outline: 0;
-  box-shadow: none;
-}
-
-/* ============================================
-   Print Styles
-   ============================================ */
-
-@media print {
-  .btn,
-  .btn-group,
-  .btn-fab,
-  .toolbar-header-buttons {
-    display: none !important;
+  
+  .submit-button-wrapper {
+    width: 100%;
   }
 }
