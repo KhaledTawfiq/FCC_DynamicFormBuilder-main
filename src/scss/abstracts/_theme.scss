@@ -244,7 +244,7 @@ $loader-border-width: 3px;
   &:focus {
     outline: none;
     border-color: $primary;
-    box-shadow: $shadow-focus;
+    box-shadow: none !important;
   }
   
   &:disabled {

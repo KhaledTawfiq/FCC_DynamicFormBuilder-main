@@ -20,11 +20,11 @@ export interface GenerateFormDataResult {
 }
 
 /**
- * Clean element data by removing react-form-builder2 internal properties
+ * Clean element data by removing internal properties
  */
 const cleanElementData = (element: any) => {
   const {
-    // Remove internal react-form-builder2 properties
+    // Remove internal properties that aren't needed for final form
     canHaveAnswer,
     canHavePageBreakBefore,
     canHaveAlternateForm,

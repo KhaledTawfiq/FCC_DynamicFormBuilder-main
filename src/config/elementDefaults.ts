@@ -1,6 +1,6 @@
 /**
  * Element Defaults Configuration
- * Provides comprehensive default properties for all react-form-builder2 form elements
+ * Provides comprehensive default properties for all form elements
  */
 
 export interface EventRule {
@@ -352,7 +352,7 @@ export const applyElementDefaults = (elementType: string, existingElement?: any)
 
   if (!defaults) {
     console.warn(`No defaults found for element type: ${elementType}`);
-    return existingElement || {};
+    return {...existingElement, type: elementType || {type: elementType}} ;
   }
 
   // Generate unique name
@@ -364,6 +364,7 @@ export const applyElementDefaults = (elementType: string, existingElement?: any)
     ...existingElement,
     name: elementName, // Always use generated name
     field_name: elementName // Some elements use field_name instead
+
   };
 
   console.log(`Applied defaults for ${elementType}:`, element);

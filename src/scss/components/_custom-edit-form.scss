@@ -4,14 +4,15 @@
 .custom-form-elements-edit {
   padding: 0;
   overflow: hidden;
-  background-color: $white;
-  border-radius: $radius-lg;
-  border: 1px solid $border-light;
+
+
+
 }
 
 .edit-form-content {
-  padding: $space-6;
   overflow-y: auto;
+  background-color: transparent;
+  border: 0 !important;
 }
 
 .custom-form-elements-edit .form-group {
@@ -44,11 +45,7 @@
 .custom-form-elements-edit .options-fields,
 .custom-form-elements-edit .validation-fields {
   background-color: $light-gray;
-  padding: $space-6;
-  border-radius: $radius-lg;
-  margin: $space-4 0;
-  border: 1px solid $border-light;
-  transition: $transition-base;
+
 }
 
 /* Section headers */
@@ -183,11 +180,13 @@
     margin: $space-3 0;
   }
 }
-
-/* Focus states for accessibility */
-.custom-form-elements-edit .form-control:focus,
-.custom-form-elements-edit .btn:focus,
-.custom-form-elements-edit .form-check-input:focus {
-  outline: 2px solid $primary;
-  outline-offset: 2px;
+.empty-state{
+  text-align: center;
+ 
+  background-color: $secondary-light;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }

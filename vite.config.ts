@@ -24,6 +24,6 @@ export default defineConfig({
     'process.env': {}
   },
   optimizeDeps: {
-    include: ['react-form-builder2']
-  }
+    exclude: ['lucide-react'],
+  },
 })

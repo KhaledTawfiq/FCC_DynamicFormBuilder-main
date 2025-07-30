@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import FormBuilder from '../src/components/FormBuilder';
+import FormBuilder from '../src/components/FormBuilder/FormBuilder';
 import type { FormConfig, Section, UseFormBuilderReturn } from '../src/types';
 
 // Mock clipboard API

@@ -1,38 +1,16 @@
-import React, { useState, useRef, useCallback } from "react";
-import { ReactFormBuilder, Registry } from "react-form-builder2";
+import React, { useState, useRef, useCallback, useMemo } from "react";
 import type { SectionProps } from "../../types";
 import { useElementDefaults } from "../../hooks/useElementDefaults";
-import FormElementsEdit from "../FormElementsEdit";
+import FormBuilder from "../FormBuilder/FormBuilder";
 import { SearchLookupComponent } from "../controls/SearchLookupComponent";
 import { AddressComponent } from "../controls/AddressComponent";
-import { ButtonComponent } from "../controls/ButtonComponent";
 
-// Register both custom components
-try {
-  (Registry as any).register("SearchLookupComponent", SearchLookupComponent);
-  console.log("SearchLookupComponent registered successfully");
-} catch (error) {
-  console.warn("Failed to register SearchLookupComponent:", error);
-}
-
-try {
-  (Registry as any).register("AddressComponent", AddressComponent);
-  console.log("AddressComponent registered successfully");
-} catch (error) {
-  console.warn("Failed to register AddressComponent:", error);
-}
-
-try {
-  (Registry as any).register("ButtonComponent", ButtonComponent);
-  console.log("ButtonComponent registered successfully");
-} catch (error) {
-  console.warn("Failed to register ButtonComponent:", error);
-}
 /**
- * Section Component - React Implementation with Address and Search Lookup Support
- * Fixed TypeScript types for react-form-builder2 compatibility
+ * Section Component for Dynamic Form Builder
+ * Manages individual form sections with custom form elements
+ * Fixed TypeScript types for compatibility
  */
-const SectionReact: React.FC<SectionProps> = ({
+const SectionReact: React.FC<SectionProps> = React.memo(({
   section,
   index,
   onRemove,
@@ -46,9 +24,12 @@ const SectionReact: React.FC<SectionProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const collapseRef = useRef<HTMLDivElement>(null);
-  const formBuilderRef = useRef<any>(null);
-
-  // Initialize element defaults hook
+  
+  // Create unique identifiers for this section to prevent conflicts
+  const sectionUniqueId = useMemo(() => `section-${section.id}-${index}`, [section.id, index]);
+  const buildWrapId = useMemo(() => `build-wrap-${sectionUniqueId}`, [sectionUniqueId]);
+  
+  // Initialize element defaults hook with section-specific context
   const {
     applyDefaults,
     enhanceForExport,
@@ -61,44 +42,49 @@ const SectionReact: React.FC<SectionProps> = ({
   const [localIcon, setLocalIcon] = useState<string>(
     (section as any).icon || ""
   );
-
-  // Get existing form data or initialize empty
-  const getFormData = useCallback(() => {
+  
+  // Section-specific form data state to ensure isolation
+  const [sectionFormData, setSectionFormData] = useState<any[]>(() => {
     const sectionWithElements = section as any;
     const elements = sectionWithElements.elements;
-
-    console.log("Getting form data for section:", index, "elements:", elements);
-
-    // Ensure we always return an array
+    
+    console.log(`Initializing section ${section.id} with elements:`, elements);
+    
     if (Array.isArray(elements)) {
-      return elements;
+      return [...elements]; // Create a copy to prevent reference sharing
     }
-
-    // If elements is not an array, try to parse it if it's a string
+    
     if (typeof elements === "string") {
       try {
         const parsed = JSON.parse(elements);
-        return Array.isArray(parsed) ? parsed : [];
+        return Array.isArray(parsed) ? [...parsed] : [];
       } catch (error) {
         console.warn("Failed to parse elements string:", elements);
       }
     }
+    
+    console.log(`Section ${section.id} initialized with empty elements array`);
+    return [];
+  });
 
-    return []; // Return empty array if elements is undefined, null, or not an array
-  }, [section, index]);
+  // Get existing form data or initialize empty - now uses local state
+  const getFormData = useCallback(() => {
+    console.log(`Getting form data for section ${sectionUniqueId}:`, sectionFormData);
+    return [...sectionFormData]; // Always return a copy to prevent reference sharing
+  }, [sectionFormData, sectionUniqueId]);
 
-  // Handle form data changes
+  // Handle form data changes - updates both local state and parent
   const handleFormDataChange = useCallback(
     (data: any) => {
-      console.log("Handling form data change:", data);
+      console.log(`Handling form data change for section ${sectionUniqueId}:`, data);
 
       // Ensure data is always an array
       let formData: any[] = [];
 
       if (Array.isArray(data)) {
-        formData = data;
+        formData = [...data]; // Create a copy
       } else if (data && Array.isArray(data.task_data)) {
-        formData = data.task_data;
+        formData = [...data.task_data]; // Create a copy
       } else if (data && typeof data === "object") {
         // If it's an object but not an array, try to extract array data
         console.warn("Non-array data received:", data);
@@ -108,17 +94,25 @@ const SectionReact: React.FC<SectionProps> = ({
         formData = [];
       }
 
-      // Apply defaults to new elements
-      const processedData = applyDefaults(formData);
-      console.log("Processed form data with defaults:", processedData);
+      // Add unique identifiers to each element to prevent cross-section contamination
+      const processedData = applyDefaults(formData).map((element: any) => ({
+        ...element,
+        sectionId: section.id, // Add section identifier
+        elementId: element.id || `${section.id}-${Date.now()}-${Math.random()}` // Ensure unique ID
+      }));
+      
+      console.log(`Processed form data with defaults for section ${sectionUniqueId}:`, processedData);
+
+      // Update local state first
+      setSectionFormData([...processedData]);
 
       // Update section with new form data
       onUpdate(index, {
         ...section,
-        elements: processedData,
+        elements: [...processedData], // Ensure we pass a copy
       } as any);
     },
-    [index, section, onUpdate, applyDefaults]
+    [index, section, onUpdate, applyDefaults, sectionUniqueId]
   );
 
   // Debounced input change handler
@@ -139,9 +133,14 @@ const SectionReact: React.FC<SectionProps> = ({
 
     // Debounce the actual state update
     inputChangeTimeoutRef.current = setTimeout(() => {
+      const sectionWithElements = section as any;
       onUpdate(index, {
         ...section,
         [field]: value,
+        // Preserve existing elements when updating title/icon
+        elements: Array.isArray(sectionWithElements.elements) 
+          ? [...sectionWithElements.elements] 
+          : [...sectionFormData],
       } as any);
     }, 500);
   };
@@ -230,37 +229,44 @@ const SectionReact: React.FC<SectionProps> = ({
   }, []);
 
   // Update local state when section changes (but not during our own updates)
+  const sectionElementsRef = useRef<any[]>(sectionFormData);
+  
   React.useEffect(() => {
     setLocalTitle(section.title || "");
     setLocalIcon((section as any).icon || "");
-  }, [section.id]);
+  }, [section.id, section.title, (section as any).icon]);
 
-  // Load existing data into form builder after mount and set up DOM observation
+  // Separate effect for elements to prevent unnecessary updates
   React.useEffect(() => {
-    if (formBuilderRef.current && isExpanded) {
-      const elements = getFormData();
-      console.log("Loading elements into form builder:", elements);
-
-      if (elements && Array.isArray(elements) && elements.length > 0) {
-        try {
-          // Use the form builder's setData method if available
-          if (typeof formBuilderRef.current.setData === "function") {
-            formBuilderRef.current.setData(elements);
-          }
-          // Alternative: try to access the store directly
-          else if (
-            formBuilderRef.current.store &&
-            typeof formBuilderRef.current.store.setData === "function"
-          ) {
-            formBuilderRef.current.store.setData(elements);
-          }
-        } catch (error) {
-          console.warn("Error loading data into form builder:", error);
+    const sectionWithElements = section as any;
+    const elements = sectionWithElements.elements;
+    
+    if (Array.isArray(elements)) {
+      // Only update if the elements reference has actually changed
+      if (elements !== sectionElementsRef.current) {
+        console.log(`Section ${sectionUniqueId} - Elements reference changed, updating local state`);
+        
+        // Filter elements to only include those belonging to this section
+        const filteredElements = elements.filter((element: any) => 
+          !element.sectionId || element.sectionId === section.id
+        );
+        
+        setSectionFormData([...filteredElements]); // Create a copy
+        sectionElementsRef.current = elements;
+        
+        // Force form builder reset if elements changed significantly
+        if (filteredElements.length !== sectionFormData.length) {
+          console.log(`Section ${sectionUniqueId} - Element count changed, data will be refreshed`);
         }
       }
+    }
+  }, [(section as any).elements]);
 
-      // Set up DOM observation for read-only name fields
-      const observer = observeFormBuilder(".build-wrap");
+  // DOM observation setup for read-only name fields
+  React.useEffect(() => {
+    if (isExpanded) {
+      // Set up DOM observation for read-only name fields - section specific
+      const observer = observeFormBuilder(`#${buildWrapId}`);
       makeNameFieldsReadOnly(); // Initial application
 
       return () => {
@@ -271,10 +277,9 @@ const SectionReact: React.FC<SectionProps> = ({
     }
   }, [
     isExpanded,
-    section.id,
-    getFormData,
     observeFormBuilder,
     makeNameFieldsReadOnly,
+    buildWrapId,
   ]);
 
   // Expose methods to parent component (for API compatibility)
@@ -291,10 +296,10 @@ const SectionReact: React.FC<SectionProps> = ({
         },
       };
     }
-  });
+  }, [getFormData, handleFormDataChange, enhanceForExport]);
 
   // Define toolbar items with both custom components (bypassing TypeScript)
-  const customToolbarItems: any[] = [
+  const ToolbarItems: any[] = [
     // {
     //   key: "Header",
     //   name: "Header",
@@ -303,18 +308,18 @@ const SectionReact: React.FC<SectionProps> = ({
     //   content: "Header Text",
     // },
     {
-      key: "Paragraph",
-      name: "Paragraph",
-      static: true,
-      icon: "fas fa-paragraph",
-      content: "Paragraph Text",
-    },
-    {
       key: "TextInput",
       name: "Text Field",
       static: false,
       icon: "fas fa-font",
       content: "",
+    },
+    {
+      key: "Paragraph",
+      name: "Paragraph",
+      static: true,
+      icon: "fas fa-paragraph",
+      content: "Paragraph Text",
     },
     {
       key: "TextArea",
@@ -359,18 +364,11 @@ const SectionReact: React.FC<SectionProps> = ({
     //   content: "",
     // },
     {
-      key: "ButtonComponent",
-      element: "CustomElement",
-      component: ButtonComponent,
-      type: "custom",
-      forwardRef: true,
-      field_name: "button_",
+      key: "Button",
       name: "Button",
+      static: true,
       icon: "far fa-square",
-      static: false,
-      props: {},
-      label: "Button",
-      content: "Click Me",
+      content: "Button",
     },
     // {
     //   key: "FileUpload",
@@ -386,23 +384,15 @@ const SectionReact: React.FC<SectionProps> = ({
       icon: "fas fa-calendar-alt",
       content: "",
     },
-    // Custom Address component with all properties
     {
-      key: "AddressComponent",
-      element: "CustomElement",
-      component: AddressComponent,
-      type: "custom",
-      forwardRef: true,
+      key: "address",
       field_name: "address_",
-      name: "Address",
+      name: "address",
       icon: "fas fa-map-marker-alt",
       static: false,
-      props: {},
       label: "Address Field",
-      includeAddressCountry: true,
-      includeAddressApartment: true,
+     
     },
-    // Custom search-lookup component with all properties
     {
       key: "SearchLookupComponent",
       element: "CustomElement",
@@ -497,37 +487,23 @@ const SectionReact: React.FC<SectionProps> = ({
             </div>
           </div>
 
-          <div className="build-wrap">
-            <ReactFormBuilder
-              ref={formBuilderRef}
-              saveUrl=""
-              onPost={(data) => {
-                console.log("Saving form data:", data);
-                if (data && Array.isArray(data.task_data)) {
-                  handleFormDataChange(data.task_data);
-                } else if (Array.isArray(data)) {
-                  handleFormDataChange(data);
-                } else {
-                  console.warn("Unexpected data structure:", data);
-                  handleFormDataChange([]);
-                }
-              }}
-              saveAlways={true}
-              editMode={true}
-              locale="en"
-              renderEditForm={(props: any) => {
-                console.log("Edit form props:", props);
-                const elementData =
-                  typeof props === "object" ? props.element || props : {};
-                return <FormElementsEdit {...props} element={elementData} />;
-              }}
-              toolbarItems={customToolbarItems}
+          <div className="build-wrap" id={buildWrapId}>
+            <FormBuilder
+              sectionId={section.id}
+              sectionUniqueId={sectionUniqueId}
+              initialData={sectionFormData}
+              onDataChange={handleFormDataChange}
+              toolbarItems={ToolbarItems}
+              buildWrapId={buildWrapId}
             />
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
+
+// Add display name for better debugging
+SectionReact.displayName = 'SectionReact';
 
 export default SectionReact;

@@ -1,10 +1,10 @@
 import React from 'react';
-import FormBuilderReact from './components/FormBuilderReact';
+import { MainFormBuilder } from './components';
 
 const App: React.FC = () => {
   return (
     <div className="App container-fluid">
-      <FormBuilderReact />
+      <MainFormBuilder />
     </div>
   );
 }

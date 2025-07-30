@@ -9,9 +9,6 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
-// Import react-form-builder2 styles
-import 'react-form-builder2/dist/app.css'
-
 const root = document.getElementById('root')
 if (!root) {
   throw new Error('Root element not found')

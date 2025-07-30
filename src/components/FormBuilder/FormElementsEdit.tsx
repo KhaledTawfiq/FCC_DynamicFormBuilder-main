@@ -1,12 +1,10 @@
 /**
- * FormElementsEdit Component with Minimal DefaultValueAttribute Integration
- * Just imports and uses the external DefaultValueAttribute component
+ * Fixed Custom Form Elements Edit Component
+ * Fixes the input field clearing issue with proper TypeScript types
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import DefaultValueAttribute from './custom-attrs/DefaultValueAttribute';
-import GroupIdComponent from './custom-attrs/GroupId';
-import { generateElementName, EventRule, ReadOnlyCondition } from '../config/elementDefaults';
+import { generateElementName, EventRule, ReadOnlyCondition } from '../../config/elementDefaults';
 
 interface ValidationRule {
   type: string;
@@ -32,7 +30,6 @@ interface FormElementData {
   required?: boolean;
   className?: string;
   defaultValue?: string;
-  defaultValues?: string[];
   readOnly?: boolean;
   readOnlyCondition?: ReadOnlyCondition;
   maxlength?: number;
@@ -293,7 +290,7 @@ const FormElementsEdit: React.FC<FormElementsEditProps> = ({
 
 const renderAdvancedFields = () => {
   // Check if this is an address component
-  const isAddressComponent = formData.key === 'AddressComponent';
+  const isAddressComponent = element?.type === 'address';
 
   return (
     <div className="advanced-fields">
@@ -312,7 +309,6 @@ const renderAdvancedFields = () => {
         />
       </div>
 
-      {/* Default Value Field - REMOVED - Now handled by external component */}
       {/* Default Value Field with Token Support for Text Input */}
       {formData.type === 'text' ? (
         <div className="form-group">
@@ -455,18 +451,17 @@ const renderAdvancedFields = () => {
         />
       </div>
 
-      {/* Group ID Field - REPLACED WITH CUSTOM COMPONENT */}
+      {/* Group ID Field */}
       <div className="form-group">
         <label htmlFor="element_group_id">Group ID</label>
-        <div className="group-id-wrapper">
-          <GroupIdComponent 
-            selectedValue={formData.groupId || ''}
-            onSelectionChange={(selectedId, selectedName) => {
-              console.log('GroupId selection changed:', { id: selectedId, name: selectedName });
-              handleInputChange('groupId', selectedId);
-            }}
-          />
-        </div>
+        <input
+          id="element_group_id"
+          type="text"
+          className="form-control"
+          value={formData.groupId || ''}
+          onChange={(e) => handleInputChange('groupId', e.target.value)}
+          placeholder="Enter group identifier"
+        />
       </div>
 
       {/* Condition Field */}
@@ -758,13 +753,6 @@ const renderAdvancedFields = () => {
     <div className={`custom-form-elements-edit ${className}`}>
       <div className="edit-form-content">
         {renderBasicFields()}
-        
-        {/* ✅ External DefaultValueAttribute Component - ONLY default value logic */}
-        <DefaultValueAttribute
-          formData={formData}
-          onInputChange={handleInputChange}
-        />
-        
         {renderAdvancedFields()}
         {renderOptionsFields()}
         {renderValidationFields()}
