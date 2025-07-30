@@ -5,6 +5,7 @@ import { useElementDefaults } from "../../hooks/useElementDefaults";
 import FormElementsEdit from "../FormElementsEdit";
 import { SearchLookupComponent } from "../controls/SearchLookupComponent";
 import { AddressComponent } from "../controls/AddressComponent";
+import { ButtonComponent } from "../controls/ButtonComponent";
 
 // Register both custom components
 try {
@@ -21,6 +22,12 @@ try {
   console.warn("Failed to register AddressComponent:", error);
 }
 
+try {
+  (Registry as any).register("ButtonComponent", ButtonComponent);
+  console.log("ButtonComponent registered successfully");
+} catch (error) {
+  console.warn("Failed to register ButtonComponent:", error);
+}
 /**
  * Section Component - React Implementation with Address and Search Lookup Support
  * Fixed TypeScript types for react-form-builder2 compatibility
@@ -352,11 +359,18 @@ const SectionReact: React.FC<SectionProps> = ({
     //   content: "",
     // },
     {
-      key: "Button",
+      key: "ButtonComponent",
+      element: "CustomElement",
+      component: ButtonComponent,
+      type: "custom",
+      forwardRef: true,
+      field_name: "button_",
       name: "Button",
-      static: true,
       icon: "far fa-square",
-      content: "Button",
+      static: false,
+      props: {},
+      label: "Button",
+      content: "Click Me",
     },
     // {
     //   key: "FileUpload",
