@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactJson from 'react-json-view';
 import type { JsonModalProps } from '../../types';
 
 /**
  * JsonModal Component
- * Modal for displaying generated JSON data
+ * Modal for displaying generated JSON data with syntax highlighting
  */
 const JsonModal: React.FC<JsonModalProps & { title?: string }> = ({ 
   isOpen,
   jsonData,
   onClose,
   title = "JSON Data"
-}) => {  // Manage body scroll when modal is open
+}) => {
+
+  // Manage body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
@@ -45,21 +48,26 @@ const JsonModal: React.FC<JsonModalProps & { title?: string }> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
-  const handleCopyToClipboard = async () => {
-    try {
-      const textToCopy = typeof jsonData === 'string' ? jsonData : JSON.stringify(jsonData, null, 2);
-      await navigator.clipboard.writeText(textToCopy || '');
-      // Could add a toast notification here
-    } catch (error) {
-      // Failed to copy - ignore silently
-    }
-  };
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }
-  };  return (
+  };
+
+  // Prepare data for ReactJson
+  const jsonDataForDisplay = (() => {
+    if (typeof jsonData === 'string') {
+      try {
+        return JSON.parse(jsonData);
+      } catch {
+        return { rawData: jsonData };
+      }
+    }
+    return jsonData;
+  })();
+
+  return (
     <div
       className="modal fade show"
       id="jsonModal"
@@ -74,9 +82,9 @@ const JsonModal: React.FC<JsonModalProps & { title?: string }> = ({
       }}
       onClick={handleBackdropClick}
     >
-      <div className="modal-dialog modal-xl" style={{ height: '90vh', margin: '5vh auto' }}>
-        <div className="modal-content" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-          <div className="modal-header" style={{ flexShrink: 0 }}>
+      <div className="modal-dialog modal-xl">
+        <div className="modal-content">
+          <div className="modal-header">
             <h5 className="modal-title" id="jsonModalLabel">
               {title}
             </h5>
@@ -88,37 +96,23 @@ const JsonModal: React.FC<JsonModalProps & { title?: string }> = ({
             />
           </div>
           
-          <div className="modal-body" style={{ 
-            flex: 1, 
-            overflow: 'hidden', 
-            padding: 0,
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <pre className="json-modal-content">
-              {typeof jsonData === 'string' 
-                ? jsonData 
-                : JSON.stringify(jsonData, null, 2) || 'No data available'
-              }
-            </pre>
+          <div className="modal-body">
+            <div className="json-viewer-container">
+              <ReactJson
+                src={jsonDataForDisplay}
+                theme="rjv-default"
+                displayDataTypes={false}
+                displayObjectSize={true}
+                indentWidth={2}
+                collapsed={false}
+                enableClipboard={true}
+                name={false}
+            
+              />
+            </div>
           </div>
           
-          <div className="modal-footer" style={{ flexShrink: 0 }}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={onClose}
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleCopyToClipboard}
-            >
-              Copy to Clipboard
-            </button>
-          </div>
+     
         </div>
       </div>
     </div>

@@ -80,6 +80,29 @@ class ApiService {
       };
     }
   }
+
 }
+
+export const getEnums = async () => {
+  try {
+    const response = await fetch(apiBaseUrl + 'DynamicFormBuilder/EnumGroups', {
+      method: 'GET',
+      headers: {
+        'companyId': '78',
+        'language': 'en',
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching Enum Groups:', error);
+    throw error;
+  }
+};
 
 export default new ApiService();

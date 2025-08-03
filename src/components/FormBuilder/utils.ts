@@ -5,13 +5,18 @@ export function getDefaultText(elementType: string): string {
     Header: 'Header Text',
     Paragraph: 'Paragraph text',
     LineBreak: '',
-    Dropdown: 'Dropdown',
+    Dropdown: 'Select',
     Tags: 'Tags',
-    Checkboxes: 'Checkboxes',
-    RadioButtons: 'Multiple Choice',
-    TextInput: 'Text Input',
-    NumberInput: 'Number Input',
-    TextArea: 'Multi-line Input',
+    Checkboxes: 'Checkbox Group',
+    RadioButtons: 'Radio Group',
+    TextInput: 'Text Field',
+    NumberInput: 'Number',
+    TextArea: 'Text Area',
+    DatePicker: 'Date Field',
+    Button: 'Button',
+    address: 'Address Field',
+    AddressComponent: 'Address Field',
+    SearchLookupComponent: 'Search Field'
   };
   return defaults[elementType] || 'Form Element';
 }
@@ -21,15 +26,34 @@ export function getDefaultLabel(elementType: string): string {
     Header: 'Header',
     Paragraph: 'Paragraph',
     LineBreak: 'Line Break',
-    Dropdown: 'Select an option',
+    Dropdown: 'Select',
     Tags: 'Enter tags',
-    Checkboxes: 'Select all that apply',
-    RadioButtons: 'Choose one option',
-    TextInput: 'Enter text',
-    NumberInput: 'Enter number',
-    TextArea: 'Enter detailed text',
+    Checkboxes: 'Checkbox Group',
+    RadioButtons: 'Radio Group',
+    TextInput: 'Text Field',
+    NumberInput: 'Number',
+    TextArea: 'Text Area',
+    DatePicker: 'Date Field',
+    Button: 'Button',
+    address: 'Address Field',
+    AddressComponent: 'Address Field',
+    SearchLookupComponent: 'Search Field'
   };
   return defaults[elementType] || 'Form Field';
+}
+
+export function getDefaultPlaceholder(elementType: string): string {
+  const defaults: Record<string, string> = {
+    TextInput: 'Enter text here...',
+    NumberInput: 'Enter number here...',
+    TextArea: 'Enter your text here...',
+    DatePicker: 'Select date...',
+    Dropdown: 'Select an option...',
+    address: 'Enter address...',
+    AddressComponent: 'Enter address...',
+    SearchLookupComponent: 'Search...'
+  };
+  return defaults[elementType] || '';
 }
 
 export function getElementDefaults(elementType: string): Partial<FormElement> {
@@ -53,7 +77,8 @@ export function getElementDefaults(elementType: string): Partial<FormElement> {
 
   const defaults: Record<string, Partial<FormElement>> = {
     Dropdown: {
-      options: defaultOptions.Dropdown
+      options: defaultOptions.Dropdown,
+      placeholder: getDefaultPlaceholder('Dropdown')
     },
     Checkboxes: {
       options: defaultOptions.Checkboxes
@@ -68,14 +93,29 @@ export function getElementDefaults(elementType: string): Partial<FormElement> {
       level: 1
     },
     TextInput: {
-      placeholder: 'Enter text here...'
+      placeholder: getDefaultPlaceholder('TextInput')
     },
     NumberInput: {
-      placeholder: 'Enter number here...'
+      placeholder: getDefaultPlaceholder('NumberInput')
     },
     TextArea: {
-      placeholder: 'Enter your text here...',
+      placeholder: getDefaultPlaceholder('TextArea'),
       rows: 4
+    },
+    DatePicker: {
+      placeholder: getDefaultPlaceholder('DatePicker')
+    },
+    Button: {
+      text: 'Button'
+    },
+    address: {
+      placeholder: getDefaultPlaceholder('address')
+    },
+    AddressComponent: {
+      placeholder: getDefaultPlaceholder('AddressComponent')
+    },
+    SearchLookupComponent: {
+      placeholder: getDefaultPlaceholder('SearchLookupComponent')
     }
   };
   

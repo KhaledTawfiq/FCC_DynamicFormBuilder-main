@@ -3,6 +3,7 @@ import { processFormData, enhanceFormData } from '../config/elementDefaults';
 
 /**
  * Custom hook for managing element defaults in form builder
+ * Updated to work with the new output format
  */
 export const useElementDefaults = () => {
   
@@ -15,6 +16,7 @@ export const useElementDefaults = () => {
 
   /**
    * Enhance form data for export/save operations
+   * Returns elements in the desired output format
    */
   const enhanceForExport = useCallback((data: any[]): any[] => {
     return enhanceFormData(data);
@@ -63,7 +65,7 @@ export const useElementDefaults = () => {
             indicator.className = 'readonly-indicator text-muted';
             indicator.style.display = 'block';
             indicator.style.marginTop = '2px';
-            indicator.textContent = '⚠️ Auto-generated field (read-only)';
+            indicator.textContent = '🔒 Auto-generated field (read-only)';
             input.parentNode?.insertBefore(indicator, input.nextSibling);
           }
         }
@@ -119,3 +121,6 @@ export const useElementDefaults = () => {
     observeFormBuilder
   };
 };
+
+// Also export as default for compatibility
+export default useElementDefaults;

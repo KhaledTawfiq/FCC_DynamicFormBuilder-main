@@ -12,7 +12,6 @@ export interface FormConfig {
   disabledFieldButtons?: Record<string, string[]>;
   disabledSubtypes?: Record<string, string[]>;
   editOnAdd?: boolean;
-  fields?: FieldConfig[];
   inputSets?: InputSet[];
   typeUserAttrs?: Record<string, any>;
   typeUserEvents?: Record<string, any>;
@@ -63,7 +62,9 @@ export interface InputSet {
 export interface Section {
   id: string;
   title: string;
-  fields: FieldConfig[];
+  icon?: string;
+  elements?: FieldConfig[];
+  fields?: any[];
   formData?: string;
 }
 

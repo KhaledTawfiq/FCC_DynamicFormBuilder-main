@@ -20,7 +20,7 @@ const FormBuilderToolbar: React.FC<FormBuilderToolbarProps> = ({
               key={`${item.key}_${index}`}
               className="toolbar-item"
               data-element-type={item.element || item.key}
-              onClick={() => onAddElement(item.element || item.key)}
+              onClick={() => onAddElement(item)}
             >
               <i className={`${item.icon}`}></i>
               <span className="element-name">{item.name}</span>

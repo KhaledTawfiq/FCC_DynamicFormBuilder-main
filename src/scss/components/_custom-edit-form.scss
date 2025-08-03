@@ -10,7 +10,7 @@
 }
 
 .edit-form-content {
-  overflow-y: auto;
+  // overflow-y: auto;
   background-color: transparent;
   border: 0 !important;
 }
@@ -42,10 +42,18 @@
 /* Form sections */
 .custom-form-elements-edit .basic-fields,
 .custom-form-elements-edit .advanced-fields,
+.custom-form-elements-edit .read-only-condition,
 .custom-form-elements-edit .options-fields,
+.custom-form-elements-edit .events-fields,
 .custom-form-elements-edit .validation-fields {
   background-color: $light-gray;
+  padding: 12px;
+  border-radius: 8px;
 
+  // Add margin-top except for the first of these sections
+  &:not(:first-child) {
+    margin-top: $space-4;
+  }
 }
 
 /* Section headers */
@@ -61,42 +69,28 @@
   gap: $space-2;
 }
 
-.custom-form-elements-edit .basic-fields h4 {
-  color: $primary;
-  border-bottom-color: $primary;
-}
-
-.custom-form-elements-edit .advanced-fields h4 {
-  color: $success;
-  border-bottom-color: $success;
-}
-
-.custom-form-elements-edit .options-fields h4 {
-  color: #d97706;
-  border-bottom-color: #d97706;
-}
-
-.custom-form-elements-edit .validation-fields h4 {
-  color: $danger;
-  border-bottom-color: $danger;
+.custom-form-elements-edit .basic-fields h4,
+.custom-form-elements-edit .advanced-fields h4,
+.custom-form-elements-edit .options-fields h4,
+.custom-form-elements-edit .validation-fields h4,
+.custom-form-elements-edit .events-fields h4,
+.read-only-condition h4 {
+  color: #1976d2;
+  border-bottom-color: #1976d2;
 }
 
 /* Option and validation items */
 .custom-form-elements-edit .option-item,
 .custom-form-elements-edit .validation-item {
-  background-color: $white;
   border: 1px solid $border-light;
   border-radius: $radius-lg;
   padding: $space-4;
   margin-bottom: $space-4;
-  transition: $transition-base;
-  box-shadow: $shadow-sm;
 }
 
 .custom-form-elements-edit .option-item:hover,
 .custom-form-elements-edit .validation-item:hover {
   border-color: $border-medium;
-  box-shadow: $shadow-md;
 }
 
 /* Buttons */
@@ -167,11 +161,11 @@
   .custom-form-elements-edit {
     border-radius: $radius-md;
   }
-  
+
   .edit-form-content {
     padding: $space-4;
   }
-  
+
   .custom-form-elements-edit .basic-fields,
   .custom-form-elements-edit .advanced-fields,
   .custom-form-elements-edit .options-fields,
@@ -180,9 +174,10 @@
     margin: $space-3 0;
   }
 }
-.empty-state{
+
+.empty-state {
   text-align: center;
- 
+
   background-color: $secondary-light;
   min-height: 150px;
   display: flex;

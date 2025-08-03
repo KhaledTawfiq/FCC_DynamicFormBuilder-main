@@ -10,7 +10,7 @@ import { AddressComponent } from "../controls/AddressComponent";
  * Manages individual form sections with custom form elements
  * Fixed TypeScript types for compatibility
  */
-const SectionReact: React.FC<SectionProps> = React.memo(({
+const Section: React.FC<SectionProps> = React.memo(({
   section,
   index,
   onRemove,
@@ -298,114 +298,102 @@ const SectionReact: React.FC<SectionProps> = React.memo(({
     }
   }, [getFormData, handleFormDataChange, enhanceForExport]);
 
-  // Define toolbar items with both custom components (bypassing TypeScript)
+  // Updated toolbar items to include Address and Search Lookup
   const ToolbarItems: any[] = [
-    // {
-    //   key: "Header",
-    //   name: "Header",
-    //   static: true,
-    //   icon: "fas fa-heading",
-    //   content: "Header Text",
-    // },
+    {
+      key: "DatePicker",
+      name: "Date Field",
+      static: false,
+      icon: "fas fa-calendar-alt",
+      element: "DatePicker",
+      label: "Date Field"
+    },
     {
       key: "TextInput",
       name: "Text Field",
       static: false,
       icon: "fas fa-font",
-      content: "",
-    },
-    {
-      key: "Paragraph",
-      name: "Paragraph",
-      static: true,
-      icon: "fas fa-paragraph",
-      content: "Paragraph Text",
-    },
-    {
-      key: "TextArea",
-      name: "Text Area",
-      static: false,
-      icon: "fas fa-align-left",
-      content: "",
-    },
-    {
-      key: "NumberInput",
-      name: "Number",
-      static: false,
-      icon: "fas fa-hashtag",
-      content: "",
+      element: "TextInput",
+      label: "Text Field"
     },
     {
       key: "Dropdown",
       name: "Select",
       static: false,
       icon: "fas fa-caret-down",
-      content: "",
+      element: "Dropdown",
+      label: "Select"
     },
     {
       key: "RadioButtons",
       name: "Radio Group",
       static: false,
       icon: "far fa-dot-circle",
-      content: "",
+      element: "RadioButtons",
+      label: "Radio Group"
+    },
+    {
+      key: "NumberInput",
+      name: "Number",
+      static: false,
+      icon: "fas fa-hashtag",
+      element: "NumberInput",
+      label: "Number"
+    },
+    {
+      key: "TextArea",
+      name: "Text Area",
+      static: false,
+      icon: "fas fa-align-left",
+      element: "TextArea",
+      label: "Text Area"
     },
     {
       key: "Checkboxes",
       name: "Checkbox Group",
       static: false,
       icon: "far fa-check-square",
-      content: "",
+      element: "Checkboxes",
+      label: "Checkbox Group"
     },
-    // {
-    //   key: "Tags",
-    //   name: "Autocomplete",
-    //   static: false,
-    //   icon: "fas fa-tags",
-    //   content: "",
-    // },
+    {
+      key: "Paragraph",
+      name: "Paragraph",
+      static: true,
+      icon: "fas fa-paragraph",
+      element: "Paragraph",
+      label: "Paragraph"
+    },
     {
       key: "Button",
       name: "Button",
       static: true,
       icon: "far fa-square",
-      content: "Button",
-    },
-    // {
-    //   key: "FileUpload",
-    //   name: "File Upload",
-    //   static: false,
-    //   icon: "fas fa-file-upload",
-    //   content: "",
-    // },
-    {
-      key: "DatePicker",
-      name: "Date Field",
-      static: false,
-      icon: "fas fa-calendar-alt",
-      content: "",
+      element: "Button",
+      label: "Button"
     },
     {
       key: "address",
       field_name: "address_",
-      name: "address",
+      name: "Address Field",
       icon: "fas fa-map-marker-alt",
       static: false,
       label: "Address Field",
-     
+      element: "address"
     },
     {
       key: "SearchLookupComponent",
-      element: "CustomElement",
+      element: "SearchLookupComponent",
       component: SearchLookupComponent,
       type: "custom",
       forwardRef: true,
       field_name: "search-lookup_",
-      name: "Search Lookup",
+      name: "Search Field",
       icon: "fas fa-search",
       static: false,
       props: {},
-      label: "Search Lookup Field",
-    },
+      label: "Search Field",
+    }
   ];
 
   return (
@@ -504,6 +492,7 @@ const SectionReact: React.FC<SectionProps> = React.memo(({
 });
 
 // Add display name for better debugging
-SectionReact.displayName = 'SectionReact';
+Section.displayName = 'Section';
 
-export default SectionReact;
+// Export as default
+export default Section;

@@ -54,7 +54,7 @@ export interface FormBuilderPreviewProps {
 
 export interface FormBuilderToolbarProps {
   toolbarItems: ToolbarItem[];
-  onAddElement: (elementType: string) => void;
+  onAddElement: (item: ToolbarItem) => void;
 }
 
 export interface EditDrawerProps {

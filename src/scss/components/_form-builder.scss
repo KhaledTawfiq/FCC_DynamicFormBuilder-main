@@ -64,7 +64,7 @@
         font-weight: 600;
         font-size: 1.1rem;
         color: #495057;
-        background-color: #f8f9fa;
+        background-color: #fff;
         border: none;
         border-radius: 8px 8px 0 0 !important;
         position: relative;
@@ -279,7 +279,7 @@
   top: 0;
   left: -500px; // Hidden by default
   bottom: 0;
-  width: 500px;
+  width: 600px;
   max-width: 90vw;
   background-color: #fff;
   box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
@@ -288,7 +288,6 @@
   flex-direction: column;
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
-  border-right: 4px solid #007bff;
   
   // Entrance animation
   animation: slideInFromLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);

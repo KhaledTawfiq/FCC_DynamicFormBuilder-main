@@ -96,7 +96,6 @@ export const DEFAULT_FORM_CONFIG: FormConfig = {
   disabledFieldButtons: {},
   disabledSubtypes: {},
   editOnAdd: false,
-  fields: [],
   inputSets: [],
   typeUserAttrs: {},
   typeUserEvents: {}

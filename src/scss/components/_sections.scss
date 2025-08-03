@@ -20,3 +20,15 @@
 .form-builder-dialog {
   overflow: hidden;
 }
+
+
+// Modal styling improvements
+.modal-dialog.modal-xl {
+  .modal-content {
+    .modal-body {
+      max-height: 80vh;
+      min-height: 80vh;
+      overflow: auto;
+    }
+  }
+}
